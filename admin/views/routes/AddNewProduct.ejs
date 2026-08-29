@@ -1,0 +1,68 @@
+<%-layout("/boilerplate/boiler.ejs")%>
+<div class="container bg-white rounded-3">
+    <form action="/admin/products/new" method="post" class="needs-validation" novalidate>
+        <h3 class="text-center my-3"><i class="fa-solid fa-square"></i> Add New Product</h3>
+        <div class="mt-3">
+        <label for="name" class="from-label"><i class="fa-solid fa-file-signature"></i> Name: </label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Note Book" required>
+        <div class="valid-feedback">
+           Product name looks good!
+        </div>
+        <div class="invalid-feedback">
+           Please enter product name!
+        </div>
+        </div>
+
+        <div class="mt-3">
+        <label for="description" class="from-label"><i class="fa-brands fa-readme"></i> Description: </label>
+        <textarea type="text" class="form-control" id="description" name="description" placeholder="Bookbuddy Spiral Notebook with A4 sheet paper" required></textarea>
+        <div class="valid-feedback">
+           Product description looks good!
+        </div>
+        <div class="invalid-feedback">
+           Please enter product description!
+        </div>
+        </div>
+
+        <div class="mt-3">
+        <label for="image" class="from-label"><i class="fa-solid fa-image"></i> Image URL: </label>
+        <input type="text" class="form-control" id="image" name="image[url]" placeholder="image/URL">
+        <div class="valid-feedback">
+           Product image looks good!
+        </div>
+        <div class="invalid-feedback">
+           Please enter product image!
+        </div>
+        </div>
+
+        <div class="row">
+
+      <div class="mt-3 col-lg-6 col-md-6 col-sm-12">
+        <label for="price" class="from-label"><i class="fa-solid fa-indian-rupee-sign"></i> Price: </label>
+        <input type="number" min="0" class="form-control" id="price" name="price" placeholder="999" required>
+        <div class="valid-feedback">
+           Product price looks good!
+        </div>
+        <div class="invalid-feedback">
+           Please enter product price!
+        </div>
+        </div>
+
+        <div class="mt-3 col-lg-6 col-md-6 col-sm-12">
+        <label for="rating" class="from-label"><i class="fa-regular fa-star"></i> Rating: </label>
+        <input type="number" min="1" max="5" class="form-control" id="rating" name="rating" placeholder="1 to 5" required>
+        <div class="valid-feedback">
+           Product rating looks good!
+        </div>
+        <div class="invalid-feedback">
+           Please enter product rating!
+        </div>
+        </div>
+        </div>
+
+        <button class="mt-5 btn btn-outline-success">Add Product</button>
+    </form>
+</div>
+
+
+
