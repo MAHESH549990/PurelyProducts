@@ -1,17 +1,19 @@
 body{
   font-family: "Poppins", sans-serif;
-  margin:0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
   background-color: rgb(195, 130, 65) !important;
-  padding:0 !important;
+
+  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 .heading{
   font-size: 3.5rem;
   font-weight: bold;
 }
-.container{
+.container-fluid{
   flex:1;
 }
 
@@ -92,15 +94,14 @@ body{
   width:100%;
 }
 .f-info{
-  display:flex;
-  background-color:#ebebeb;
-  height:8rem;
-  flex-wrap:wrap;
-  justify-content:center;
-  text-align:center;
-  padding:0.5rem;
-  position: static;
-  bottom:0%;
+  display: flex;
+  background-color: #ebebeb;
+  min-height: 8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
 }
 
 

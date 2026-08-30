@@ -7,8 +7,8 @@ const Product = require("../admin/models/products.js");
 const mongoose = require("mongoose");
 const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
 const methodOverride = require("method-override");
-const ExpressError=require("../ExpressError.js");
-
+const ExpressError=require("../utils/ExpressError.js");
+const asyncWrap=require("../utils/asyncWrap.js");
 
 app.engine("ejs", ejsMate);
 
@@ -51,19 +51,19 @@ app.get("/updatePassword", (req, res) => {
 });
 
 //home route
-app.get("/home", async (req, res) => {
+app.get("/user", async (req, res) => {
   const allProducts = await Product.find({});
-  res.render("userDashboard/home.ejs", { allProducts });
+  res.render("routes/home.ejs", { allProducts });
 });
 
-app.get("/home/:id", async (req, res) => {
+app.get("/user/:id", async (req, res) => {
     const item = await Product.findById(req.params.id);
-    res.render("userDashboard/items.ejs", { item });
+    res.render("routes/items.ejs", { item });
 });
 
 //cart
 
-app.post("/home/:id", async (req, res) => {
+app.post("/user/:id", async (req, res) => {
   const { id } = req.params;
   let item = await Product.findById(id);
   console.log(item);
@@ -79,10 +79,9 @@ app.post("/home/:id", async (req, res) => {
 });
 
 app.use((req,res,next)=>{
-  throw new ExpressError(404,"Page not found");
-  next(err);
+  next(new ExpressError(404,"Page not found"));
 })
 app.use((err,req,res,next)=>{
   let {status=500,message="Some error occured"}=err;
-  res.status(status).send(message);
+  res.status(status).render("routes/error.ejs",{message});
 });

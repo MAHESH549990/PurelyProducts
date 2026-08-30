@@ -25,8 +25,12 @@
         </div>
 
         <div class="mt-3">
+        <div class="my-2">
+         <h5>Previous Image</h5>
+         <img src="<%=item.image.url%>" class="w-25 rounded-3">
+        </div>
         <label for="image" class="from-label"><i class="fa-solid fa-image"></i> Image URL: </label>
-        <input type="text" class="form-control" id="image" name="image[url]" value="<%=item.image.url%>" required>
+        <input type="image" class="form-control" id="image" name="image[url]" value="<%=item.image.url%>">
         <div class="valid-feedback">
            Product image looks good!
         </div>

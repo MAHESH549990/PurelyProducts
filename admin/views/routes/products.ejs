@@ -1,6 +1,13 @@
 <%-layout("/boilerplate/boiler.ejs")%>
 <div class="container-fluid">
-  <a href="/admin/products/new"><button class="btn btn-outline-dark btn-lg p-3 my-3 text-white"><i class="fa-solid fa-square-plus"></i> Add New Product</button></a>
+  <div class="bg-white row my-4 rounded-3 p-1">
+  <div class="col-lg-6 col-md-6 col-sm-12">
+        <a href="/admin/products/new"><button class="btn btn-outline-dark btn-lg p-3 my-3"><i class="fa-solid fa-square-plus"></i> Add New Product</button></a>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-12 mt-4">
+       <h4>Total Products: <%=totalProducts%></h4>
+  </div>
+  </div>
   <class class="row">
     <%for(let product of products){%>
          <div class="col-lg-3 col-md-4 col-sm-6">
