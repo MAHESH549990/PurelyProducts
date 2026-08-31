@@ -4,8 +4,8 @@ module.exports.productSchema=joi.object({
   description:joi.string().required(),
   price:joi.number().required().min(0),
   image:joi.object({
-     url:joi.string().allow("",null)
-  }).allow(null),
+     url:joi.string().required()
+  }).required(),
   rating:joi.number().required().min(1).max(5)
 });
 

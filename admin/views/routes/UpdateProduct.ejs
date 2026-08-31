@@ -30,7 +30,7 @@
          <img src="<%=item.image.url%>" class="w-25 rounded-3">
         </div>
         <label for="image" class="from-label"><i class="fa-solid fa-image"></i> Image URL: </label>
-        <input type="image" class="form-control" id="image" name="image[url]" value="<%=item.image.url%>">
+        <input type="text" class="form-control" id="image" name="image[url]" value="<%=item.image.url%>" required>
         <div class="valid-feedback">
            Product image looks good!
         </div>

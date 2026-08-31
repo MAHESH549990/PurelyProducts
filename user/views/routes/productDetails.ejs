@@ -1,5 +1,6 @@
-<%-layout("/boilerplate/boiler.ejs")%>
- <div class="bg-white p-2 rounded-3 w-100 h-100"  id="row-for-image">
+<%-layout("/boilerplate/boilerplate")%>
+<body>
+  <div class="bg-white p-2 rounded-3 w-100 h-100"  id="row-for-image">
     <div class="row">
     <div class="col-lg-5 col-md-6 col-sm-12">
     <img src="<%=item.image.url%>" class="rounded-3 card-img-item">
@@ -16,22 +17,21 @@
      <% } %>
      <span><%= item.rating %>/5</span>
     </div>
-      <div class="d-flex flex-wrap mt-4">
-      <form action="/admin/products/<%=item._id%>?_method=DELETE" method="post" onclick="return confirm('Are you sure to delete this product ?');">
-      <button class="btn btn-outline-danger me-4"><i class="fa-solid fa-trash-can"></i> Delete</button>
-      </form>
-      <form method="get" action="<%=item._id%>/update">
-      <button class="btn btn-outline-primary"><i class="fa-solid fa-code-compare"></i> Update</button>
+    <div class="butns d-flex flex-wrap">
+      <button class="btn btn-outline-success me-4" >Place Order</button>
+      <form method="post" action="/home/<%=item._id%>">
+      <button class="btn btn-outline-primary">Add To Cart</button>
       </form>
     </div>
   </div>
   </div>
   </div>
 
+   
    <div class="bg-white mt-5 mb-3 w-100 h-100 rounded-3 p-2">
     <div class="row my-5">
             <h1 class="mt-3 mb-5"><i class="fa-solid fa-star-half"></i>Add Reviews</h1>
-            <form action="/admin/products/<%=item._id%>/reviews" method="post"
+            <form action="/users/<%=item._id%>/reviews" method="post"
             class="needs-validation" novalidate>
             <div class="mt-3 mb-3 col-sm-12 col-lg-6 col-lg-8">
                 <label for="comment" class="form-label">Comment: </label>
@@ -77,7 +77,7 @@
     </div>
     <hr style="height:0.2rem !important; background-color:black" class="my-3">
     <div class="row">
-    <h1 class="mt-3 mb-5"><i class="fa-solid fa-star-half"></i> Reviews</h1>
+    <h1 class="my-5"><i class="fa-solid fa-star-half"></i> Reviews</h1>
      <%for(review of item.reviews){%>
             <div class="col-lg-6 col-md-6 col-sm-12 my-3  border-0">
             <h4>@Mahesh Bhatt</h4>
@@ -91,7 +91,7 @@
                  <i class="fa-solid fa-star text-danger"></i>
               <%}%>
               /5</p>
-               <form action="/admin/products/<%=item._id%>/reviews/<%=review._id%>?_method=DELETE" method="post" onclick="return confirm('Are you sure to delete this review ?');">
+               <form action="/users/<%=item._id%>/reviews/<%=review._id%>?_method=DELETE" method="post" onclick="return confirm('Are you sure to delete this review ?');">
                 <button class="btn btn-outline-danger my-2">Delete</button>
                </form>
             </div>
@@ -99,3 +99,8 @@
           <%}%> 
    </div>
    </div>
+
+</body>
+
+
+

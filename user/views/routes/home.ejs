@@ -1,10 +1,13 @@
 <%-layout("/boilerplate/boilerplate")%>
 <body>
+  <form action="/admin" method="get">
+   <button class="btn btn-outline-primary text-white mb-4">About Admin</button>
+  </form>
   <div class="row">
   <%for(let product of allProducts){%>
-  <div class="col-lg-3 col-md-4 col-sm-6">
+  <div class="col-lg-3 col-md-4 col-sm-12">
   <div class="card">
-  <a href="/user/<%=product._id%>" class="item-link">
+  <a href="/users/<%=product._id%>" class="item-link">
   <div class="container-fluid card p-3">
   <img src="<%=product.image.url%>" class="card-img-top" alt="Product_images">
   <div class="card-body">

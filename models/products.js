@@ -13,9 +13,9 @@ const productsSchema=Schema({
     min:1,
   },
   image:{
-    filename:{
-      type:String,
-    },
+    // filename:{
+    //   type:String,
+    // },
     url:{
       type:String,
       required:true,
