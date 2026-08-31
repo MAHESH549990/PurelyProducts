@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 const {Schema}=mongoose;
+const Review=require("./review.js");
 
 const productsSchema=Schema({
   name:{
@@ -30,7 +31,19 @@ const productsSchema=Schema({
     type:String,
     required:true,
   },
+  reviews:[
+    {
+        type:Schema.Types.ObjectId,
+        ref:"Review"
+    }
+  ]
 });
+
+productsSchema.post("findOneAndDelete",async(product)=>{
+  if(product){
+   await Review.deleteMany({_id:{$in:product.reviews}});
+  }
+})
 
 const Product=mongoose.model("Product",productsSchema);
 

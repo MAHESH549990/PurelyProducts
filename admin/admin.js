@@ -7,10 +7,11 @@ const ejsmate=require("ejs-mate");
 const mongoose=require("mongoose");
 const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
 const Product=require("./models/products.js");
+const Review=require("./models/review.js");
 const methodOverride=require("method-override");
 const asyncWrap=require("../utils/asyncWrap.js");
 const ExpressError=require("../utils/ExpressError.js");
-const validateProduct=require("../schema.js");
+const {productSchema,reviewScheam}=require("../schema.js");
 
 
 app.set("app engine","ejs");
@@ -33,9 +34,18 @@ async function main(){
 }
 
 const validateProducts=(req,res,next)=>{
-  let {error}=validateProduct.validate(req.body);
+  let {error}=productSchema.validate(req.body);
   if(error){
     let errMsg=error.details.map((el)=>el.message).join(",");
+    throw new ExpressError(400,errMsg);
+  }
+  next();
+}
+
+const validateReviews=(req,res,next)=>{
+  let {error}=reviewScheam.validate(req.body);
+  if(error){
+    let errMsg=error.details.map((err)=>err.message).join(",");
     throw new ExpressError(400,errMsg);
   }
   next();
@@ -64,7 +74,7 @@ app.post("/admin/products/new",validateProducts,asyncWrap(async(req,res)=>{
 
 app.get("/admin/products/:id",asyncWrap(async(req,res)=>{
   let {id}=req.params;
-  let item=await Product.findById(id);
+  let item=await Product.findById(id).populate("reviews");
   res.render("routes/item.ejs",{item});
 }));
 
@@ -92,6 +102,25 @@ app.delete("/admin/products/:id",asyncWrap(async(req,res)=>{
 
 app.listen(port,()=>{
   console.log("Server is running..");
+});
+
+//reviews
+app.post("/admin/products/:id/reviews",validateReviews,asyncWrap(async(req,res)=>{
+     let {id}=req.params;
+     const newReview=await new Review(req.body.review);
+     const product=await Product.findById(id);
+
+     product.reviews.push(newReview);
+     await newReview.save();
+     await product.save();
+     res.redirect(`/admin/products/${id}`);
+}));
+
+app.delete("/admin/products/:id/reviews/:reviewId",async(req,res)=>{
+     let {reviewId,id}=req.params;
+     await Product.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
+     await Review.findByIdAndDelete(reviewId);
+     res.redirect(`/admin/products/${id}`);
 });
 
 app.use((req,res,next)=>{
