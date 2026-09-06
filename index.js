@@ -2,6 +2,11 @@ const express = require("express");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
+const flash=require("connect-flash");
+const sessioin=require("express-session");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./models/user.js");
 
 const app = express();
 
@@ -19,12 +24,39 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+const sessionOptioins={
+    secret:"mysupersecretstring",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        expires:Date.now()+14*24*60*60*1000,
+        maxAge:14*24*60*60*1000,
+        httpOnly:true
+    }
+}
+
+app.use(sessioin(sessionOptioins));
+app.use(flash());
+
 // ⭐ ROOT PUBLIC FOLDER
 app.use(express.static(path.join(__dirname, "public")));
 
 // Static files
 app.use(express.static(path.join(__dirname, "user/public")));
 app.use(express.static(path.join(__dirname, "admin/public")));
+
+//use passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
+    next();
+});
 
 // Routes
 const userRoutes = require("./user/index");

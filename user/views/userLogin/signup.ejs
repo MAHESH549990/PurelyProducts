@@ -14,7 +14,7 @@
   </head>
 </head>
 <body>
-  <form action="" class="needs-validation" novalidate>
+  <form action="/users/signup" method="post" class="needs-validation" novalidate>
     <div class="container-fluid bg-white">
     <div class="row flex-class">
             <!--image-->
@@ -28,7 +28,7 @@
         </div>
       <div class="mb-4">
         <label class="form-label" for="name"><i class="fa-solid fa-address-card"></i> Name: </label>
-        <input type="text" placeholder="Rakesh Joshi" id="name" class="form-control" required>
+        <input type="text" placeholder="Rakesh Joshi" id="name" class="form-control" name="username" required>
         <div class="valid-feedback">
           Name look's good
         </div>
@@ -38,7 +38,7 @@
       </div>
       <div class="mb-4">
         <label class="form-label" for="email"><i class="fa-solid fa-envelope"></i> Email: </label>
-        <input type="email" placeholder="abc@gmail.com" id="name" class="form-control" required>
+        <input type="email" placeholder="abc@gmail.com" id="name" class="form-control" name="email" required>
         <div class="valid-feedback">
           Email look's good
         </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="mb-5">
         <label class="form-label" for="password"><i class="fa-solid fa-lock"></i> Password: </label>
-        <input type="password" placeholder="" id="password" class="form-control" required>
+        <input type="password" placeholder="" id="password" class="form-control" name="password" required>
         <div class="valid-feedback">
           Password look's good
         </div>
