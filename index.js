@@ -7,6 +7,8 @@ const sessioin=require("express-session");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
+const ExpressError=require("./utils/ExpressError.js");
+
 
 const app = express();
 
@@ -67,4 +69,14 @@ app.use("/", userRoutes);
 // Server
 app.listen(8080, () => {
     console.log("Server started on port 8080");
+});
+
+//middleware
+app.use((req,res,next)=>{
+  next(new ExpressError(404,"Page not found"));
+});
+
+app.use((err,req,res,next)=>{
+  let {status=500,message="Some error occured"}=err;
+  res.status(status).render("routes/error.ejs",{message});
 });

@@ -2,7 +2,7 @@ body{
   font-family: "Poppins", sans-serif;
   margin: 0 !important;
   padding: 0 !important;
-  background-color:#f3f0f0 !important;
+  background-color: #f3f0f0 !important;
 
   min-height: 100vh;
 
@@ -19,9 +19,10 @@ body{
   font-size: 3.5rem;
   font-weight: bold;
 }
-.container-fluid{
-  flex:1;
+.main-content {
+  flex: 1;
 }
+
 
 .para{
   font-size:1rem;
@@ -39,12 +40,7 @@ body{
   font-weight: bold !important;
   color:white !important;
 }
-.container{
-  height:95% !important;
-  width:95% !important;
-  margin-top:2rem;
-  padding:2rem !important;
-}
+
 
 .a-tag{
   text-decoration: none;
@@ -76,6 +72,18 @@ body{
 }
 
 /* footer */
+
+.f-info{
+  display: flex;
+  min-height: 8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
+  position: static;
+  bottom: 0%;
+}
 .f-info-links a{
   text-decoration:none;
   color:#222222;
@@ -97,15 +105,6 @@ body{
   align-items:center;
 
   width:100%;
-}
-.f-info{
-  display: flex;
-  min-height: 8rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0.5rem;
 }
 
 

@@ -1,13 +1,9 @@
 const express = require("express");
 const router=express.Router();
-const Product = require("../models/products.js");
 const mongoose = require("mongoose");
 const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
-const ExpressError=require("../utils/ExpressError.js");
 let reviews=require("./routes/reviews.js");
 let users=require("./routes/users.js");
-const asyncWrap=require("../utils/asyncWrap.js");
-
 
 main().then(() => {
   console.log("Database connected");
@@ -45,14 +41,5 @@ router.use("/users",users);
 
 //reviews
 router.use("/users/:id/reviews",reviews);
-
-router.use((req,res,next)=>{
-  next(new ExpressError(404,"Page not found"));
-});
-
-router.use((err,req,res,next)=>{
-  let {status=500,message="Some error occured"}=err;
-  res.status(status).render("routes/error.ejs",{message});
-});
 
 module.exports=router;
