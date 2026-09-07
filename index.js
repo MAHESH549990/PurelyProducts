@@ -18,7 +18,8 @@ app.set("view engine", "ejs");
 
 app.set("views", [
     path.join(__dirname, "user/views"),
-    path.join(__dirname, "admin/views")
+    path.join(__dirname, "admin/views"),
+    path.join(__dirname,"delivery/views")
 ]);
 
 // Middleware
@@ -44,8 +45,8 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Static files
-app.use(express.static(path.join(__dirname, "user/public")));
-app.use(express.static(path.join(__dirname, "admin/public")));
+// app.use(express.static(path.join(__dirname, "user/public")));
+// app.use(express.static(path.join(__dirname, "admin/public")));
 
 //use passport
 app.use(passport.initialize());
@@ -63,9 +64,11 @@ app.use((req,res,next)=>{
 // Routes
 const userRoutes = require("./user/index");
 const adminRoutes = require("./admin/admin");
+const deliveryRoutes=require("./delivery/delivery.js");
 
-app.use("/admin", adminRoutes);
 app.use("/", userRoutes);
+app.use("/delivery",deliveryRoutes);
+app.use("/admin", adminRoutes);
 // Server
 app.listen(8080, () => {
     console.log("Server started on port 8080");

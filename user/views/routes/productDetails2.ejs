@@ -1,0 +1,21 @@
+<%-layout("/boilerplate/userBoiler")%>
+<div class="bg-white p-2 rounded-3 w-100 h-100"  id="row-for-image">
+    <div class="row">
+    <div class="col-lg-5 col-md-6 col-sm-12">
+    <img src="<%=item.image.url%>" class="rounded-3 card-img-item">
+    </div>
+    <div class="card-body-item col-lg-6 col-md-6 col-sm-12 mt-5">
+    <p class="card-text h3"><b><%=item.name%></b><br/>&#8377; <%=item.price.toLocaleString("en-IN") %></p>
+    <p class="card-text h5">
+      <%=item.description%>
+    </p>
+    <div class="h3">
+     <% for(let i = 1; i <= item.rating; i++) { %>
+      <i class="fa-solid fa-star text-warning"></i>
+     <% } %>
+     <span><%= item.rating %>/5</span>
+     <div>
+      <div>
+              <button class="btn btn-outline-success mt-5" >Place Order</button>
+      </div>
+</div>

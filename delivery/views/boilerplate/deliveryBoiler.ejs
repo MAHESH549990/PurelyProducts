@@ -13,21 +13,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <%-include("../layout/navbar.ejs")%>
-  <br/>
+   <%-include("../layout/deliveryNavbar.ejs")%>
   <main class="main-content">
-    <div class="container-fluid">
-      <%-include("../layout/flash.ejs")%>
-      <%-body%>
-    </div>
-    <br><br>
+  <div class="container-fluid">
+    <%-body%>
+  </div>
   </main>
-
-  <%-include("../layout/footer.ejs")%>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/validation.js"></script>
-
+  <%-include("../layout/deliveryFooter.ejs")%>
 </body>
 </html>
