@@ -1,6 +1,7 @@
 <%-layout("/boilerplate/userBoiler")%>
 <body>
    <div class="row bg-white p-4 rounded-3 container-fluid m-auto">
+     <h1 class="text-center p-3 my-3 rounded-3" style="font-weight: bold; background-color: beige;">My Cart</h1>
       <%for(item of cartItems.items){%>
        <div class="mt-5 col-lg-6 col-md-6 col-sm-12">
        <img src="<%=item.product.image.url%>" class="col-12 col-lg-6 col-md-6 col-sm-8 rounded-3" style="height: 20rem;">
@@ -8,7 +9,7 @@
         <p class="card-title"> 
         <b><h4><%=item.product.name%></h4></b>
         <b style="font-size: 1.2rem;">Quantity:<%=item.quantity%>
-        <br/>&#8377; <%=(item.product.price*item.quantity).toLocaleString("en-IN") %></b></p>
+        <br/>&#8377; <%=item.product.price.toLocaleString("en-IN") %></b></p>
         <p class="card-text h5">
           <%=item.product.description%>
         </p>
@@ -31,5 +32,10 @@
      </div>
     </div>
     <%}%>
+    <div class="mt-5 p-3 rounded-3 h4" style="font-weight: bold; background-color: beige;">
+      Total Items: <%=totalProducts%><br/>
+      Total Amount: &#8377; <%=totalProductsPrice.toLocaleString("en-IN")%><br/>
+      <button class="btn btn-outline-warning my-4 text-black btn-lg">Proceed to Checkout</button>
+    </div>
   </div>
 </body>

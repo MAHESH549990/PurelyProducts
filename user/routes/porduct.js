@@ -13,6 +13,7 @@ router.get("/", asyncWrap(async (req, res) => {
   res.render("routes/home.ejs", { allProducts });
 }));
 
+
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   let cartItems = await Cart.findOne({
       user: req.user._id
@@ -20,7 +21,24 @@ router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   if(!cartItems || cartItems.items.length==0){
     return res.render("routes/noItemCart.ejs");
   }
-  res.render("routes/cart.ejs",{cartItems});
+  let totalProducts = 0;
+  let totalProductsPrice = 0;
+
+  for(let i = 0; i < cartItems.items.length; i++) {
+      totalProductsPrice+=cartItems.items[i].product.price*cartItems.items[i].quantity;
+      let item=0;
+      for(let j=1;j<=cartItems.items[i].quantity;j++)
+      {
+        item++;
+      }
+      totalProducts+=item;
+    }
+  res.render("routes/cart.ejs",
+  {
+    cartItems,
+    totalProducts,
+    totalProductsPrice
+  });
 }));
 
 
