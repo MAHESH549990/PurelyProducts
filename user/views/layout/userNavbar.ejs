@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-body-light sticky-top">
   <div class="container-fluid">
-   <a class="navbar-brand" href="/users">
+   <a class="navbar-brand" href="/product">
     <i class="fa-brands fa-shopware" id="logo"></i>
     <span id="web-name">PurelyProducts</span>
    </a>
@@ -17,13 +17,17 @@
 
     <div class="collapse navbar-collapse navbar-collapse-element bg-white" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/users"><i class="fa-solid fa-house"></i> Home</a>
-        <a class="nav-link" href=""><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+        <a class="nav-link" href="/product"><i class="fa-solid fa-house"></i> Home</a>
+        <a class="nav-link" href="/product/cart"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
         <a class="nav-link" href="#"><i class="fa-solid fa-square-check"></i> Orders</a>
+        <%if(currUser){%>
         <a class="nav-link" href="#"><i class="fa-solid fa-user"></i> Profile</a>
+        <a class="nav-link" href="/users/logout">Logout</a>    
+        <%}%>
+        <%if(!currUser){%>
         <a class="nav-link" href="/users/login">Login</a>
         <a class="nav-link" href="/users/signup">SignUp</a>  
-        <a class="nav-link" href="/users">Logout</a>        
+      <%}%>
       </div>
       <div>
       <form class="d-flex" role="search">

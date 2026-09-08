@@ -16,27 +16,40 @@
       <i class="fa-solid fa-star text-warning"></i>
      <% } %>
      <span><%= item.rating %>/5</span>
-     <div>
-      <label for="form-select" class="mt-3">Quantity</label>
-     <select class="form-select w-50 mt-1 mb-5" aria-label="Default select example">
-      <option selected>1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      </select>
     </div>
-    </div>
-    <div class="butns d-flex flex-wrap">
-      <form action="/users/<%=item._id%>/place" method="get">
-      <button class="btn btn-outline-success me-4" >Place Order</button>
+     <div class="butns">
+
+      <!-- Add To Cart -->
+      <form method="post" action="/product/<%=item._id%>/cart">
+
+        <label for="quantity" class="mt-3">Quantity</label>
+
+        <select
+          id="quantity"
+          name="quantity"
+          class="form-select w-50 mt-1 mb-3"
+        >
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+
+        <button type="submit" class="btn btn-outline-primary">
+          Add To Cart
+        </button>
       </form>
-      <form method="post" action="/home/<%=item._id%>">
-      <button class="btn btn-outline-primary">Add To Cart</button>
+            <!-- Place Order -->
+      <form action="/product/<%=item._id%>/place" method="get">
+        <button class="btn btn-outline-success me-4 mt-4">
+          Place Order
+        </button>
       </form>
-    </div>
+      </div>
+</div>
   </div>
   </div>
   </div>

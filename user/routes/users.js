@@ -1,5 +1,5 @@
 const express = require("express");
-const router=express.Router();
+const router=express.Router({mergeParams:true});
 const Product = require("../../models/products.js");
 const User = require("../../models/user.js");
 const passport=require("passport");
@@ -18,9 +18,14 @@ router.post("/signup",asyncWrap(async(req,res)=>{
     username:username,
     email:email
    });
-   await User.register(newUser,password);
-   req.flash("success","Welcome to PurelyProducts");
-   res.redirect("/users");
+   let registerdUser=await User.register(newUser,password);
+   req.login(registerdUser,(err)=>{
+    if(err){
+      return next(err);
+    }
+    req.flash("success","Welcome to PurelyProducts");
+   res.redirect("/product");
+   });
   }
   catch(err){
     req.flash("error",err.message);
@@ -40,8 +45,21 @@ router.post("/login",
   }),
   asyncWrap(async(req,res)=>{
      req.flash("success","Welcome back! to PurelyProducts");
-     res.redirect("/users");
+     res.redirect("/product");
 }));
+
+router.get("/logout",(req,res,next)=>{
+  req.logout((err)=>{
+     if(err){
+          return next(err);
+     }
+     req.flash("success","You're logged out");
+     res.redirect("/product");
+  });
+  console.log(req.user);
+});
+
+
 
 router.get("/updatePassword", (req, res) => {
   res.render("userLogin/forgetPass.ejs");

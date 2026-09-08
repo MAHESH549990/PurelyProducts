@@ -58,6 +58,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
+    res.locals.currUser=req.user;
     next();
 });
 
@@ -65,8 +66,10 @@ app.use((req,res,next)=>{
 const userRoutes = require("./user/index");
 const adminRoutes = require("./admin/admin");
 const deliveryRoutes=require("./delivery/delivery.js");
+const products=require("./user/routes/porduct.js");
 
 app.use("/", userRoutes);
+app.use("/product",products);
 app.use("/delivery",deliveryRoutes);
 app.use("/admin", adminRoutes);
 // Server
