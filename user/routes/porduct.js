@@ -39,7 +39,6 @@ router.get("/:id/place",isLoggedIn,asyncWrap(async(req,res)=>{
 
 
 //cart
-
 router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
    let {id}=req.params;
    let quantity=req.body.quantity;

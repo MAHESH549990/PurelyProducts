@@ -59,6 +59,12 @@ router.get("/logout",(req,res,next)=>{
   console.log(req.user);
 });
 
+//profile
+router.get("/profile",(req,res)=>{
+  let user=req.user;
+  res.render("routes/profile.ejs",{user});
+});
+
 
 
 router.get("/updatePassword", (req, res) => {
