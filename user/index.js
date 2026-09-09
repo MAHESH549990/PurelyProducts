@@ -3,6 +3,7 @@ const router=express.Router({mergeParams:true});
 let reviews=require("./routes/reviews.js");
 let users=require("./routes/users.js");
 let product=require("./routes/porduct.js");
+let orders=require("./routes/orders.js");
 
 
 router.get("/", (req, res) => {
