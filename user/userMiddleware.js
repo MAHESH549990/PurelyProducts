@@ -1,6 +1,6 @@
 module.exports.isLoggedIn=(req,res,next)=>{
    if(!req.isAuthenticated()){
-    req.flash("error","You must be logged in before place and add to cart the product");
+    req.flash("error","You need to be logged in to perform this action");
     return res.redirect("/users/login");
   }
   next();
