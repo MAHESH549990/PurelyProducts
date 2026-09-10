@@ -18,6 +18,11 @@ router.get("/cart/place",(req,res)=>{
    res.render("routes/cardPayment.ejs");
 });
 
+//location route
+router.get("/location",(req,res)=>{
+  res.render("routes/userLocation.ejs");
+});
+
 
 
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
