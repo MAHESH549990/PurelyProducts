@@ -13,6 +13,12 @@ router.get("/", asyncWrap(async (req, res) => {
   res.render("routes/home.ejs", { allProducts });
 }));
 
+//payment route
+router.get("/cart/place",(req,res)=>{
+   res.render("routes/cardPayment.ejs");
+});
+
+
 
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   let cartItems = await Cart.findOne({
@@ -48,13 +54,6 @@ router.get("/:id", asyncWrap(async (req, res) => {
 }));
 
 
-router.get("/:id/place",isLoggedIn,asyncWrap(async(req,res)=>{
-  let {id}=req.params;
-  const item=await Product.findById(id);
-  res.render("routes/productDetails2.ejs",{item});
-}));
-
-
 
 //cart
 router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
@@ -82,7 +81,7 @@ router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
 }));
 
 
-//delte item form cart 
+//delete item form cart 
 
 router.delete("/cart/:id", async (req, res) => {
     let { id } = req.params;

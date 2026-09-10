@@ -1,0 +1,172 @@
+
+<%- layout("/boilerplate/userBoiler") %>
+
+<div class="container bg-white p-5 rounded-3 my-4">
+    <div class="row align-items-center">
+
+        <!-- Card Image -->
+        <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-4 mb-lg-0">
+            <img
+                src="/images/card_img.png"
+                class="img-fluid"
+                alt="Card Image"
+            >
+        </div>
+
+        <!-- Payment Form -->
+        <div class="col-lg-6 col-md-6 col-sm-12">
+
+            <form class="needs-validation" novalidate>
+
+                <!-- Card Number -->
+                <div class="mb-3">
+                    <label for="card-number" class="form-label text-bold" style="font-weight: bold;">
+                        Card Number
+                    </label>
+
+                    <input
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="19"
+                        minlength="19"
+                        placeholder="0000 0000 0000 0000"
+                        class="form-control"
+                        id="card-number"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <div class="invalid-feedback">
+                        Please enter a valid 16-digit card number.
+                    </div>
+                </div>
+
+                <!-- Expiry Date + CVV -->
+                <div class="row">
+
+                    <!-- Expiry Date -->
+                    <div class="col-6 mb-3">
+                        <label for="expiry-date" class="form-label" style="font-weight: bold;">
+                            Expiry Date
+                        </label>
+
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="5"
+                            minlength="5"
+                            placeholder="MM/YY"
+                            class="form-control"
+                            id="expiry-date"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Enter expiry date as MM/YY.
+                        </div>
+                    </div>
+
+                    <!-- CVV -->
+                    <div class="col-6 mb-3">
+                        <label for="cvv" class="form-label" style="font-weight: bold;">
+                            CVV
+                        </label>
+
+                        <input
+                            type="password"
+                            inputmode="numeric"
+                            maxlength="3"
+                            minlength="3"
+                            placeholder="123"
+                            class="form-control"
+                            id="cvv"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Enter a valid 3-digit CVV.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pay Button -->
+                <button type="submit" class="btn btn-dark w-100 mt-3">
+                    Pay Now
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    // -------------------------------
+    // Card Number Formatting
+    // -------------------------------
+
+    const cardNumber = document.getElementById("card-number");
+
+    cardNumber.addEventListener("input", function () {
+
+        // Remove everything except numbers
+        let value = this.value.replace(/\D/g, "");
+
+        // Maximum 16 digits
+        value = value.substring(0, 16);
+
+        // Add space after every 4 digits
+        value = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+
+        this.value = value;
+    });
+
+
+    // -------------------------------
+    // Expiry Date Formatting
+    // -------------------------------
+
+    const expiryDate = document.getElementById("expiry-date");
+
+    expiryDate.addEventListener("input", function () {
+
+        // Remove non-numbers
+        let value = this.value.replace(/\D/g, "");
+
+        // Maximum 4 digits
+        value = value.substring(0, 4);
+
+        // Add / after MM
+        if (value.length >= 3) {
+            value = value.substring(0, 2) + "/" + value.substring(2);
+        }
+
+        this.value = value;
+    });
+
+
+    // -------------------------------
+    // CVV - Numbers Only
+    // -------------------------------
+
+    const cvv = document.getElementById("cvv");
+
+    cvv.addEventListener("input", function () {
+
+        this.value = this.value.replace(/\D/g, "").substring(0, 3);
+
+    });
+
+
+    // -------------------------------
+    // Bootstrap Form Validation
+    // -------------------------------
+
+
+</script>
+
