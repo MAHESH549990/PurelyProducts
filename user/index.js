@@ -2,8 +2,8 @@ const express = require("express");
 const router=express.Router({mergeParams:true});
 let reviews=require("./routes/reviews.js");
 let users=require("./routes/users.js");
-let product=require("./routes/porduct.js");
 let orders=require("./routes/orders.js");
+let product=require("./routes/porduct.js");
 
 
 router.get("/", (req, res) => {
@@ -14,6 +14,7 @@ router.get("/", (req, res) => {
 //users
 router.use("/users",users);
 // products
+router.use("/orders",orders);
 //reviews
 router.use("/users/:id/reviews",reviews);
 

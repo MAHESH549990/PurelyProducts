@@ -6,6 +6,7 @@ const ExpressError=require("../../utils/ExpressError.js");
 const {isLoggedIn}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
 const User=require("../../models/user.js");
+const UserAddress=require("../../models/userAddress.js");
 
 //home route
 router.get("/", asyncWrap(async (req, res) => {
@@ -17,12 +18,6 @@ router.get("/", asyncWrap(async (req, res) => {
 router.get("/cart/place",(req,res)=>{
    res.render("routes/cardPayment.ejs");
 });
-
-//location route
-router.get("/location",(req,res)=>{
-  res.render("routes/userLocation.ejs");
-});
-
 
 
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
