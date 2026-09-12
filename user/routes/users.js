@@ -5,6 +5,7 @@ const User = require("../../models/user.js");
 const passport=require("passport");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const ExpressError=require("../../utils/ExpressError.js");
+const {isLoggedIn}=require("../userMiddleware.js");
 //login,register route
 
 router.get("/signup", (req, res) => {
@@ -64,7 +65,7 @@ router.get("/profile/location",(req,res)=>{
   res.render("routes/userAddress.ejs");
 });
 
-router.post("/profile",async(req,res)=>{
+router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
     let {state,city,location}=req.body;
     let id=req.user._id;
     let Useraddress=await User.findById(id);
@@ -77,18 +78,18 @@ router.post("/profile",async(req,res)=>{
     console.log(Useraddress);
     req.flash("success","Address added successfully");
     res.redirect("/users/profile");
-});
+}));
 
 //Update route
-router.get("/profile/:id/update",async(req,res)=>{
+router.get("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let us=await User.findById(req.user._id);
   let userAddressArrays=us.address;
   let user=userAddressArrays.id(id);
   res.render("routes/updateAddress.ejs",{user,id});
-});
+}));
 
-router.put("/profile/:id/update",async(req,res)=>{
+router.put("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let {state,city,location}=req.body;
   let us=await User.findById(req.user._id);
@@ -100,9 +101,9 @@ router.put("/profile/:id/update",async(req,res)=>{
   us.save();
   req.flash("success","Address updated successfully")
   res.redirect("/users/profile");
-});
+}));
 
-router.delete("/profile/:id",async(req,res)=>{
+router.delete("/profile/:id",isLoggedIn,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let us=await User.findById(req.user._id);
   let address=us.address;
@@ -113,15 +114,15 @@ router.delete("/profile/:id",async(req,res)=>{
   us.save();
   req.flash("success","Address Deleted");
   res.redirect("/users/profile");
-});
+}));
 
-router.get("/profile",async(req,res)=>{
+router.get("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
   let user=req.user;
   let id=req.user._id;
   let address=await User.findById(id);
   let Useraddress=address.address;
   res.render("routes/profile.ejs",{user,Useraddress});
-});
+}));
 
 
 

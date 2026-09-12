@@ -2,10 +2,8 @@ const express = require("express");
 const router=express.Router();
 const Product = require("../../models/products.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
-const ExpressError=require("../../utils/ExpressError.js");
 const {isLoggedIn}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
-const User=require("../../models/user.js");
 
 //home route
 router.get("/", asyncWrap(async (req, res) => {
@@ -14,7 +12,7 @@ router.get("/", asyncWrap(async (req, res) => {
 }));
 
 //payment route
-router.get("/cart/place",(req,res)=>{
+router.get("/cart/place",isLoggedIn,(req,res)=>{
    res.render("routes/cardPayment.ejs");
 });
 
@@ -82,12 +80,12 @@ router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
 
 //delete item form cart 
 
-router.delete("/cart/:id", async (req, res) => {
+router.delete("/cart/:id", isLoggedIn, asyncWrap(async (req, res) => {
     let { id } = req.params;
     let cart=await Cart.findOne({user:req.user._id});
     await Cart.findByIdAndUpdate(cart._id,{$pull:{items:{product:id}}});
     req.flash("success","Product deleted form cart");
     res.redirect("/product/cart");
-});
+}));
 
 module.exports=router;

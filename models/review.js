@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 const {Schema}=mongoose;
+const User=require("./user.js");
 
 const reviewSchema=new Schema({
   comment:{
@@ -17,6 +18,10 @@ const reviewSchema=new Schema({
     url:{
       type:String
     }
+  },
+  owner:{
+    type:Schema.Types.ObjectId,
+    ref:"User"
   }
 });
 

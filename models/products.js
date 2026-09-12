@@ -36,7 +36,7 @@ const productsSchema=Schema({
         type:Schema.Types.ObjectId,
         ref:"Review"
     }
-  ]
+  ],
 });
 
 productsSchema.post("findOneAndDelete",async(product)=>{

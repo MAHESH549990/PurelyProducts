@@ -10,8 +10,9 @@ const {isLoggedIn,validateReviews}=require("../userMiddleware.js");
 router.post("/",isLoggedIn,validateReviews,asyncWrap(async(req,res)=>{
      let {id}=req.params;
      const newReview=await new Review(req.body.review);
+     newReview.owner=req.user._id;
      const product=await Product.findById(id);
-
+    
      product.reviews.push(newReview);
      req.flash("success","Review added")
      await newReview.save();
