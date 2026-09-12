@@ -8,13 +8,30 @@
     <h3 class="mt-2"><b>Name:</b> <%=user.username%></h3>
     <h3 class="mt-3 flex-wrap"><b>Email:</b> <%=user.email%></h3>  
   </div>
-  <form action="/orders/profile/location" method="get">
+  <form action="/users/profile/location" method="get">
   <button class="btn btn-outline-danger">Add address</button>
   </form>
 
-
+  <%if(Useraddress.length>0){%>
   <div class="mt-5">
-      <h1>Your address</h1>
+      <h1>Your addresses</h1>
+                  <%for(let address of Useraddress){%>
+                    <div class="my-4 bg-dark text-white my-4 rounded-5 p-3">
+                      <h5>
+                        State: <%=address.state%><br/>
+                        City: <%=address.city%><br/>
+                        Location: <%=address.location%>
+                      </h5> 
+                      <form action="/users/profile/<%=address._id%>?_method=DELETE" method="post" onclick="return confirm('Are you sure to delete this address ?');">
+                          <button class="btn btn-outline-danger my-3">Delete</button>
+                      </form>
+
+                      <form action="/users/profile/<%=address._id%>/update" method="get">
+                          <button class="btn btn-outline-warning my-3">Update Address</button>
+                      </form>
+                      </div>
+                  <%}%>
       
   </div>
+  <%}%>
 </div>

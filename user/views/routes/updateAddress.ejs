@@ -1,16 +1,15 @@
 <%-layout("/boilerplate/userBoiler")%>
-
 <div class="container bg-white p-5 rounded-3 my-4">
   
 <!--Add address-->
-  <h1 class="mt-2">Add your address</h1>
+  <h1 class="mt-2">Update your address</h1>
   <hr class="hr mb-3">
-    <form action="/users/profile" method="post" class="needs-validation" novalidate>
+    <form action="/users/profile/<%=id%>/update?_method=PUT" method="post" class="needs-validation" novalidate>
        <!-- State -->
 <div class="mb-3">
-    <label for="state" class="form-label">State</label>
+    <label for="state" class="form-label" >State</label>
     <select id="state" name="state" class="form-select" required>
-        <option value="">Select State</option>
+        <option value="<%=user.state%>"><%=user.state%></option>
 
         <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -49,14 +48,14 @@
     <label for="city" class="form-label">City</label>
 
     <select id="city" name="city" class="form-select" required>
-        <option value="">Select City</option>
+        <option value="<%=user.city%>"><%=user.city%></option>
     </select>
 </div>
 
 
 <div class="my-3">
     <label for="location" class="form-label">Location</label>
-    <textarea type="text" class="form-control" minlength="20" placeholder="Enter your location" name="location" required></textarea>
+    <textarea type="text" class="form-control" minlength="20" name="location" required><%=user.location%></textarea>
     <div class="invalid-feedback">
     Please enter your location!
 </div>
@@ -353,6 +352,6 @@ stateSelect.addEventListener("change", function () {
 });
 
 </script>
-       <button class="btn btn-outline-primary my-4 text-black btn-lg" type="submit">Add Address</button>
+       <button class="btn btn-outline-primary my-4 text-black btn-lg" type="submit">Update Address</button>
     </form>
 </div>

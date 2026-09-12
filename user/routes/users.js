@@ -60,9 +60,67 @@ router.get("/logout",(req,res,next)=>{
 });
 
 //profile
-router.get("/profile",(req,res)=>{
+router.get("/profile/location",(req,res)=>{
+  res.render("routes/userAddress.ejs");
+});
+
+router.post("/profile",async(req,res)=>{
+    let {state,city,location}=req.body;
+    let id=req.user._id;
+    let Useraddress=await User.findById(id);
+    Useraddress.address.push({
+      state:state,
+      city:city,
+      location:location
+    });
+    Useraddress.save();
+    console.log(Useraddress);
+    req.flash("success","Address added successfully");
+    res.redirect("/users/profile");
+});
+
+//Update route
+router.get("/profile/:id/update",async(req,res)=>{
+  let {id}=req.params;
+  let us=await User.findById(req.user._id);
+  let userAddressArrays=us.address;
+  let user=userAddressArrays.id(id);
+  res.render("routes/updateAddress.ejs",{user,id});
+});
+
+router.put("/profile/:id/update",async(req,res)=>{
+  let {id}=req.params;
+  let {state,city,location}=req.body;
+  let us=await User.findById(req.user._id);
+  let userAddressArrays=us.address;
+  let address=userAddressArrays.id(id);
+  address.state=state;
+  address.city=city;
+  address.location=location;
+  us.save();
+  req.flash("success","Address updated successfully")
+  res.redirect("/users/profile");
+});
+
+router.delete("/profile/:id",async(req,res)=>{
+  let {id}=req.params;
+  let us=await User.findById(req.user._id);
+  let address=us.address;
+  let newAddress=address.filter((item)=>{
+    return item._id!=id;
+  });
+  us.address=newAddress;
+  us.save();
+  req.flash("success","Address Deleted");
+  res.redirect("/users/profile");
+});
+
+router.get("/profile",async(req,res)=>{
   let user=req.user;
-  res.render("routes/profile.ejs",{user});
+  let id=req.user._id;
+  let address=await User.findById(id);
+  let Useraddress=address.address;
+  res.render("routes/profile.ejs",{user,Useraddress});
 });
 
 

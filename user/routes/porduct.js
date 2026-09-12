@@ -6,7 +6,6 @@ const ExpressError=require("../../utils/ExpressError.js");
 const {isLoggedIn}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
 const User=require("../../models/user.js");
-const UserAddress=require("../../models/userAddress.js");
 
 //home route
 router.get("/", asyncWrap(async (req, res) => {
