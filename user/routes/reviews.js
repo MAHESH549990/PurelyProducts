@@ -4,7 +4,7 @@ const Product = require("../../models/products.js");
 const Review=require("../../models/review.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const ExpressError=require("../../utils/ExpressError.js");
-const {isLoggedIn,validateReviews}=require("../userMiddleware.js");
+const {isLoggedIn,validateReviews,isReviewOwner}=require("../userMiddleware.js");
 
 
 router.post("/",isLoggedIn,validateReviews,asyncWrap(async(req,res)=>{
@@ -20,7 +20,7 @@ router.post("/",isLoggedIn,validateReviews,asyncWrap(async(req,res)=>{
      res.redirect(`/product/${id}`);
 }));
 
-router.delete("/:reviewId",isLoggedIn,async(req,res)=>{
+router.delete("/:reviewId",isLoggedIn,isReviewOwner,async(req,res)=>{
      let {reviewId,id}=req.params;
      req.flash("success","Review Deleted");
      await Product.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});

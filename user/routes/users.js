@@ -57,7 +57,6 @@ router.get("/logout",(req,res,next)=>{
      req.flash("success","You're logged out");
      res.redirect("/product");
   });
-  console.log(req.user);
 });
 
 //profile
@@ -75,7 +74,6 @@ router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
       location:location
     });
     Useraddress.save();
-    console.log(Useraddress);
     req.flash("success","Address added successfully");
     res.redirect("/users/profile");
 }));
