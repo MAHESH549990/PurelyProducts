@@ -12,13 +12,16 @@
                    <br/>
                    <b>Product Name:</b> <%= orders[i].products[j].product.name %>
                   </p>
-                  <img src="<%=orders[i].products[j].product.image.url%>" class="product-order-img" alt="Product Image">
+                  <div class="col-md-4 col-lg-4 col-sm-6">
+                  <img src="<%=orders[i].products[j].product.image.url%>" class="rounded-5 w-75 h-75" alt="Product Image">
                   </div>
+                  </div>
+
                 <%}%>
                 <p class="card-text h5"><b>Total Amount: &#8377;</b> <%= orders[i].totalAmount %></p>
                 <button class="card-text btn btn-warning h-5"><b>Order Status:</b> <%= orders[i].status %></button>
                 <form action="/orders/ordered/<%=orders[i]._id%>/details" method="post">
-                <button class="h-5 mx-4 my-3" id="a-tag" href=""><b>Order details..</b></button>
+                <button class="h-5 my-3" id="a-tag"><b>Check order details..</b></button>
                 </form>
             </div>
          <% }%>

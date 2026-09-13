@@ -99,11 +99,14 @@
     </div>
     <%}%>
     <hr style="height:0.2rem !important; background-color:black" class="my-3">
+     <%if(item.reviews.length){%>
     <div class="row">
     <h1 class="my-5"><i class="fa-solid fa-star-half"></i> Reviews</h1>
      <%for(review of item.reviews){%>
             <div class="col-lg-6 col-md-6 col-sm-12 my-3  border-0">
-            <h4>@Mahesh Bhatt</h4>
+           
+            <h4>@<%=review.owner.username%></h4>
+            <p>Date: <%=review.createdAt.toLocaleString("en-IN")%></p>
             <%if(review.image.url){%>
               <img src="<%=review.image.url%>" class=" col-lg-3 col-md-4 col-sm-9 my-1 w-50 h-50 rounded-3"/>
             <%}%>
@@ -123,6 +126,7 @@
           </div>
           <%}%> 
    </div>
+     <%}%>
    </div>
 
 </body>

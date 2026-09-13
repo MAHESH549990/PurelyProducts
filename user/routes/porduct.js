@@ -2,9 +2,11 @@ const express = require("express");
 const router=express.Router();
 const Product = require("../../models/products.js");
 const Order=require("../../models/orders.js");
+const User=require("../../models/user.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const {isLoggedIn}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
+const { populate } = require("../../models/user.js");
 
 //home route
 router.get("/", asyncWrap(async (req, res) => {
@@ -77,7 +79,12 @@ router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
 
 
 router.get("/:id", asyncWrap(async (req, res) => {
-    const item = await Product.findById(req.params.id).populate("reviews");
+    const item = await Product.findById(req.params.id).populate({
+      path:"reviews",populate:{
+         path:"owner",
+         model:"User"
+      }
+    });
     res.render("routes/productDetails", { item });
 }));
 
