@@ -4,7 +4,7 @@ const User=require("./user.js");
 const Product=require("./products.js");
 
 const ordersSchema=new Schema({
-    cutomer:{
+    customer:{
        type:Schema.Types.ObjectId,
        ref:"User"
     },
@@ -41,4 +41,4 @@ const ordersSchema=new Schema({
     }
 });
 
-module.exports=mongoose.model("order",ordersSchema);
+module.exports=mongoose.model("Order",ordersSchema);

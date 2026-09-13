@@ -69,9 +69,14 @@ const deliveryRoutes=require("./delivery/delivery.js");
 const products=require("./user/routes/porduct.js");
 
 app.use("/", userRoutes);
+app.use((req, res, next) => {
+    console.log("REQUEST:", req.method, req.originalUrl);
+    next();
+});
 app.use("/product",products);
 app.use("/delivery",deliveryRoutes);
 app.use("/admin", adminRoutes);
+
 // Server
 app.listen(8080, () => {
     console.log("Server started on port 8080");

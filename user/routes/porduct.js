@@ -1,6 +1,7 @@
 const express = require("express");
 const router=express.Router();
 const Product = require("../../models/products.js");
+const Order=require("../../models/orders.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const {isLoggedIn}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
@@ -11,11 +12,40 @@ router.get("/", asyncWrap(async (req, res) => {
   res.render("routes/home.ejs", { allProducts });
 }));
 
-//payment route
-router.get("/cart/place",isLoggedIn,(req,res)=>{
-   res.render("routes/cardPayment.ejs");
+
+router.post("/cart/place", isLoggedIn,async (req, res) => {
+    let cartItems = await Cart.findOne({
+        user: req.user._id
+    }).populate("items.product");
+
+    console.log(cartItems);
+
+    let totalProductsPrice = 0;
+    let totalProducts = 0;
+    let orderProducts = [];
+
+    for (let i = 0; i < cartItems.items.length; i++) {
+        let cartItem = cartItems.items[i];
+        totalProductsPrice += cartItem.product.price * cartItem.quantity;
+        totalProducts += cartItem.quantity;
+        orderProducts.push({
+            product: cartItem.product._id,
+            quantity: cartItem.quantity
+        });
+    }
+    await Order.create({
+        user: req.user._id,
+        products: orderProducts,
+        totalAmount: totalProductsPrice
+    });
+    res.redirect("/product");
 });
 
+
+//orders
+router.get("/cart/place",async(req,res)=>{
+  res.render("routes/cardPayment.ejs");
+});
 
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   let cartItems = await Cart.findOne({
