@@ -18,7 +18,6 @@ router.post("/cart/place", isLoggedIn,async (req, res) => {
         user: req.user._id
     }).populate("items.product");
 
-    console.log(cartItems);
 
     let totalProductsPrice = 0;
     let totalProducts = 0;
@@ -34,10 +33,11 @@ router.post("/cart/place", isLoggedIn,async (req, res) => {
         });
     }
     await Order.create({
-        user: req.user._id,
+        customer: req.user._id,
         products: orderProducts,
         totalAmount: totalProductsPrice
     });
+    await Cart.findOneAndDelete({user:req.user._id});
     res.redirect("/product");
 });
 

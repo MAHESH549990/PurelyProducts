@@ -1,0 +1,24 @@
+<%-layout("/boilerplate/userBoiler")%>
+<div class="row container my-4">
+    <div class="col-md-10 col-sm-12 col-lg-10 p-1 bg-light offset-lg-2 offset-md-2 rounded-3">
+          <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i> Your orders</h1>
+          <%for(let i=0; i<orders.length; i++){%>
+            <div class="p-1 my-3 bg-white rounded-4">
+                <h4>Order ID: <%= orders[i]._id %></h4>
+                <%for(let j=0;j<orders[i].products.length;j++){%>
+                  <div class="card">
+                  <p class="card-text h5">
+                   Ordered By: <%=orders[i].customer.username%>
+                   <br/>
+                   Product Name: <%= orders[i].products[j].product.name %>
+                  </p>
+                  <img src="<%=orders[i].products[j].product.image.url%>" class="product-order-img" alt="Product Image">
+                  </div>
+                <%}%>
+                <p class="card-text h5">Total Amount: &#8377; <%= orders[i].totalAmount %></p>
+                <button class="card-text btn btn-warning h-5">Order Status: <%= orders[i].status %></button>
+                <a class="h-5 mx-4" id="a-tag" href="/orders/ordered/details">Order details..</a>
+            </div>
+         <% }%>
+    </div>
+</div>
