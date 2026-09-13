@@ -1,0 +1,21 @@
+.box-red,.box-green,.box-yellow,.box-blue{
+   height:10rem;
+   color:white;
+   font-weight: bold;
+   border-radius: 2rem;
+   padding: 0.5rem;
+   margin-left: 1.2rem;
+   font-size: 1.5rem;
+}
+.box-red {
+    background-color: rgb(220, 70, 70);
+}
+
+.box-yellow {
+    background-color: rgb(245, 205, 70);
+    color: black;
+}
+
+.box-green {
+    background-color: rgb(85, 190, 95);
+}
