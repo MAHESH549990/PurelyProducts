@@ -8,6 +8,10 @@ const ordersSchema=new Schema({
        type:Schema.Types.ObjectId,
        ref:"User"
     },
+    createdAt:{
+      type:Date,
+      default:Date.now()
+    },
     products:[
       {
         product:{

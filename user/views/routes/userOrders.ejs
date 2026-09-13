@@ -4,20 +4,22 @@
           <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i> Your orders</h1>
           <%for(let i=0; i<orders.length; i++){%>
             <div class="p-1 my-3 bg-white rounded-4">
-                <h4>Order ID: <%= orders[i]._id %></h4>
+                <h4><b>Order ID: </b><%= orders[i]._id %></h4>
                 <%for(let j=0;j<orders[i].products.length;j++){%>
                   <div class="card">
                   <p class="card-text h5">
-                   Ordered By: <%=orders[i].customer.username%>
+                   <b>Ordered By:</b> <%=orders[i].customer.username%>
                    <br/>
-                   Product Name: <%= orders[i].products[j].product.name %>
+                   <b>Product Name:</b> <%= orders[i].products[j].product.name %>
                   </p>
                   <img src="<%=orders[i].products[j].product.image.url%>" class="product-order-img" alt="Product Image">
                   </div>
                 <%}%>
-                <p class="card-text h5">Total Amount: &#8377; <%= orders[i].totalAmount %></p>
-                <button class="card-text btn btn-warning h-5">Order Status: <%= orders[i].status %></button>
-                <a class="h-5 mx-4" id="a-tag" href="/orders/ordered/details">Order details..</a>
+                <p class="card-text h5"><b>Total Amount: &#8377;</b> <%= orders[i].totalAmount %></p>
+                <button class="card-text btn btn-warning h-5"><b>Order Status:</b> <%= orders[i].status %></button>
+                <form action="/orders/ordered/<%=orders[i]._id%>/details" method="post">
+                <button class="h-5 mx-4 my-3" id="a-tag" href=""><b>Order details..</b></button>
+                </form>
             </div>
          <% }%>
     </div>

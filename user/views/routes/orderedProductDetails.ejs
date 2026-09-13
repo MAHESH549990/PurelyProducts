@@ -1,23 +1,34 @@
 <%- layout("/boilerplate/userBoiler") %>
 <div class="row container my-4">
     <div class="col-md-10 col-sm-12 col-lg-10 p-1 bg-light offset-lg-2 offset-md-2 rounded-3">
-          <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i> Your orders</h1>
-          <%for(let i=0; i<orders.length; i++){%>
+          <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i>Order Details</h1>
             <div class="p-1 my-3 bg-white rounded-4">
-                <h4>Order ID: <%= orders[i]._id %></h4>
-                <h5>Ordered By: <%=orders[i].customer.username%></h5>
-                <%for(let j=0;j<orders[i].products.length;j++){%>
+                <h4><b>Order ID:</b> <%= orders._id %></h4>
+                <h5><b>Ordered By:</b> <%=orders.customer.username%>
+                  <br/>
+                 <b>Date: </b><%=orders.createdAt.toLocaleString("en-IN")%>
+                </h5>
+                <div class="bg-light p-3 my-2 rounded-4">
+                <h5><b>Address:</b></h5>
+                <%for(let i=0;i<orders.customer.address.length;i++){%>
+                   <p>
+                        <b>State:</b> <%=orders.customer.address[i].state%><br/>
+                        <b>City:</b> <%=orders.customer.address[i].city%><br/>
+                        <b>Location:</b> <%=orders.customer.address[i].location%>
+                   </p>
+                <%}%>
+                </div>
+                <%for(let j=0;j<orders.products.length;j++){%>
                   <div class="card">
                   <p class="card-text h5">
-                   Product Name: <%= orders[i].products[j].product.name %>
+                   <b>Product Name: </b><%= orders.products[j].product.name %><br/>
+                   <b>Quantity:</b> <%=orders.products[j].quantity%>
                   </p>
-                  <img src="<%=orders[i].products[j].product.image.url%>" class="product-order-img" alt="Product Image">
+                  <img src="<%=orders.products[j].product.image.url%>" class="product-order-img" alt="Product Image">
                   </div>
                 <%}%>
-                <p class="card-text h5">Total Amount: &#8377; <%= orders[i].totalAmount %></p>
-                <button class="card-text btn btn-warning h-5">Order Status: <%= orders[i].status %></button>
-                <a class="h-5 mx-4" id="a-tag" href="">Order details..</a>
+                <p class="card-text h5"><b>Total Amount: &#8377;</b> <%= orders.totalAmount %></p>
+                <button class="card-text btn btn-warning h-5"><b>Order Status:</b> <%= orders.status %></button>
             </div>
-         <% }%>
     </div>
 </div>

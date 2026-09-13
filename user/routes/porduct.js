@@ -13,7 +13,7 @@ router.get("/", asyncWrap(async (req, res) => {
 }));
 
 
-router.post("/cart/place", isLoggedIn,async (req, res) => {
+router.post("/cart/place", isLoggedIn,asyncWrap(async (req, res) => {
     let cartItems = await Cart.findOne({
         user: req.user._id
     }).populate("items.product");
@@ -38,14 +38,15 @@ router.post("/cart/place", isLoggedIn,async (req, res) => {
         totalAmount: totalProductsPrice
     });
     await Cart.findOneAndDelete({user:req.user._id});
+    req.flash("success","Order placed successfully");
     res.redirect("/product");
-});
+}));
 
 
 //orders
-router.get("/cart/place",async(req,res)=>{
+router.get("/cart/place",isLoggedIn,asyncWrap(async(req,res)=>{
   res.render("routes/cardPayment.ejs");
-});
+}));
 
 router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   let cartItems = await Cart.findOne({
