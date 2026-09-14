@@ -1,0 +1,24 @@
+<%-layout("/boilerplate/adminBoiler.ejs")%>
+<div class="bg-light p-4 rounded-3 container m-auto">
+   <h1 class="text-center rounded-3 p-2">Top Products</h1>
+   <div class="row">
+    <%for(let product of products){%>
+    <div class="col-lg-5 col-md-5 col-sm-11 rounded-5 p-3 bg-white my-4 offset-lg-1">
+    <div class="col-lg-6 col-md-6 col-sm-7">
+    <img src="<%=product.image.url%>" class="rounded-3 card-img-top">
+    </div>
+    <!-- <div class="card-img-overlay"></div> -->
+    <p class="card-text h3"><b><%=product.name%></b><br/>&#8377; <%=product.price.toLocaleString("en-IN") %></p>
+    <p class="card-text h5">
+      <%=product.description%>
+    </p>
+    <div class="h3">
+     <% for(let i = 1; i <= product.rating; i++) { %>
+      <i class="fa-solid fa-star text-warning"></i>
+     <% } %>
+     <span><%= product.rating %>/5</span>
+    </div>
+  </div>
+  <%}%>
+  </div>
+  </div>

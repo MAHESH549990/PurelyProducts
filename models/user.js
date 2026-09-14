@@ -24,7 +24,11 @@ const userSchema=new Schema({
             type:String,
          }
         }    
-     ]
+     ],
+     loggedAt:{
+      type:Date,
+      default:Date.now
+     }
 });
 
 userSchema.plugin(passportLocalMongoose);

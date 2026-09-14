@@ -1,9 +1,9 @@
 <%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container row bg-white m-auto p-3 rounded-5" style="display: flex; justify-content: center; align-items: center;">
-   <h1 class="text-center">Users Details</h1>
+<div class="container row bg-white m-auto p-3 rounded-5" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
+   <h1 class="text-center bg-light p-2 rounded-3">Users Details</h1>
    <%let userCount=1%>
    <%for(let user of users){%>
-    <div class="col-lg-8 col-md-10 col-sm-12 p-4 rounded-3 bg-light my-4">
+    <div class="col-lg-8 col-md-10 col-sm-12 p-2 rounded-3 my-4" style="background-color: rgb(213, 218, 218);">
          <div class="d-flex">
           <i class="fa-solid fa-user my-2 h1"></i> <h1><%=userCount%></h1><br/>
          </div>

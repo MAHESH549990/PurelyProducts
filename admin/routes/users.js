@@ -11,4 +11,10 @@ router.get("/details",async(req,res)=>{
   res.render("routes/users.ejs",{users});
 });
 
+//top products
+router.get("/topOrders",async(req,res)=>{
+  let products=await Product.find({rating:{$gt:4}});
+  res.render("routes/topProducts.ejs",{products});
+});
+
 module.exports=router;
