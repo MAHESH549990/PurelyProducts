@@ -5,6 +5,7 @@ const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
 const ExpressError=require("../utils/ExpressError.js");
 const products=require("./routes/product.js");
 const reviews=require("./routes/reviews.js");
+const users=require("./routes/users.js");
 
 main().then(()=>{
   console.log("Database connected");
@@ -26,6 +27,8 @@ router.use("/products",products);
 
 //reviews
 router.use("/products/:id/reviews",reviews);
+//users
+router.use("/users",users);
 
 router.use((req,res,next)=>{
   next(new ExpressError(404,"Page not found"));

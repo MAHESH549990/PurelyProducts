@@ -8,7 +8,7 @@
    font-size: 1.5rem;
 }
 .box-red {
-    background-color: rgb(220, 70, 70);
+    background-color: rgb(207, 52, 52);
 }
 
 .box-yellow {
@@ -18,4 +18,27 @@
 
 .box-green {
     background-color: rgb(85, 190, 95);
+}
+
+.box-red a,.box-yellow a,.box-green a{
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+}
+.box-red a{
+    background-color: rgb(201, 47, 47);
+}
+.box-green a{
+    background-color: rgb(65, 182, 76);
+}
+.box-yellow a{
+    background-color: rgb(245, 201, 55);
+    color:white;
 }
