@@ -12,7 +12,9 @@
           <b>Name: </b><%=user.username%><br/>
           <b>Email: </b><%=user.email%>
          </h3>
+         <form action="/admin/users/details/<%=user._id%>">
          <button class="btn btn-primary my-2">Veiw more..</button>
+         </form>
          <%userCount++%>
    </div>
    <%}%>

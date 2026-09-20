@@ -1,0 +1,20 @@
+<%-layout("/boilerplate/adminBoiler.ejs")%>
+<div class="container bg-white p-4 rounded-4 margin-auto m-3">
+  <div>
+  <h5>User Id: <%=users._id%></h5>
+  <h5>Name: <%=users.username%></h5>
+  </div>
+  
+  <div style="margin-left: 3px;">
+    Address:
+  </div>
+  
+  <div>
+    <h1>Orders:</h1>
+    <%for(order of orders){%>
+        <%for(item of order.products){%>
+           <h1><%=item.product.name%></h1>
+        <%}%>
+    <%}%>
+  </div>
+</div>
