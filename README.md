@@ -15,7 +15,7 @@ PurelyProducts is a full-stack **E-commerce web application** where users can br
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** HTML, CSS, JavaScript, EJS
+* **Frontend:** HTML, CSS, JavaScript, EJS, Bootstrap
 * **Backend:** Node.js, Express.js
 * **Database:** MongoDB
 * **Authentication:** Passport.js / Express Session
