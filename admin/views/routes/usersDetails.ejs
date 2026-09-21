@@ -1,19 +1,35 @@
 <%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container bg-white p-4 rounded-4 margin-auto m-3">
+<div class="container bg-white p-4 rounded-4 m-auto m-3">
   <div>
   <h5>User Id: <%=users._id%></h5>
   <h5>Name: <%=users.username%></h5>
   </div>
-  
-  <div style="margin-left: 3px;">
-    Address:
+  <h2>Address:</h2>
+  <div class="m-auto p-3 ">
+    <%for(let address of users.address){%>
+       <div>
+          <p><b>State:</b> <%=address.state%><br>
+            <b>City:</b> <%=address.city%><br>
+            <b>Location:</b> <%=address.location%>
+          </p>
+       </div>
+    <%}%>
   </div>
   
-  <div>
-    <h1>Orders:</h1>
+  <div class="p-3">
+    <h2>Orders:</h2>
+    <%or=1%>
     <%for(order of orders){%>
         <%for(item of order.products){%>
-           <h1><%=item.product.name%></h1>
+          <div class="container p-5 m-4 rounded-5" style="background-color: rgb(234, 236, 235);">
+           <h4>Order:<%=or++%></h4>
+           <h5><%=item.product.name%></h5>
+           <img src="<%=item.product.image.url%>" class="rounded-4" style="height: 15rem; width: 15rem;">
+           <p><b>Quantity: <%=item.quantity%></b>
+           <br/>
+            <b>Price: &#8377;</b> <%=item.product.price.toLocaleString("en-IN")%> 
+           </p>
+           </div>
         <%}%>
     <%}%>
   </div>
