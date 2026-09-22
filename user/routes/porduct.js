@@ -4,7 +4,7 @@ const Product = require("../../models/products.js");
 const Order=require("../../models/orders.js");
 const User=require("../../models/user.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
-const {isLoggedIn}=require("../userMiddleware.js");
+const {isLoggedIn,isAddress}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
 const { populate } = require("../../models/user.js");
 
@@ -15,7 +15,7 @@ router.get("/", asyncWrap(async (req, res) => {
 }));
 
 
-router.post("/cart/place", isLoggedIn,asyncWrap(async (req, res) => {
+router.post("/cart/place", isLoggedIn,isAddress,asyncWrap(async (req, res) => {
     let cartItems = await Cart.findOne({
         user: req.user._id
     }).populate("items.product");
@@ -46,7 +46,7 @@ router.post("/cart/place", isLoggedIn,asyncWrap(async (req, res) => {
 
 
 //orders
-router.get("/cart/place",isLoggedIn,asyncWrap(async(req,res)=>{
+router.get("/cart/place",isLoggedIn,isAddress,asyncWrap(async(req,res)=>{
   res.render("routes/cardPayment.ejs");
 }));
 

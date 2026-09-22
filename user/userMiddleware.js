@@ -1,6 +1,7 @@
 const {reviewScheam}=require("../schema.js");
 const Review=require("../models/review.js");
 const review = require("../models/review.js");
+const User=require("../models/user.js");
 
 module.exports.isLoggedIn=(req,res,next)=>{
    if(!req.isAuthenticated()){
@@ -26,6 +27,12 @@ module.exports.isReviewOwner=async(req,res,next)=>{
   }
   next();
 }
-module.exports.isSignup=(req,res,next)=>{
-  req.login(registeredUser,)
+
+
+module.exports.isAddress=(req,res,next)=>{
+  if(req.user.address.length<=0){
+    req.flash("error","You need to add address before place the order");
+    return res.redirect("/users/profile");
+  }
+  next();
 }
