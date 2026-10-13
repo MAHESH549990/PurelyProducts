@@ -30,7 +30,6 @@ const ordersSchema=new Schema({
         enum: [
             "placed",
             "confirmed",
-            "packed",
             "assigned",
             "out_for_delivery",
             "delivered",
