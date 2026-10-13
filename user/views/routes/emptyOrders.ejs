@@ -1,4 +1,85 @@
-<%-layout("/boilerplate/userBoiler")%>
-<div class="container bg-white p-5 rounded-3 mt-1 text-center">
-    <img src="/images/empty_order.png" class="rounded-3" style="width: 50%; height: 50%">
+
+<%- layout("/boilerplate/userBoiler") %>
+
+<div class="container py-4 py-md-5">
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
+         style="background: #ffffff;">
+
+        <div class="card-body text-center px-3 px-md-5 py-5">
+
+            <!-- Empty Orders Illustration -->
+            <div class="mb-4">
+                <img
+                    src="/images/empty_order.png"
+                    alt="No orders yet"
+                    class="img-fluid"
+                    style="
+                        width: 100%;
+                        max-width: 500px;
+                        height: 320px;
+                        object-fit: contain;
+                    "
+                >
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="fw-bold mb-3"
+                style="
+                    color: #07583d;
+                    font-size: clamp(2rem, 5vw, 3.5rem);
+                    letter-spacing: -1px;
+                ">
+                No Orders Yet
+            </h1>
+
+            <!-- Description -->
+            <p class="text-secondary mx-auto mb-1"
+               style="
+                   max-width: 750px;
+                   font-size: clamp(1rem, 2.5vw, 1.4rem);
+                   line-height: 1.7;
+               ">
+                You haven't placed any orders with us yet.
+            </p>
+
+            <p class="text-secondary mx-auto mb-4"
+               style="
+                   max-width: 750px;
+                   font-size: clamp(1rem, 2.5vw, 1.4rem);
+                   line-height: 1.7;
+               ">
+                Find something you love and let your shopping journey begin!
+            </p>
+
+            <!-- Explore Products Button -->
+            <a href="/product"
+               class="btn btn-success rounded-pill px-4 px-md-5 py-3 fw-semibold shadow-sm"
+               style="
+                   background: #159957;
+                   border-color: #159957;
+                   font-size: 1.1rem;
+               ">
+
+                <i class="fa-solid fa-bag-shopping me-3"></i>
+                Explore Products
+                <i class="fa-solid fa-arrow-right ms-3"></i>
+
+            </a>
+
+            <!-- Footer -->
+            <div class="d-flex justify-content-center align-items-center gap-2 mt-4"
+                 style="color: #64877a;">
+
+                <i class="fa-solid fa-leaf text-success"></i>
+
+                <span class="small fw-medium">
+                    Happy shopping with PurelyProducts
+                </span>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

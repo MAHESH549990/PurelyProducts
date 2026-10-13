@@ -1,36 +1,253 @@
+
 <%- layout("/boilerplate/userBoiler") %>
-<div class="row container my-4">
-    <div class="col-md-10 col-sm-12 col-lg-10 p-1 bg-light offset-lg-2 offset-md-2 rounded-3">
-          <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i>Order Details</h1>
-            <div class="p-1 my-3 bg-white rounded-4">
-                <h4><b>Order ID:</b> <%= orders._id %></h4>
-                <h5><b>Ordered By:</b> <%=orders.customer.username%>
-                  <br/>
-                 <b>Date: </b><%=orders.createdAt.toLocaleString("en-IN")%>
-                </h5>
-                <div class="bg-light p-3 my-2 rounded-4">
-                <h5><b>Address:</b></h5>
-                <%for(let i=0;i<orders.customer.address.length;i++){%>
-                   <p>
-                        <b>State:</b> <%=orders.customer.address[i].state%><br/>
-                        <b>City:</b> <%=orders.customer.address[i].city%><br/>
-                        <b>Location:</b> <%=orders.customer.address[i].location%>
-                   </p>
-                <%}%>
+
+<div class="container py-4 py-md-5">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+
+            <!-- Page Heading -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="bg-success bg-opacity-10 text-success rounded-3 p-3">
+                    <i class="fa-solid fa-box-open fs-3"></i>
                 </div>
-                <%for(let j=0;j<orders.products.length;j++){%>
-                  <div class="card">
-                  <p class="card-text h5">
-                   <b>Product Name: </b><%= orders.products[j].product.name %><br/>
-                   <b>Quantity:</b> <%=orders.products[j].quantity%>
-                  </p>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                  <img src="<%=orders.products[j].product.image.url%>" class="rounded-3" style="height: 15rem;" alt="Product Image">
-                  </div>
-                  </div>
-                <%}%>
-                <p class="card-text h5"><b>Total Amount: &#8377;</b> <%= orders.totalAmount %></p>
-                <button class="card-text btn btn-warning h-5"><b>Order Status:</b> <%= orders.status %></button>
+
+                <div>
+                    <h2 class="fw-bold mb-1">Order Details</h2>
+                    <p class="text-secondary mb-0">
+                        View your order summary and product details.
+                    </p>
+                </div>
             </div>
+
+            <!-- Main Order Card -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+                <!-- Order Header -->
+                <div class="card-header bg-white p-4 border-bottom">
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+
+                        <div>
+                            <p class="text-secondary small mb-1">Order ID</p>
+                            <h6 class="fw-semibold mb-0 text-break">
+                                <%= orders._id %>
+                            </h6>
+                        </div>
+
+                        <div>
+                            <p class="text-secondary small mb-1">Order Status</p>
+
+                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                <i class="fa-solid fa-clock me-1"></i>
+                                <%= orders.status %>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Order Information -->
+                    <div class="mb-5">
+
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-receipt text-success me-2"></i>
+                            Order Information
+                        </h5>
+
+                        <div class="row g-3">
+
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 h-100">
+                                    <p class="text-secondary small mb-1">
+                                        Ordered By
+                                    </p>
+                                    <h6 class="fw-semibold mb-0">
+                                        <%= orders.customer.username %>
+                                    </h6>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 h-100">
+                                    <p class="text-secondary small mb-1">
+                                        Order Date
+                                    </p>
+                                    <h6 class="fw-semibold mb-0">
+                                        <%= orders.createdAt.toLocaleString("en-IN") %>
+                                    </h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="mb-5">
+
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-location-dot text-success me-2"></i>
+                            Delivery Address
+                        </h5>
+
+                        <% for (let i = 0; i < orders.customer.address.length; i++) { %>
+
+                            <div class="border rounded-3 p-3 mb-3">
+
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fa-solid fa-house text-secondary me-2"></i>
+                                    <h6 class="fw-semibold mb-0">
+                                        Address <%= i + 1 %>
+                                    </h6>
+                                </div>
+
+                                <div class="row g-3">
+
+                                    <div class="col-12 col-sm-6">
+                                        <p class="text-secondary small mb-1">
+                                            State
+                                        </p>
+                                        <p class="fw-semibold mb-0">
+                                            <%= orders.customer.address[i].state %>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6">
+                                        <p class="text-secondary small mb-1">
+                                            City
+                                        </p>
+                                        <p class="fw-semibold mb-0">
+                                            <%= orders.customer.address[i].city %>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="text-secondary small mb-1">
+                                            Location
+                                        </p>
+                                        <p class="fw-semibold mb-0 text-break">
+                                            <%= orders.customer.address[i].location %>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+                    <!-- Ordered Products -->
+                    <div class="mb-5">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fa-solid fa-bag-shopping text-success me-2"></i>
+                                Ordered Products
+                            </h5>
+
+                            <span class="badge bg-light text-dark border">
+                                <%= orders.products.length %> item(s)
+                            </span>
+                        </div>
+
+                        <% for (let j = 0; j < orders.products.length; j++) { %>
+
+                            <div class="card border rounded-3 mb-3">
+
+                                <div class="card-body p-3 p-md-4">
+
+                                    <div class="row align-items-center g-3">
+
+                                        <!-- Product Image -->
+                                        <div class="col-12 col-sm-4 col-md-3">
+                                            <div class="bg-light rounded-3 p-2 text-center">
+                                                <img
+                                                    src="<%= orders.products[j].product.image.url %>"
+                                                    alt="<%= orders.products[j].product.name %>"
+                                                    class="img-fluid"
+                                                    style="height: 150px; width: 100%; object-fit: contain;"
+                                                >
+                                            </div>
+                                        </div>
+
+                                        <!-- Product Details -->
+                                        <div class="col-12 col-sm-8 col-md-9">
+
+                                            <h6 class="fw-bold mb-3">
+                                                <%= orders.products[j].product.name %>
+                                            </h6>
+
+                                            <div class="d-flex flex-wrap gap-3">
+
+                                                <div class="border rounded-3 px-3 py-2">
+                                                    <p class="text-secondary small mb-1">
+                                                        Quantity
+                                                    </p>
+                                                    <p class="fw-semibold mb-0">
+                                                        <%= orders.products[j].quantity %>
+                                                    </p>
+                                                </div>
+
+                                                <div class="border rounded-3 px-3 py-2">
+                                                    <p class="text-secondary small mb-1">
+                                                        Unit Price
+                                                    </p>
+                                                    <p class="fw-semibold mb-0">
+                                                        ₹<%= orders.products[j].product.price.toLocaleString("en-IN") %>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+                    <!-- Order Total -->
+                    <div class="bg-light rounded-3 p-4">
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                            <div>
+                                <p class="text-secondary mb-1">
+                                    Total Order Amount
+                                </p>
+                                <h4 class="fw-bold text-success mb-0">
+                                    ₹<%= orders.totalAmount.toLocaleString("en-IN") %>
+                                </h4>
+                            </div>
+
+                          
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="/orders/ordered"
+                   class="btn btn-outline-secondary px-4">
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    Back to Profile
+                </a>
+            </div>
+
+        </div>
     </div>
+
 </div>

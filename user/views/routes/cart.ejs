@@ -1,42 +1,228 @@
-<%-layout("/boilerplate/userBoiler")%>
-<body>
-   <div class="row bg-white p-4 rounded-3 container-fluid m-auto">
-     <h1 class="text-center p-3 my-3 rounded-3" style="font-weight: bold; background-color: beige;">My Cart</h1>
-      <%for(item of cartItems.items){%>
-       <div class="mt-5 col-lg-6 col-md-6 col-sm-12">
-       <img src="<%=item.product.image.url%>" class="col-12 col-lg-6 col-md-6 col-sm-8 rounded-3" style="height: 20rem;">
-       <div class="card-body">
-        <p class="card-title"> 
-        <b><h4><%=item.product.name%></h4></b>
-        <b style="font-size: 1.2rem;">Quantity:<%=item.quantity%>
-        <br/>&#8377; <%=item.product.price.toLocaleString("en-IN") %></b></p>
-        <p class="card-text h5">
-          <%=item.product.description%>
-        </p>
-     <% for(let i = 1; i <= item.product.rating; i++) { %>
-      <i class="fa-solid fa-star text-warning"></i>
-     <% } %>
-     <span>/5</span>
-     <div class="mt-3">
-    <form 
-        action="/product/cart/<%=item.product._id%>?_method=DELETE" 
-        method="POST"
-        onclick="return confirm('Are you sure to delete this product from your cart?');"
-    >
-        <button type="submit" class="btn btn-outline-danger">
-            Delete
-        </button>
-    </form>
+
+<% layout("/boilerplate/userBoiler") %>
+
+<div class="container py-5">
+
+    <!-- Page Heading -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-cart-shopping text-success me-2"></i>
+                My Cart
+            </h2>
+            <p class="text-muted mb-0">
+                Review your items before checkout.
+            </p>
+        </div>
+
+        <a href="/product" class="btn btn-outline-success rounded-pill">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Continue Shopping
+        </a>
     </div>
-     </div>
-    </div>
-    <%}%>
-    <div class="mt-5 p-3 rounded-3 h4" style="font-weight: bold; background-color: beige;">
-      Total Items: <%=totalProducts%><br/>
-      Total Amount: &#8377; <%=totalProductsPrice.toLocaleString("en-IN")%><br/>
-      <form action="/product/cart/place" method="get">
-      <button class="btn btn-warning my-4 text-black btn-lg">Proceed to Checkout</button>
-      </form>
-    </div>
-  </div>
-</body>
+
+    <% if (!cartItems || !cartItems.items || cartItems.items.length === 0) { %>
+
+        <!-- Empty Cart -->
+        <div class="text-center py-5 border rounded-4 bg-light">
+            <i class="fa-solid fa-basket-shopping text-success mb-3"
+               style="font-size: 4rem;"></i>
+
+            <h4 class="fw-bold">Your cart is empty</h4>
+
+            <p class="text-muted">
+                Looks like you haven't added anything to your cart yet.
+            </p>
+
+            <a href="/product" class="btn btn-success rounded-pill px-4">
+                Start Shopping
+            </a>
+        </div>
+
+    <% } else { %>
+
+        <div class="row g-4">
+
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+
+                <% cartItems.items.forEach(function(item) { %>
+
+                    <% if (item.product) { %>
+
+                        <div class="card border-0 shadow-sm rounded-4 mb-3">
+                            <div class="card-body p-3 p-md-4">
+
+                                <div class="row align-items-center g-3">
+
+                                    <!-- Product Image -->
+                                    <div class="col-4 col-md-3">
+                                        <div class="bg-light rounded-3 p-2 text-center"
+                                             style="min-height: 150px;">
+
+                                            <% if (item.product.image && item.product.image.url) { %>
+
+                                                <img
+                                                    src="<%= item.product.image.url %>"
+                                                    alt="<%= item.product.name %>"
+                                                    class="img-fluid rounded-3"
+                                                    style="width: 100%; height: 145px; object-fit: contain;"
+                                                >
+
+                                            <% } else { %>
+
+                                                <div class="d-flex align-items-center justify-content-center"
+                                                     style="height: 145px;">
+                                                    <i class="fa-regular fa-image text-secondary"
+                                                       style="font-size: 2.5rem;"></i>
+                                                </div>
+
+                                            <% } %>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Product Details -->
+                                    <div class="col-8 col-md-5">
+
+                                        <h5 class="fw-bold mb-2">
+                                            <%= item.product.name %>
+                                        </h5>
+
+                                        <p class="text-muted small mb-2">
+                                            <%= item.product.description || "Quality product from PurelyProducts." %>
+                                        </p>
+
+                                        <% if (item.product.rating != null) { %>
+                                            <p class="text-warning mb-2">
+                                                <i class="fa-solid fa-star"></i>
+                                                <span class="text-dark">
+                                                    <%= item.product.rating %>
+                                                </span>
+                                            </p>
+                                        <% } %>
+
+                                        <h5 class="text-success fw-bold mb-0">
+                                            ₹<%= Number(item.product.price).toLocaleString("en-IN") %>
+                                        </h5>
+
+                                    </div>
+
+                                    <!-- Quantity and Remove -->
+                                    <div class="col-12 col-md-4">
+
+
+                                        <p class="fw-semibold mt-3 mb-2">
+                                            Subtotal:
+                                            ₹<%= (Number(item.product.price) * Number(item.quantity)).toLocaleString("en-IN") %>
+                                        </p>
+
+                                        
+                                        <form
+                                            action="/product/cart/<%= item.product._id %>?_method=DELETE"
+                                            method="POST"
+                                            onsubmit="return confirm('Remove this item from your cart?');"
+                                        >
+                                            <button
+                                                type="submit"
+                                                class="btn btn-outline-danger btn-sm rounded-pill"
+                                            >
+                                                <i class="fa-solid fa-trash me-1"></i>
+                                                Remove
+                                            </button>
+                                        </form>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <% } %>
+
+                <% }); %>
+
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-4 sticky-top"
+                     style="top: 100px;">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-4">
+                            Order Summary
+                        </h5>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Total items</span>
+
+                            <span class="fw-semibold">
+                                <%= cartItems.items.reduce(function(total, item) {
+                                    return total + (item.product ? Number(item.quantity) : 0);
+                                }, 0) %>
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Subtotal</span>
+
+                            <span class="fw-semibold">
+                                ₹<%= cartItems.items.reduce(function(total, item) {
+                                    return total + (item.product
+                                        ? Number(item.product.price) * Number(item.quantity)
+                                        : 0);
+                                }, 0).toLocaleString("en-IN") %>
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Delivery</span>
+                            <span class="text-success fw-semibold">As applicable</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fw-bold">Total</span>
+
+                            <h5 class="fw-bold text-success mb-0">
+                                ₹<%= cartItems.items.reduce(function(total, item) {
+                                    return total + (item.product
+                                        ? Number(item.product.price) * Number(item.quantity)
+                                        : 0);
+                                }, 0).toLocaleString("en-IN") %>
+                            </h5>
+                        </div>
+
+                        <form action="/product/cart/place" method="GET">
+                            <button
+                                type="submit"
+                                class="btn btn-success w-100 rounded-pill py-2 fw-semibold"
+                            >
+                                Proceed to Checkout
+                                <i class="fa-solid fa-arrow-right ms-2"></i>
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="fa-solid fa-shield-halved text-success me-1"></i>
+                                Shop with confidence
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    <% } %>
+
+</div>

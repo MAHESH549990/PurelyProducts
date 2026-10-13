@@ -1,29 +1,217 @@
-<%-layout("/boilerplate/userBoiler")%>
-<div class="row container my-4">
-    <div class="col-md-10 col-sm-12 col-lg-10 p-1 bg-light offset-lg-2 offset-md-2 rounded-3">
-          <h1 class="h1 my-4 text-center"><i class="fa-solid fa-box"></i> Your orders</h1>
-          <%for(let i=0; i<orders.length; i++){%>
-            <div class="p-1 my-3 bg-white rounded-4">
-                <h4><b>Order ID: </b><%= orders[i]._id %></h4>
-                <%for(let j=0;j<orders[i].products.length;j++){%>
-                  <div class="card">
-                  <p class="card-text h5">
-                   <b>Ordered By:</b> <%=orders[i].customer.username%>
-                   <br/>
-                   <b>Product Name:</b> <%= orders[i].products[j].product.name %>
-                  </p>
-                  <div class="col-md-4 col-lg-4 col-sm-6">
-                  <img src="<%=orders[i].products[j].product.image.url%>" class="rounded-3" style="height: 15rem;" alt="Product Image">
-                  </div>
-                  </div>
 
-                <%}%>
-                <p class="card-text h5"><b>Total Amount: &#8377;</b> <%= orders[i].totalAmount %></p>
-                <button class="card-text btn btn-warning h-5"><b>Order Status:</b> <%= orders[i].status %></button>
-                <form action="/orders/ordered/<%=orders[i]._id%>/details" method="post">
-                <button class="h-5 my-3" id="a-tag"><b>Check order details..</b></button>
-                </form>
-            </div>
-         <% }%>
+<%- layout("/boilerplate/userBoiler") %>
+
+<div class="container py-4 py-md-5">
+
+    <!-- Page Heading -->
+    <div class="mb-4 text-center">
+        <div class="mb-3">
+            <i class="fa-solid fa-box-open text-success"
+               style="font-size: 2.5rem;"></i>
+        </div>
+
+        <h2 class="fw-bold mb-2">Your Orders</h2>
+
+        <p class="text-secondary mb-0">
+            Track your orders and view your purchase details.
+        </p>
     </div>
+
+    <% if (orders.length > 0) { %>
+
+        <!-- Orders List -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+
+                <% for (let i = 0; i < orders.length; i++) { %>
+
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+
+                        <!-- Order Header -->
+                        <div class="card-header bg-white p-3 p-md-4 border-bottom">
+
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+
+                                <div>
+                                    <p class="text-secondary small mb-1">
+                                        Order ID
+                                    </p>
+
+                                    <h6 class="fw-semibold mb-0 text-break">
+                                        <%= orders[i]._id %>
+                                    </h6>
+                                </div>
+
+                                <div>
+                                    <p class="text-secondary small mb-2">
+                                        Order Status
+                                    </p>
+
+                                    <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                        <i class="fa-solid fa-clock me-1"></i>
+                                        <%= orders[i].status %>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Order Body -->
+                        <div class="card-body p-3 p-md-4">
+
+                            <!-- Customer Details -->
+                            <div class="mb-4">
+                                <p class="text-secondary small mb-1">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    Ordered By
+                                </p>
+
+                                <h6 class="fw-semibold mb-0">
+                                    <%= orders[i].customer.username %>
+                                </h6>
+                            </div>
+
+                            <!-- Products -->
+                            <h6 class="fw-bold mb-3">
+                                <i class="fa-solid fa-bag-shopping text-success me-2"></i>
+                                Products in this Order
+                            </h6>
+
+                            <% for (let j = 0; j < orders[i].products.length; j++) { %>
+
+                                <div class="border rounded-3 p-3 mb-3">
+
+                                    <div class="row align-items-center g-3">
+
+                                        <!-- Product Image -->
+                                        <div class="col-12 col-sm-4 col-md-3">
+
+                                            <div class="bg-light rounded-3 p-2 text-center">
+                                                <img
+                                                    src="<%= orders[i].products[j].product.image.url %>"
+                                                    alt="<%= orders[i].products[j].product.name %>"
+                                                    class="img-fluid"
+                                                    style="width: 100%; height: 150px; object-fit: contain;"
+                                                >
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Product Information -->
+                                        <div class="col-12 col-sm-8 col-md-9">
+
+                                            <p class="text-secondary small mb-1">
+                                                Product Name
+                                            </p>
+
+                                            <h6 class="fw-bold mb-3">
+                                                <%= orders[i].products[j].product.name %>
+                                            </h6>
+
+                                            <div class="d-flex flex-wrap gap-3">
+
+                                                <div class="bg-light rounded-3 px-3 py-2">
+                                                    <p class="text-secondary small mb-1">
+                                                        Quantity
+                                                    </p>
+
+                                                    <p class="fw-semibold mb-0">
+                                                        <%= orders[i].products[j].quantity %>
+                                                    </p>
+                                                </div>
+
+                                                <div class="bg-light rounded-3 px-3 py-2">
+                                                    <p class="text-secondary small mb-1">
+                                                        Unit Price
+                                                    </p>
+
+                                                    <p class="fw-semibold mb-0">
+                                                        ₹<%= orders[i].products[j].product.price.toLocaleString("en-IN") %>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            <% } %>
+
+                        </div>
+
+                        <!-- Order Footer -->
+                        <div class="card-footer bg-light border-top p-3 p-md-4">
+
+                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+
+                                <div>
+                                    <p class="text-secondary small mb-1">
+                                        Total Order Amount
+                                    </p>
+
+                                    <h4 class="fw-bold text-success mb-0">
+                                        ₹<%= orders[i].totalAmount.toLocaleString("en-IN") %>
+                                    </h4>
+                                </div>
+
+                                <form
+                                    action="/orders/ordered/<%= orders[i]._id %>/details"
+                                    method="post"
+                                >
+                                    <button type="submit"
+                                            class="btn btn-success px-4">
+                                        View Order Details
+                                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+        </div>
+
+    <% } else { %>
+
+        <!-- Empty Orders State -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+
+                <div class="card border-0 shadow-sm rounded-4 text-center p-4 p-md-5">
+
+                    <div class="mb-3">
+                        <i class="fa-solid fa-box-open text-secondary"
+                           style="font-size: 3.5rem;"></i>
+                    </div>
+
+                    <h4 class="fw-bold mb-2">No Orders Yet</h4>
+
+                    <p class="text-secondary mb-4">
+                        You haven't placed any orders yet. Explore our products
+                        and find something you like.
+                    </p>
+
+                    <div>
+                        <a href="/product" class="btn btn-success px-4">
+                            <i class="fa-solid fa-store me-2"></i>
+                            Browse Products
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    <% } %>
+
 </div>
