@@ -1,17 +1,158 @@
-<%-layout("/boilerplate/adminBoiler.ejs")%>
+<%- layout("/boilerplate/adminBoiler.ejs") %>
 
-<div class="container-fluid row for-admin-info">
-      <div class="col-lg-3 col-md-4 col-sm-4 box-red my-2">
-        <i class="fa-regular fa-user"></i> Users <br><br><br>
-        <a href="/admin/users/details">More info <i class="fa-solid fa-paperclip"></i></a>
+<div class="container-fluid px-3 px-md-4 py-4">
+
+  <!-- Dashboard Header -->
+  <div class="mb-4">
+    <h3 class="fw-bold mb-1">Admin Dashboard</h3>
+    <p class="text-secondary mb-0">
+      Welcome to PurelyProducts. Manage your store operations from here.
+    </p>
+  </div>
+
+  <!-- Management Overview -->
+  <div class="row g-4">
+
+    <!-- User Management -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">User Management</h5>
+            <span class="bg-primary-subtle text-primary rounded-3 p-3">
+              <i class="fa-solid fa-users fs-4"></i>
+            </span>
+          </div>
+
+          <p class="text-secondary small">
+            View registered users and access customer account details.
+          </p>
+
+          <a href="/admin/users/details"
+             class="btn btn-outline-primary btn-sm rounded-3">
+            Manage Users <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-4 box-green my-2">
-        <i class="fa-solid fa-fire"></i> Pupular Products 
-        <br><br><br>
-        <a href="/admin/users/orders/top">More info <i class="fa-solid fa-paperclip"></i></a>
+    </div>
+
+    <!-- Product Management -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Inventory Management</h5>
+            <span class="bg-success-subtle text-success rounded-3 p-3">
+              <i class="fa-solid fa-boxes-stacked fs-4"></i>
+            </span>
+          </div>
+
+          <p class="text-secondary small">
+            Add new products, update product information, and manage your catalog.
+          </p>
+
+          <a href="/admin/products"
+             class="btn btn-outline-success btn-sm rounded-3">
+            Manage Products <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-4 box-yellow my-2">
-        <i class="fa-solid fa-barcode"></i> Total <br><br><br>
-        <a href="/admin/users/details">More info <i class="fa-solid fa-paperclip"></i></a>
+    </div>
+
+    <!-- Popular Products -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Sales Insights</h5>
+            <span class="bg-warning-subtle text-warning-emphasis rounded-3 p-3">
+              <i class="fa-solid fa-chart-line fs-4"></i>
+            </span>
+          </div>
+
+          <p class="text-secondary small">
+            Explore popular products and identify items customers order frequently.
+          </p>
+
+          <a href="/admin/users/orders/top"
+             class="btn btn-outline-warning btn-sm rounded-3">
+            Explore Products <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+        </div>
       </div>
+    </div>
+
+    <!-- Delivery Management -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Delivery Operations</h5>
+            <span class="bg-info-subtle text-info-emphasis rounded-3 p-3">
+              <i class="fa-solid fa-truck-fast fs-4"></i>
+            </span>
+          </div>
+
+          <p class="text-secondary small">
+            Manage delivery partner accounts and coordinate order assignments.
+          </p>
+
+          <a href="/admin/delivery-partners"
+             class="btn btn-outline-info btn-sm rounded-3">
+            Manage Delivery Partners
+            <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Admin Responsibilities -->
+  <div class="mt-5">
+    <h5 class="fw-bold mb-3">Store Administration</h5>
+
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4">
+
+        <div class="d-flex gap-3 mb-4">
+          <div class="text-primary fs-4">
+            <i class="fa-solid fa-box"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1">Order Processing</h6>
+            <p class="text-secondary small mb-0">
+              Review customer orders, confirm purchases, and prepare orders for delivery.
+            </p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 mb-4">
+          <div class="text-success fs-4">
+            <i class="fa-solid fa-truck"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1">Delivery Coordination</h6>
+            <p class="text-secondary small mb-0">
+              Assign confirmed orders to delivery partners and monitor their progress.
+            </p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3">
+          <div class="text-warning fs-4">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1">Store Performance</h6>
+            <p class="text-secondary small mb-0">
+              Review popular products and use order data to understand customer demand.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>

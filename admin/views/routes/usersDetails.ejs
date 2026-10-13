@@ -1,36 +1,229 @@
-<%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container bg-white p-4 rounded-4 m-auto m-3">
-  <div>
-  <h5>User Id: <%=users._id%></h5>
-  <h5>Name: <%=users.username%></h5>
-  </div>
-  <h2>Address:</h2>
-  <div class="m-auto p-3 ">
-    <%for(let address of users.address){%>
-       <div>
-          <p><b>State:</b> <%=address.state%><br>
-            <b>City:</b> <%=address.city%><br>
-            <b>Location:</b> <%=address.location%>
-          </p>
-       </div>
-    <%}%>
-  </div>
-  
-  <div class="p-3">
-    <h2>Orders:</h2>
-    <%or=1%>
-    <%for(order of orders){%>
-        <%for(item of order.products){%>
-          <div class="container p-5 m-4 rounded-5" style="background-color: rgb(234, 236, 235);">
-           <h4>Order:<%=or++%></h4>
-           <h5><%=item.product.name%></h5>
-           <img src="<%=item.product.image.url%>" class="rounded-4" style="height: 15rem; width: 15rem;">
-           <p><b>Quantity: <%=item.quantity%></b>
-           <br/>
-            <b>Price: &#8377;</b> <%=item.product.price.toLocaleString("en-IN")%> 
-           </p>
-           </div>
-        <%}%>
-    <%}%>
-  </div>
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-user-circle text-primary me-2"></i>
+                User Details
+            </h2>
+            <p class="text-secondary mb-0">
+                View customer information, saved addresses, and order history.
+            </p>
+        </div>
+
+        <a href="/admin/users/details" class="btn btn-outline-secondary rounded-3">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back to Users
+        </a>
+    </div>
+
+    <!-- User Profile -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+        <div class="bg-primary p-3 text-white">
+            <h5 class="mb-0">
+                <i class="fa-solid fa-id-card me-2"></i>Customer Profile
+            </h5>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row align-items-center g-4">
+                <div class="col-auto">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 75px; height: 75px;">
+                        <i class="fa-solid fa-user fa-2x"></i>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h4 class="fw-bold mb-1"><%= users.username %></h4>
+                    <p class="text-secondary mb-2">Registered Customer</p>
+                    <span class="badge text-bg-light border text-break">
+                        ID: <%= users._id %>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Section -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-header bg-white border-0 p-4 pb-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold mb-0">
+                    <i class="fa-solid fa-location-dot text-danger me-2"></i>
+                    Saved Addresses
+                </h4>
+                <span class="badge rounded-pill text-bg-light border">
+                    <%= users.address.length %> Addresses
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <% if (!users.address || users.address.length === 0) { %>
+
+                <div class="text-center py-4">
+                    <i class="fa-solid fa-map-location-dot fa-3x text-secondary mb-3"></i>
+                    <h5 class="fw-semibold">No Addresses Found</h5>
+                    <p class="text-secondary mb-0">
+                        This customer has not saved any addresses yet.
+                    </p>
+                </div>
+
+            <% } else { %>
+
+                <div class="row g-3">
+                    <% let addressCount = 1; %>
+
+                    <% for (let address of users.address) { %>
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="border rounded-4 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span class="bg-white border rounded-circle p-2">
+                                        <i class="fa-solid fa-house text-primary"></i>
+                                    </span>
+                                    <h6 class="fw-bold mb-0">
+                                        Address #<%= addressCount++ %>
+                                    </h6>
+                                </div>
+
+                                <p class="mb-2">
+                                    <span class="text-secondary">State</span><br>
+                                    <strong><%= address.state %></strong>
+                                </p>
+
+                                <p class="mb-2">
+                                    <span class="text-secondary">City</span><br>
+                                    <strong><%= address.city %></strong>
+                                </p>
+
+                                <p class="mb-0">
+                                    <span class="text-secondary">Location</span><br>
+                                    <strong class="text-break"><%= address.location %></strong>
+                                </p>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Order History -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white border-0 p-4 pb-2">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+                <h4 class="fw-bold mb-0">
+                    <i class="fa-solid fa-box-open text-success me-2"></i>
+                    Order History
+                </h4>
+                <span class="badge rounded-pill text-bg-light border">
+                    <%= orders.length %> Orders
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+
+            <% if (!orders || orders.length === 0) { %>
+
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-cart-shopping fa-3x text-secondary mb-3"></i>
+                    <h5 class="fw-semibold">No Orders Yet</h5>
+                    <p class="text-secondary mb-0">
+                        This customer has not placed any orders.
+                    </p>
+                </div>
+
+            <% } else { %>
+
+                <% let orderCount = 1; %>
+
+                <% for (let order of orders) { %>
+                    <div class="border rounded-4 p-3 p-md-4 mb-4">
+
+                        <!-- Order Header -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-1">
+                                    Order #<%= orderCount++ %>
+                                </h5>
+                                <small class="text-secondary">
+                                    Order ID: <%= order._id %>
+                                </small>
+                            </div>
+
+                            <div>
+                                <span class="badge rounded-pill
+                                    <%= order.status === 'delivered' ? 'text-bg-success' :
+                                        order.status === 'cancelled' ? 'text-bg-danger' :
+                                        'text-bg-primary' %>">
+                                    <%= order.status.replaceAll("_", " ") %>
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr class="text-secondary opacity-25">
+
+                        <!-- Products in Order -->
+                        <% for (let item of order.products) { %>
+
+                            <% if (item.product) { %>
+                                <div class="row g-3 align-items-center mb-3">
+                                    <div class="col-4 col-sm-3 col-md-2">
+                                        <img
+                                            src="<%= item.product.image.url %>"
+                                            alt="<%= item.product.name %>"
+                                            class="img-fluid rounded-3 border bg-white"
+                                            style="height: 120px; width: 100%; object-fit: contain;"
+                                        >
+                                    </div>
+
+                                    <div class="col-8 col-sm-9 col-md-10">
+                                        <h6 class="fw-bold mb-2">
+                                            <%= item.product.name %>
+                                        </h6>
+
+                                        <p class="text-secondary mb-1">
+                                            Quantity:
+                                            <strong class="text-dark"><%= item.quantity %></strong>
+                                        </p>
+
+                                        <p class="mb-0">
+                                            Price:
+                                            <strong class="text-success">
+                                                &#8377;<%= item.product.price.toLocaleString("en-IN") %>
+                                            </strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <p class="text-secondary small">
+                                    A product in this order is no longer available.
+                                </p>
+                            <% } %>
+
+                        <% } %>
+
+                        <!-- Order Total -->
+                        <div class="bg-light rounded-3 p-3 mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-secondary">Order Total</span>
+                                <h5 class="fw-bold text-success mb-0">
+                                    &#8377;<%= order.totalAmount.toLocaleString("en-IN") %>
+                                </h5>
+                            </div>
+                        </div>
+
+                    </div>
+                <% } %>
+
+            <% } %>
+
+        </div>
+    </div>
+
 </div>

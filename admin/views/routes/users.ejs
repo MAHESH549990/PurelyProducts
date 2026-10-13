@@ -1,21 +1,116 @@
-<%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container row bg-white m-auto p-3 rounded-5">
-   <h1 class="text-center bg-light p-2 rounded-3">Users Details</h1>
-   <%let userCount=1%>
-   <%for(let user of users){%>
-    <div class="col-lg-8 col-md-8 col-sm-10 p-2 rounded-3 my-4" style="background-color: rgb(213, 218, 218);">
-         <div class="d-flex">
-          <i class="fa-solid fa-user my-2 h1"></i> <h1><%=userCount%></h1><br/>
-         </div>
-         <h5>
-          <b>User ID: </b><%=user._id%><br/>
-          <b>Name: </b><%=user.username%><br/>
-          <b>Email: </b><%=user.email%>
-         </h5>
-         <form action="/admin/users/details/<%=user._id%>">
-         <button class="btn btn-primary my-2">Veiw more..</button>
-         </form>
-         <%userCount++%>
-   </div>
-   <%}%>
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-users text-primary me-2"></i>
+                Users Management
+            </h2>
+            <p class="text-secondary mb-0">
+                View and manage all registered users.
+            </p>
+        </div>
+
+        <div class="bg-white border rounded-4 p-3 shadow-sm">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-primary-subtle text-primary rounded-3 p-3">
+                    <i class="fa-solid fa-user-group fa-xl"></i>
+                </div>
+                <div>
+                    <p class="text-secondary mb-1 small">Total Users</p>
+                    <h3 class="fw-bold mb-0"><%= users.length %></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="text-secondary opacity-25 mb-4">
+
+    <!-- Users List -->
+    <% if (users.length === 0) { %>
+
+        <div class="bg-white rounded-4 shadow-sm text-center p-5">
+            <i class="fa-solid fa-users-slash fa-3x text-secondary mb-3"></i>
+            <h4 class="fw-bold">No Users Found</h4>
+            <p class="text-secondary mb-0">
+                Registered users will appear here.
+            </p>
+        </div>
+
+    <% } else { %>
+
+        <div class="row g-4">
+
+            <% let userCount = 1; %>
+
+            <% for (let user of users) { %>
+
+                <div class="col-12 col-md-6 col-xl-4">
+
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+
+                        <!-- Card Header -->
+                        <div class="bg-primary p-3 text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="small fw-semibold">
+                                    USER #<%= userCount %>
+                                </span>
+
+                                <i class="fa-solid fa-circle-user fa-2x"></i>
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body p-4">
+
+                            <h5 class="fw-bold mb-4 text-break">
+                                <i class="fa-solid fa-user text-primary me-2"></i>
+                                <%= user.username %>
+                            </h5>
+
+                            <div class="mb-3">
+                                <small class="text-secondary d-block mb-1">
+                                    User ID
+                                </small>
+                                <div class="small text-break">
+                                    <i class="fa-solid fa-fingerprint me-2 text-secondary"></i>
+                                    <%= user._id %>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <small class="text-secondary d-block mb-1">
+                                    Email Address
+                                </small>
+                                <div class="text-break">
+                                    <i class="fa-solid fa-envelope me-2 text-secondary"></i>
+                                    <%= user.email %>
+                                </div>
+                            </div>
+
+                            <div class="border-top pt-3">
+                                <form action="/admin/users/details/<%= user._id %>" method="GET">
+                                    <button type="submit" class="btn btn-outline-primary w-100 rounded-3">
+                                        View Details
+                                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <% userCount++; %>
+
+            <% } %>
+
+        </div>
+
+    <% } %>
+
 </div>
