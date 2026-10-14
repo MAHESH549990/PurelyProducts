@@ -129,7 +129,7 @@ router.get("/updatePassword", (req, res) => {
 });
 
 router.get("/dashboard", isLoggedIn, (req, res) => {
-    res.render("routes/dashboard");
+    res.render("routes/userDashboard.ejs");
 });
 
 module.exports=router;

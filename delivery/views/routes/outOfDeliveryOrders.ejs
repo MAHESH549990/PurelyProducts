@@ -1,0 +1,223 @@
+<%- layout("/boilerplate/deliveryBoiler") %>
+
+<div class="container-fluid px-3 px-md-4 py-4">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <p class="text-success fw-semibold small mb-2">
+            DELIVERY PARTNER / ACTIVE DELIVERIES
+        </p>
+
+        <h2 class="fw-bold mb-1">Out for Delivery</h2>
+
+        <p class="text-secondary mb-0">
+            View your orders currently on the way to customers.
+        </p>
+    </div>
+
+    <!-- Order Count -->
+    <div class="mb-4">
+        <span class="order-count">
+            <i class="fa-solid fa-truck-fast me-2"></i>
+            Active Deliveries: <%= orders.length %>
+        </span>
+    </div>
+
+    <% if (orders.length === 0) { %>
+
+        <!-- Empty State -->
+        <div class="empty-orders text-center p-5">
+            <div class="empty-icon mb-3">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+
+            <h4 class="fw-bold">No Active Deliveries</h4>
+
+            <p class="text-secondary mb-0">
+                You don't have any orders out for delivery right now.
+            </p>
+        </div>
+
+    <% } else { %>
+
+        <!-- Orders -->
+        <div class="row g-4">
+
+            <% for (let order of orders) { %>
+
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="card order-card h-100">
+
+                        <div class="card-body p-4">
+
+                            <!-- Order Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-4">
+                                <div class="order-icon">
+                                    <i class="fa-solid fa-truck-fast"></i>
+                                </div>
+
+                                <span class="status-badge">
+                                    <i class="fa-solid fa-circle me-1"></i>
+                                    Out for Delivery
+                                </span>
+                            </div>
+
+                            <!-- Order ID -->
+                            <p class="text-secondary small mb-1">ORDER ID</p>
+
+                            <h6 class="fw-bold text-break mb-4">
+                                #<%= order._id %>
+                            </h6>
+
+                            <hr>
+
+                            <!-- Products -->
+                            <h6 class="fw-bold mb-3">
+                                <i class="fa-solid fa-box-open text-success me-2"></i>
+                                Products
+                            </h6>
+
+                            <% for (let item of order.products) { %>
+
+                                <div class="product-row d-flex align-items-center gap-3 mb-3">
+
+                                    <% if (item.product && item.product.image && item.product.image.url) { %>
+
+                                        <img src="<%= item.product.image.url %>"
+                                             alt="Product"
+                                             class="product-image">
+
+                                    <% } else { %>
+
+                                        <div class="product-placeholder">
+                                            <i class="fa-solid fa-box"></i>
+                                        </div>
+
+                                    <% } %>
+
+                                    <div class="flex-grow-1">
+                                        <p class="fw-semibold mb-1">
+                                            <%= item.product ? item.product.name : "Product unavailable" %>
+                                        </p>
+
+                                        <p class="text-secondary small mb-0">
+                                            Quantity: <%= item.quantity %>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            <% } %>
+
+                            <hr>
+
+                            <!-- Total -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <span class="text-secondary">
+                                    <i class="fa-solid fa-indian-rupee-sign me-2"></i>
+                                    Total Amount
+                                </span>
+
+                                <span class="fw-bold fs-5 text-success">
+                                    ₹<%= Number(order.totalAmount).toLocaleString("en-IN") %>
+                                </span>
+                            </div>
+
+                            <!-- Order Details -->
+                            <a href="/delivery/orders/assign/<%= order._id %>"
+                               class="btn btn-outline-success w-100 rounded-3 fw-semibold">
+                                <i class="fa-solid fa-eye me-2"></i>
+                                Order Details
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+<style>
+    .order-count {
+        display: inline-block;
+        background: #e8f5ec;
+        color: #167344;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+
+    .order-card {
+        background: #fff;
+        border: 1px solid #e2e8e3;
+        border-radius: 14px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .order-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #e5f5eb;
+        color: #198754;
+        font-size: 1.25rem;
+    }
+
+    .status-badge {
+        background: #e8f5ec;
+        color: #167344;
+        border-radius: 8px;
+        padding: 7px 10px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .status-badge i {
+        font-size: 7px;
+    }
+
+    .product-row {
+        background: #fafcfb;
+        border: 1px solid #edf1ed;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .product-image,
+    .product-placeholder {
+        width: 58px;
+        height: 58px;
+        border-radius: 8px;
+        object-fit: contain;
+        background: #fff;
+        border: 1px solid #e5ece6;
+        flex-shrink: 0;
+    }
+
+    .product-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #198754;
+        font-size: 1.3rem;
+    }
+
+    .empty-orders {
+        background: #fff;
+        border: 1px solid #e2e8e3;
+        border-radius: 14px;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        color: #198754;
+    }
+</style>

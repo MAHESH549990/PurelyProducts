@@ -1,0 +1,310 @@
+<%- layout("/boilerplate/deliveryBoiler") %>
+
+<div class="container-fluid px-3 px-md-4 py-4">
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <p class="text-success fw-semibold small mt-4 mb-2">
+            DELIVERY PARTNER / ORDER DETAILS
+        </p>
+
+        <h2 class="fw-bold mb-1">Order Details</h2>
+        <p class="text-secondary mb-0">
+            Check the order information and update its delivery status.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Order Information -->
+        <div class="col-12 col-lg-8">
+            <div class="card details-card h-100">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+                        <div>
+                            <p class="text-secondary small mb-1">ORDER ID</p>
+                            <h5 class="fw-bold text-break mb-0">
+                                #<%= order._id %>
+                            </h5>
+                        </div>
+
+                        <span class="status-badge">
+                            <%= order.status.replaceAll("_", " ") %>
+                        </span>
+                    </div>
+
+                    <hr>
+
+                  <!-- Product Information -->
+                  <h5 class="fw-bold mb-4">
+                  <i class="fa-solid fa-box-open text-success me-2"></i>
+                  Product Information
+                  </h5>
+
+                  <% for (let item of order.products) { %>
+
+                  <div class="product-box mb-3">
+                      <div class="d-flex flex-wrap align-items-center gap-3">
+
+                          <% if (item.product && item.product.image && item.product.image.url) { %>
+                              <img src="<%= item.product.image.url %>"
+                                    alt="Product"
+                                    class="product-image">
+                          <% } else { %>
+                              <div class="product-placeholder">
+                                  <i class="fa-solid fa-box"></i>
+                              </div>
+                          <% } %>
+
+                          <div class="flex-grow-1">
+                              <h6 class="fw-bold mb-2">
+                                  <%= item.product ? item.product.name : "Product unavailable" %>
+                              </h6>
+
+                              <p class="text-secondary small mb-1">
+                                  Quantity: <strong><%= item.quantity %></strong>
+                              </p>
+
+                              <p class="text-secondary small mb-0">
+                                  Price:
+                                  ₹<%= item.product ? Number(item.product.price).toLocaleString("en-IN") : "N/A" %>
+                              </p>
+                          </div>
+
+                      </div>
+                  </div>
+
+                  <% } %>
+                    <!-- Payment / Total -->
+                    <div class="total-box d-flex justify-content-between align-items-center gap-3">
+                        <span class="fw-semibold">Total Order Amount</span>
+                        <h5 class="fw-bold text-success mb-0">
+                            ₹<%= Number(order.totalAmount || 0).toLocaleString("en-IN") %>
+                        </h5>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Actions -->
+        <div class="col-12 col-lg-4">
+            <div class="card details-card">
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-2">Delivery Status</h5>
+                    <p class="text-secondary small mb-4">
+                        Update this order as you progress through delivery.
+                    </p>
+
+                    <% if (order.status === "assigned") { %>
+
+                        <form action="/delivery/orders/<%= order._id %>/confirm"
+                              method="POST"
+                              onsubmit="return confirm('Confirm this assigned order?');">
+
+                            <button type="submit"
+                                    class="btn btn-success w-100 py-3 rounded-3 fw-semibold">
+                                <i class="fa-solid fa-check me-2"></i>
+                                Confirm Order
+                            </button>
+                        </form>
+
+                    <% } else if (order.status === "confirmed" || order.status === "packed") { %>
+
+                        <form action="/delivery/orders/assign/<%= order._id %>/out-for-delivery?_method=PATCH"
+                              method="POST"
+                              onsubmit="return confirm('Mark this order as out for delivery?');">
+
+                            <button type="submit"
+                                    class="btn btn-success w-100 py-3 rounded-3 fw-semibold">
+                                <i class="fa-solid fa-truck-fast me-2"></i>
+                                Out for Delivery
+                            </button>
+                        </form>
+
+                    <% } else if (order.status === "out_for_delivery") { %>
+
+                        <div class="status-message">
+                            <i class="fa-solid fa-truck-fast me-2"></i>
+                            This order is out for delivery.
+                        </div>
+
+                    <% } else if (order.status === "delivered") { %>
+
+                        <div class="status-message">
+                            <i class="fa-solid fa-circle-check me-2"></i>
+                            Order successfully delivered.
+                        </div>
+
+                    <% } else { %>
+
+                        <div class="status-message">
+                            Current status:
+                            <strong><%= order.status.replaceAll("_", " ") %></strong>
+                        </div>
+
+                    <% } %>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1">Order Management</h6>
+                            <p class="text-secondary small mb-0">
+                                Keep the order status updated.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+<h5 class="fw-bold mb-3">
+    <i class="fa-solid fa-user text-success me-2"></i>
+    Customer Details
+</h5>
+
+<div class="product-box mb-4">
+
+<div class="mb-3">
+    <p class="text-secondary small mb-1">CUSTOMER NAME</p>
+    <h6 class="fw-semibold mb-0">
+        <%= order.customer ? order.customer.username : "Not available" %>
+    </h6>
+</div>
+
+<div>
+    <p class="text-secondary small mb-1">EMAIL ADDRESS</p>
+    <p class="mb-0">
+        <%= order.customer ? order.customer.email : "Not available" %>
+    </p>
+</div>
+
+</div>
+         <!-- Delivery Address -->
+<h5 class="fw-bold mb-3">
+    <i class="fa-solid fa-location-dot text-success me-2"></i>
+    Delivery Address
+</h5>
+
+<div class="product-box mb-4">
+
+    <% if (order.customer && order.customer.address && order.customer.address.length > 0) { %>
+
+        <% for (let address of order.customer.address) { %>
+
+            <div class="mb-2">
+                <p class="text-secondary small mb-1">CITY</p>
+                <h6 class="fw-semibold mb-0">
+                    <%= address.city || "Not available" %>
+                </h6>
+            </div>
+
+            <div class="mb-3">
+                <p class="text-secondary small mb-1">STATE</p>
+                <h6 class="fw-semibold mb-0">
+                    <%= address.state || "Not available" %>
+                </h6>
+            </div>
+
+            <div class="mb-3">
+                <p class="text-secondary small mb-1">FULL ADDRESS</p>
+                <p class="mb-0">
+                    <%= address.location || "Not available" %>
+                </p>
+            </div>
+
+        <% } %>
+
+    <% } else { %>
+
+        <p class="text-secondary mb-0">
+            Delivery address is not available.
+        </p>
+
+    <% } %>
+
+</div>
+    </div>
+</div>
+
+<style>
+    .details-card {
+        background: #fff;
+        border: 1px solid #e2e8e3;
+        border-radius: 15px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #e8f5ec;
+        color: #167344;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .product-box {
+        padding: 16px;
+        border: 1px solid #e5ece6;
+        border-radius: 12px;
+        background: #fafcfb;
+    }
+
+    .product-image,
+    .product-placeholder {
+        width: 85px;
+        height: 85px;
+        border-radius: 10px;
+        object-fit: contain;
+        background: #fff;
+        border: 1px solid #e5ece6;
+    }
+
+    .product-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #198754;
+        font-size: 1.8rem;
+    }
+
+    .total-box {
+        background: #eaf6ee;
+        border-radius: 12px;
+        padding: 18px;
+    }
+
+    .info-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: #e5f5eb;
+        color: #198754;
+        font-size: 1.2rem;
+    }
+
+    .status-message {
+        padding: 14px;
+        border-radius: 10px;
+        background: #eaf6ee;
+        color: #167344;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+</style>
