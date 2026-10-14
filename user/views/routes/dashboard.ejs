@@ -1,0 +1,174 @@
+
+<%- layout("/boilerplate/userBoiler") %>
+
+<div class="container py-4 py-md-5">
+
+    <!-- Welcome Section -->
+    <div class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden"
+         style="background: linear-gradient(120deg, #e8f7ee, #ffffff);">
+
+        <div class="card-body p-4 p-md-5">
+            <div class="row align-items-center g-4">
+
+                <div class="col-md-8">
+                    <span class="badge rounded-pill mb-3 px-3 py-2"
+                          style="background: #d0f0dc; color: #12633e;">
+                        <i class="fa-solid fa-leaf me-1"></i>
+                        PurelyProducts
+                    </span>
+
+                    <h1 class="fw-bold mb-3"
+                        style="color: #145c3b;">
+                        Welcome back,
+                        <%= currUser ? (currUser.username || "Customer") : "Guest" %>!
+                    </h1>
+
+                    <p class="text-secondary mb-4"
+                       style="max-width: 550px; line-height: 1.8;">
+                        Your shopping journey starts here. Explore our products,
+                        manage your orders, and enjoy a smooth shopping experience.
+                    </p>
+
+                    <a href="/product"
+                       class="btn btn-success rounded-pill px-4 py-3 fw-semibold">
+                        <i class="fa-solid fa-bag-shopping me-2"></i>
+                        Explore Products
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+
+                <div class="col-md-4 text-center">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                         style="width: 170px; height: 170px; background: #d9f2e2;">
+                        <i class="fa-solid fa-basket-shopping text-success"
+                           style="font-size: 5rem;"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Quick Links -->
+    <div class="mb-4">
+        <h4 class="fw-bold mb-1">Your Dashboard</h4>
+        <p class="text-muted mb-0">
+            Everything you need, all in one place.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Shop Products -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                         style="width: 55px; height: 55px; background: #e1f4e8;">
+                        <i class="fa-solid fa-store text-success fs-4"></i>
+                    </div>
+
+                    <h5 class="fw-bold">Shop Products</h5>
+                    <p class="text-muted small">
+                        Discover products and find something you love.
+                    </p>
+
+                    <a href="/product"
+                       class="text-success fw-semibold text-decoration-none">
+                        Browse Products
+                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Cart -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                         style="width: 55px; height: 55px; background: #fff0d9;">
+                        <i class="fa-solid fa-cart-shopping text-warning fs-4"></i>
+                    </div>
+
+                    <h5 class="fw-bold">My Cart</h5>
+                    <p class="text-muted small">
+                        Review your selected products before checkout.
+                    </p>
+
+                    <a href="/product/cart"
+                       class="text-success fw-semibold text-decoration-none">
+                        View Cart
+                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Orders -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                         style="width: 55px; height: 55px; background: #e5edff;">
+                        <i class="fa-solid fa-box-open text-primary fs-4"></i>
+                    </div>
+
+                    <h5 class="fw-bold">My Orders</h5>
+                    <p class="text-muted small">
+                        Check your orders and follow their status.
+                    </p>
+
+                    <a href="/orders/ordered"
+                       class="text-success fw-semibold text-decoration-none">
+                        View Orders
+                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Profile -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                         style="width: 55px; height: 55px; background: #f2e5ff;">
+                        <i class="fa-solid fa-user text-primary fs-4"></i>
+                    </div>
+
+                    <h5 class="fw-bold">My Profile</h5>
+                    <p class="text-muted small">
+                        Manage your account and delivery addresses.
+                    </p>
+
+                    <a href="/users/profile"
+                       class="text-success fw-semibold text-decoration-none">
+                        View Profile
+                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Shopping Tip -->
+    <div class="card border-0 rounded-4 mt-4"
+         style="background: #f0f8f2;">
+        <div class="card-body p-4 d-flex align-items-start gap-3">
+
+            <i class="fa-solid fa-circle-check text-success fs-4 mt-1"></i>
+
+            <div>
+                <h6 class="fw-bold mb-1">A better shopping experience</h6>
+                <p class="text-muted mb-0 small">
+                    Keep your profile and delivery details up to date
+                    for a smoother checkout.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>

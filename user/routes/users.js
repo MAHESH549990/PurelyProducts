@@ -25,7 +25,7 @@ router.post("/signup",asyncWrap(async(req,res)=>{
       return next(err);
     }
     req.flash("success","Welcome to PurelyProducts");
-   res.redirect("/product");
+   res.redirect("/users/dashboard");
    });
   }
   catch(err){
@@ -46,7 +46,7 @@ router.post("/login",
   }),
   asyncWrap(async(req,res)=>{
      req.flash("success","Welcome back! to PurelyProducts");
-     res.redirect("/product");
+     res.redirect("/users/dashboard");
 }));
 
 router.get("/logout",(req,res,next)=>{
@@ -55,7 +55,7 @@ router.get("/logout",(req,res,next)=>{
           return next(err);
      }
      req.flash("success","You're logged out");
-     res.redirect("/product");
+     res.redirect("/users/dashboard");
   });
 });
 
@@ -126,6 +126,10 @@ router.get("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
 
 router.get("/updatePassword", (req, res) => {
   res.render("userLogin/forgetPass.ejs");
+});
+
+router.get("/dashboard", isLoggedIn, (req, res) => {
+    res.render("routes/dashboard");
 });
 
 module.exports=router;
