@@ -1,200 +1,662 @@
 
 <%- layout("/boilerplate/userBoiler") %>
 
-<div class="container py-4 py-md-5">
+<style>
+    .profile-page {
+        --profile-green: #28794f;
+        --profile-dark: #194f35;
+        --profile-light: #edf6ef;
+        --profile-border: #e2ebe4;
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    /* Profile heading */
+    .profile-header {
+        background: linear-gradient(120deg, #e9f5ec, #ffffff 75%);
+        border: 1px solid #dfebe1;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+    }
 
-        <!-- Welcome Header -->
-        <div class="card-body text-center p-4 p-md-5 border-bottom bg-white">
-            <div class="mb-3">
-                <i class="fa-brands fa-shopware text-danger"
-                   id="logo"
-                   style="font-size: 3rem;"></i>
+    .profile-header::before {
+        content: "";
+        display: block;
+        height: 5px;
+        background: var(--profile-green);
+    }
+
+    .profile-brand-icon {
+        width: 62px;
+        height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #d8ecde;
+        color: var(--profile-green);
+        font-size: 1.9rem;
+        flex-shrink: 0;
+    }
+
+    .profile-eyebrow {
+        color: var(--profile-green);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .profile-title {
+        color: var(--profile-dark);
+        font-size: clamp(1.7rem, 3vw, 2.3rem);
+        font-weight: 750;
+        letter-spacing: -0.7px;
+        overflow-wrap: anywhere;
+    }
+
+    .profile-subtitle {
+        color: #6b7a70;
+        line-height: 1.7;
+    }
+
+    .profile-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #dff1e4;
+        color: #22643f;
+        font-size: 0.82rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    /* Main sections */
+    .profile-section {
+        background: #fff;
+        border: 1px solid var(--profile-border);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .section-header {
+        padding: 22px 25px;
+        border-bottom: 1px solid var(--profile-border);
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .section-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        background: var(--profile-light);
+        color: var(--profile-green);
+        font-size: 1.15rem;
+        flex-shrink: 0;
+    }
+
+    .section-title {
+        color: #263b2e;
+        font-size: 1.1rem;
+        font-weight: 750;
+        margin-bottom: 4px;
+    }
+
+    .section-description {
+        color: #7a867e;
+        font-size: 0.86rem;
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+
+    .section-content {
+        padding: 25px;
+    }
+
+    /* Customer information */
+    .customer-summary {
+        height: 100%;
+        min-height: 240px;
+        background: #f5f9f5;
+        border: 1px solid #e7eee8;
+        border-radius: 14px;
+        padding: 25px 18px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .customer-avatar {
+        width: 105px;
+        height: 105px;
+        border-radius: 50%;
+        object-fit: contain;
+        background: #fff;
+        border: 4px solid #dcecdf;
+        padding: 5px;
+    }
+
+    .customer-name {
+        color: var(--profile-dark);
+        font-size: 1.2rem;
+        font-weight: 750;
+        overflow-wrap: anywhere;
+    }
+
+    .customer-tag {
+        display: inline-block;
+        padding: 5px 10px;
+        background: #e2f0e5;
+        color: #2c7048;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .detail-box {
+        height: 100%;
+        background: #fff;
+        border: 1px solid var(--profile-border);
+        border-radius: 12px;
+        padding: 18px;
+        overflow-wrap: anywhere;
+    }
+
+    .detail-label {
+        color: #7b877e;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .detail-label i {
+        color: var(--profile-green);
+        margin-right: 7px;
+    }
+
+    .detail-value {
+        color: #2b4032;
+        font-size: 1rem;
+        font-weight: 650;
+        margin-bottom: 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* Address cards */
+    .address-card {
+        height: 100%;
+        border: 1px solid var(--profile-border);
+        border-radius: 13px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .address-card-top {
+        height: 4px;
+        background: #76a987;
+    }
+
+    .address-card-body {
+        padding: 22px;
+    }
+
+    .address-heading-icon {
+        width: 42px;
+        height: 42px;
+        background: #edf6ef;
+        color: var(--profile-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .address-card-title {
+        color: #2c4033;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+
+    .address-field {
+        border-bottom: 1px solid #edf1ed;
+        padding: 11px 0;
+    }
+
+    .address-field:last-of-type {
+        border-bottom: none;
+    }
+
+    .address-field-label {
+        color: #849087;
+        font-size: 0.78rem;
+        margin-bottom: 4px;
+    }
+
+    .address-field-value {
+        color: #33473a;
+        font-size: 0.93rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        overflow-wrap: anywhere;
+        line-height: 1.6;
+    }
+
+    .profile-page .btn {
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 8px 12px;
+    }
+
+    .btn-profile-edit {
+        color: var(--profile-green);
+        border: 1px solid #cbded0;
+        background: #f4f9f5;
+    }
+
+    .btn-profile-edit:hover {
+        color: var(--profile-dark);
+        background: #e9f3eb;
+    }
+
+    .btn-profile-add {
+        background: var(--profile-green);
+        color: #fff;
+        border: 1px solid var(--profile-green);
+    }
+
+    .btn-profile-add:hover {
+        background: var(--profile-dark);
+        color: #fff;
+    }
+
+    /* Empty address state */
+    .empty-address {
+        background: #f7faf7;
+        border: 1px dashed #c9d9cd;
+        border-radius: 13px;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .empty-address-icon {
+        width: 68px;
+        height: 68px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #e5f1e7;
+        color: var(--profile-green);
+        border-radius: 18px;
+        font-size: 1.8rem;
+        margin-bottom: 17px;
+    }
+
+    .empty-address h5 {
+        color: #2b4533;
+        font-weight: 750;
+    }
+
+    .empty-address p {
+        color: #77847a;
+        max-width: 430px;
+        margin: 0 auto 20px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 767.98px) {
+        .profile-page {
+            width: 94%;
+        }
+
+        .section-header {
+            padding: 18px;
+        }
+
+        .section-content {
+            padding: 17px;
+        }
+
+        .customer-summary {
+            min-height: auto;
+            padding: 22px 15px;
+        }
+
+        .address-card-body {
+            padding: 18px;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .profile-page {
+            width: 96%;
+        }
+
+        .profile-brand-icon {
+            width: 49px;
+            height: 49px;
+            font-size: 1.5rem;
+        }
+
+        .profile-status {
+            font-size: 0.73rem;
+        }
+    }
+</style>
+
+<div class="profile-page py-4 py-md-5">
+
+    <!-- Profile Welcome Header -->
+    <section class="profile-header mb-4 mb-md-5">
+        <div class="p-4 p-lg-5">
+            <div class="d-flex flex-wrap align-items-center gap-3 gap-md-4">
+
+                <div class="profile-brand-icon">
+                    <i class="fa-brands fa-shopware" id="logo"></i>
+                </div>
+
+                <div class="flex-grow-1">
+                    <div class="profile-eyebrow mb-2">
+                        PurelyProducts Account
+                    </div>
+
+                    <h1 class="profile-title mb-2">
+                        Hello, <%= user.username %>!
+                    </h1>
+
+                    <p class="profile-subtitle mb-0">
+                        Your personal space for managing account details and delivery addresses.
+                    </p>
+                </div>
+
+                <div class="profile-status">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Customer Profile
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Information -->
+    <section class="profile-section mb-4 mb-md-5">
+
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fa-solid fa-user"></i>
             </div>
 
-            <h2 class="fw-bold mb-2">
-                Hello, <%= user.username %>!
-            </h2>
+            <div>
+                <h2 class="section-title">Personal Information</h2>
+                <p class="section-description">
+                    Your account details at a glance.
+                </p>
+            </div>
+        </div>
 
-            <p class="text-secondary mb-0">
-                Welcome to <span class="fw-semibold text-dark">PurelyProducts</span>
+        <div class="section-content">
+            <div class="row g-4">
+
+                <!-- Customer Avatar -->
+                <div class="col-12 col-md-4">
+                    <div class="customer-summary">
+
+                        <img
+                            src="/images/user_profile.png"
+                            alt="Customer profile"
+                            class="customer-avatar mb-3"
+                        >
+
+                        <h3 class="customer-name mb-2">
+                            <%= user.username %>
+                        </h3>
+
+                        <span class="customer-tag">
+                            <i class="fa-solid fa-user-check me-1"></i>
+                            Registered Customer
+                        </span>
+
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="col-12 col-md-8">
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <div class="detail-box">
+                                <div class="detail-label">
+                                    <i class="fa-solid fa-user"></i>
+                                    Username
+                                </div>
+
+                                <p class="detail-value">
+                                    <%= user.username %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="detail-box">
+                                <div class="detail-label">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    Email Address
+                                </div>
+
+                                <p class="detail-value">
+                                    <%= user.email %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="detail-box">
+                                <div class="detail-label">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    Account Type
+                                </div>
+
+                                <p class="detail-value">
+                                    Customer Account
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Addresses -->
+    <section class="profile-section">
+
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div>
+                <h2 class="section-title">Your Addresses</h2>
+                <p class="section-description">
+                    Manage the locations where your orders are delivered.
+                </p>
+            </div>
+        </div>
+
+        <div class="section-content">
+
+            <% if (Useraddress.length > 0) { %>
+
+                <div class="row g-3 g-lg-4">
+
+                    <% for (let address of Useraddress) { %>
+
+                        <div class="col-12 col-md-6">
+
+                            <article class="address-card">
+
+                                <div class="address-card-top"></div>
+
+                                <div class="address-card-body">
+
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <div class="address-heading-icon">
+                                            <i class="fa-solid fa-house"></i>
+                                        </div>
+
+                                        <div>
+                                            <h3 class="address-card-title">
+                                                Delivery Address
+                                            </h3>
+
+                                            <span class="text-secondary small">
+                                                Saved location
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="address-field">
+                                        <p class="address-field-label">
+                                            <i class="fa-solid fa-map me-1"></i>
+                                            State
+                                        </p>
+
+                                        <p class="address-field-value">
+                                            <%= address.state %>
+                                        </p>
+                                    </div>
+
+                                    <div class="address-field">
+                                        <p class="address-field-label">
+                                            <i class="fa-solid fa-city me-1"></i>
+                                            City
+                                        </p>
+
+                                        <p class="address-field-value">
+                                            <%= address.city %>
+                                        </p>
+                                    </div>
+
+                                    <div class="address-field">
+                                        <p class="address-field-label">
+                                            <i class="fa-solid fa-location-dot me-1"></i>
+                                            Full Location
+                                        </p>
+
+                                        <p class="address-field-value">
+                                            <%= address.location %>
+                                        </p>
+                                    </div>
+
+                                    <div class="d-flex flex-wrap gap-2 mt-4 pt-3 border-top">
+
+                                        <form
+                                            action="/users/profile/<%= address._id %>?_method=DELETE"
+                                            method="post"
+                                            onsubmit="return confirm('Are you sure you want to delete this address?');"
+                                        >
+                                            <button type="submit"
+                                                    class="btn btn-outline-danger btn-sm">
+                                                <i class="fa-solid fa-trash me-1"></i>
+                                                Delete
+                                            </button>
+                                        </form>
+
+                                        <form
+                                            action="/users/profile/<%= address._id %>/update"
+                                            method="get"
+                                        >
+                                            <button type="submit"
+                                                    class="btn btn-profile-edit btn-sm">
+                                                <i class="fa-solid fa-pen-to-square me-1"></i>
+                                                Edit Address
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </article>
+
+                        </div>
+
+                    <% } %>
+
+                </div>
+
+                <!-- Add Another Address -->
+                <div class="mt-4 pt-3 border-top d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                    <p class="text-secondary small mb-0">
+                        <i class="fa-solid fa-circle-info me-1"></i>
+                        Keep your saved delivery information up to date.
+                    </p>
+
+                </div>
+
+            <% } else { %>
+
+                <!-- Empty Address State -->
+                <div class="empty-address">
+
+                    <div class="empty-address-icon">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+
+                    <h5>No delivery addresses yet</h5>
+
+                    <p>
+                        Add your first delivery address so your orders can reach
+                        the right location.
+                    </p>
+
+                    <form action="/users/profile/location" method="get">
+                        <button type="submit" class="btn btn-profile-add">
+                            <i class="fa-solid fa-plus me-2"></i>
+                            Add Your Address
+                        </button>
+                    </form>
+
+                </div>
+
+            <% } %>
+
+        </div>
+    </section>
+
+    <!-- Bottom Note -->
+    <div class="d-flex align-items-start gap-3 mt-4 p-3 p-md-4 rounded-3"
+         style="background: #f3f8f3; border: 1px solid #e2ebe3;">
+
+        <div class="section-icon flex-shrink-0">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <div>
+            <h6 class="fw-bold mb-1" style="color: #28583b;">
+                Keep your account up to date
+            </h6>
+
+            <p class="text-secondary small mb-0" style="line-height: 1.7;">
+                Check your account information and saved addresses before placing an order
+                to help ensure a smooth delivery experience.
             </p>
         </div>
 
-        <!-- Profile Information -->
-        <div class="card-body p-4 p-md-5">
-
-            <div class="row align-items-center g-4">
-
-                <!-- Profile Image -->
-                <div class="col-12 col-md-4 text-center">
-                    <img
-                        src="/images/user_profile.png"
-                        alt="Customer profile"
-                        class="img-fluid rounded-circle border p-2 bg-light"
-                        style="width: 160px; height: 160px; object-fit: contain;"
-                    >
-                </div>
-
-                <!-- User Details -->
-                <div class="col-12 col-md-8">
-
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h4 class="fw-bold mb-0">Profile Information</h4>
-                        <i class="fa-solid fa-circle-user text-secondary fs-4"></i>
-                    </div>
-
-                    <div class="border rounded-3 p-3 mb-3">
-                        <div class="text-secondary small mb-1">
-                            <i class="fa-solid fa-user me-2"></i>
-                            Full Name
-                        </div>
-                        <h5 class="fw-semibold mb-0">
-                            <%= user.username %>
-                        </h5>
-                    </div>
-
-                    <div class="border rounded-3 p-3">
-                        <div class="text-secondary small mb-1">
-                            <i class="fa-solid fa-envelope me-2"></i>
-                            Email Address
-                        </div>
-                        <h5 class="fw-semibold mb-0 text-break">
-                            <%= user.email %>
-                        </h5>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Address Section -->
-            <div class="mt-5 pt-4 border-top">
-
-                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
-
-                    <div>
-                        <h4 class="fw-bold mb-1">
-                            <i class="fa-solid fa-location-dot text-danger me-2"></i>
-                            Your Addresses
-                        </h4>
-                        <p class="text-secondary mb-0">
-                            Manage your saved delivery addresses.
-                        </p>
-                    </div>
-
-                </div>
-
-                <% if (Useraddress.length > 0) { %>
-
-                    <div class="row g-4">
-
-                        <% for (let address of Useraddress) { %>
-
-                            <div class="col-12 col-md-6">
-
-                                <div class="card h-100 border rounded-3 shadow-sm">
-
-                                    <div class="card-body p-4">
-
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="me-3 text-danger fs-4">
-                                                <i class="fa-solid fa-house"></i>
-                                            </div>
-                                            <h5 class="fw-bold mb-0">
-                                                Delivery Address
-                                            </h5>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <p class="text-secondary small mb-1">
-                                                State
-                                            </p>
-                                            <p class="fw-semibold mb-0">
-                                                <%= address.state %>
-                                            </p>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <p class="text-secondary small mb-1">
-                                                City
-                                            </p>
-                                            <p class="fw-semibold mb-0">
-                                                <%= address.city %>
-                                            </p>
-                                        </div>
-
-                                        <div class="mb-4">
-                                            <p class="text-secondary small mb-1">
-                                                Location
-                                            </p>
-                                            <p class="fw-semibold mb-0 text-break">
-                                                <%= address.location %>
-                                            </p>
-                                        </div>
-
-                                        <div class="d-flex flex-wrap gap-2 pt-3 border-top">
-
-                                            <form
-                                                action="/users/profile/<%= address._id %>?_method=DELETE"
-                                                method="post"
-                                                onsubmit="return confirm('Are you sure you want to delete this address?');"
-                                            >
-                                                <button type="submit"
-                                                        class="btn btn-outline-danger btn-sm">
-                                                    <i class="fa-solid fa-trash me-1"></i>
-                                                    Delete
-                                                </button>
-                                            </form>
-
-                                            <form
-                                                action="/users/profile/<%= address._id %>/update"
-                                                method="get"
-                                            >
-                                                <button type="submit"
-                                                        class="btn btn-outline-primary btn-sm">
-                                                    <i class="fa-solid fa-pen-to-square me-1"></i>
-                                                    Update Address
-                                                </button>
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        <% } %>
-
-                    </div>
-
-                <% } else { %>
-
-                    <div class="text-center border rounded-3 p-4 p-md-5 bg-light">
-
-                        <i class="fa-solid fa-map-location-dot text-secondary mb-3"
-                           style="font-size: 2.5rem;"></i>
-
-                        <h5 class="fw-bold">No addresses added yet</h5>
-
-                        <p class="text-secondary mb-3">
-                            Add a delivery address to make your orders easier to manage.
-                        </p>
-
-                        <form action="/users/profile/location" method="get">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa-solid fa-plus me-2"></i>
-                                Add Your Address
-                            </button>
-                        </form>
-
-                    </div>
-
-                <% } %>
-
-            </div>
-
-        </div>
     </div>
+
 </div>

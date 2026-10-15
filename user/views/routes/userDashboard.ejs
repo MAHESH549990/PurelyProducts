@@ -1,82 +1,301 @@
 
 <%- layout("/boilerplate/userBoiler") %>
 
-<div class="container py-4 py-md-5">
+<style>
+    .user-dashboard {
+        --user-green: #237a50;
+        --user-dark: #185638;
+        --user-border: #e3ebe5;
+        width: 90%;
+        max-width: 1500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-    <!-- Welcome Section -->
-    <div class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden"
-         style="background: linear-gradient(120deg, #e8f7ee, #ffffff);">
+    /* Welcome banner */
+    .welcome-panel {
+        width: 100%;
+        background: linear-gradient(115deg, #edf7f0, #ffffff);
+        border: 1px solid #e0eee4;
+        border-radius: 18px;
+    }
 
-        <div class="card-body p-4 p-md-5">
-            <div class="row align-items-center g-4">
+    .welcome-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #dcefe2;
+        color: var(--user-dark);
+        padding: 8px 13px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
 
-                <div class="col-md-8">
-                    <span class="badge rounded-pill mb-3 px-3 py-2"
-                          style="background: #d0f0dc; color: #12633e;">
-                        <i class="fa-solid fa-leaf me-1"></i>
-                        PurelyProducts
-                    </span>
+    .welcome-title {
+        color: var(--user-dark);
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 750;
+        letter-spacing: -0.8px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
 
-                    <h1 class="fw-bold mb-3"
-                        style="color: #145c3b;">
-                        Welcome back,
-                        <%= currUser ? (currUser.username || "Customer") : "Guest" %>!
+    .welcome-description {
+        color: #64736a;
+        max-width: 650px;
+        line-height: 1.8;
+    }
+
+    .welcome-art {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: #dcefe2;
+        color: var(--user-green);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 9px solid #f5faf6;
+    }
+
+    .welcome-art i {
+        font-size: 3.6rem;
+    }
+
+    .explore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--user-green);
+        color: #fff;
+        border: 1px solid var(--user-green);
+        border-radius: 9px;
+        padding: 12px 19px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .explore-btn:hover {
+        background: var(--user-dark);
+        color: #fff;
+    }
+
+    /* Dashboard section heading */
+    .section-heading {
+        color: #263b2e;
+        font-weight: 750;
+        letter-spacing: -0.3px;
+    }
+
+    .section-accent {
+        width: 38px;
+        height: 4px;
+        background: var(--user-green);
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    /* Dashboard cards */
+    .dashboard-card {
+        height: 100%;
+        background: #fff;
+        border: 1px solid var(--user-border);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .dashboard-card-top {
+        height: 4px;
+        background: var(--card-accent, #237a50);
+    }
+
+    .dashboard-card-body {
+        padding: 23px;
+    }
+
+    .dashboard-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--icon-bg, #edf7f0);
+        color: var(--icon-color, #237a50);
+        font-size: 1.25rem;
+        margin-bottom: 18px;
+    }
+
+    .dashboard-card h5 {
+        color: #263b2e;
+        font-size: 1.08rem;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    .dashboard-card p {
+        color: #758078;
+        font-size: 0.88rem;
+        line-height: 1.7;
+        min-height: 48px;
+        margin-bottom: 19px;
+    }
+
+    .dashboard-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--user-green);
+        font-weight: 650;
+        font-size: 0.88rem;
+        text-decoration: none;
+    }
+
+    .dashboard-link:hover {
+        color: var(--user-dark);
+        text-decoration: underline;
+    }
+
+    /* Helpful note */
+    .shopping-note {
+        width: 100%;
+        background: #f5f9f5;
+        border: 1px solid #e5eee6;
+        border-radius: 13px;
+    }
+
+    .note-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: #dcefe2;
+        color: var(--user-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .user-dashboard {
+            width: 94%;
+        }
+
+        .welcome-art {
+            width: 85px;
+            height: 85px;
+            border-width: 5px;
+        }
+
+        .welcome-art i {
+            font-size: 2.3rem;
+        }
+
+        .dashboard-card-body {
+            padding: 17px;
+        }
+
+        .dashboard-card p {
+            min-height: auto;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .user-dashboard {
+            width: 96%;
+        }
+
+        .welcome-title {
+            font-size: 1.65rem;
+        }
+    }
+</style>
+
+<div class="user-dashboard py-4 py-md-5">
+
+    <!-- Welcome Banner -->
+    <section class="welcome-panel mb-4 mb-md-5 overflow-hidden">
+        <div class="p-4 p-lg-5">
+            <div class="row align-items-center g-3">
+
+                <div class="col-9 col-md-10">
+                    <div class="welcome-label mb-3">
+                        <i class="fa-solid fa-leaf"></i>
+                        PURELYPRODUCTS
+                    </div>
+
+                    <h1 class="welcome-title mb-3">
+                        Hello, <%= currUser ? (currUser.username || "Customer") : "Guest" %>!
                     </h1>
 
-                    <p class="text-secondary mb-4"
-                       style="max-width: 550px; line-height: 1.8;">
-                        Your shopping journey starts here. Explore our products,
-                        manage your orders, and enjoy a smooth shopping experience.
+                    <p class="welcome-description mb-4">
+                        Welcome to your personal shopping space. Discover everyday
+                        essentials, manage your orders, and keep everything organized
+                        in one place.
                     </p>
 
-                    <a href="/product"
-                       class="btn btn-success rounded-pill px-4 py-3 fw-semibold">
+                    <a href="/product" class="explore-btn">
                         <i class="fa-solid fa-bag-shopping me-2"></i>
-                        Explore Products
+                        Start Shopping
                         <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
                 </div>
 
-                <div class="col-md-4 text-center">
-                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center"
-                         style="width: 170px; height: 170px; background: #d9f2e2;">
-                        <i class="fa-solid fa-basket-shopping text-success"
-                           style="font-size: 5rem;"></i>
+                <div class="col-3 col-md-2 text-end">
+                    <div class="welcome-art">
+                        <i class="fa-solid fa-basket-shopping"></i>
                     </div>
                 </div>
 
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Dashboard Quick Links -->
-    <div class="mb-4">
-        <h4 class="fw-bold mb-1">Your Dashboard</h4>
-        <p class="text-muted mb-0">
-            Everything you need, all in one place.
+    <!-- Dashboard Heading -->
+    <section class="mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h3 class="section-heading mb-0">Your Shopping Space</h3>
+                <div class="section-accent"></div>
+            </div>
+
+            <span class="text-secondary small">
+                <i class="fa-solid fa-grid-2 me-1"></i>
+                Quick access
+            </span>
+        </div>
+
+        <p class="text-secondary mt-3 mb-0">
+            Choose where you want to go next.
         </p>
-    </div>
+    </section>
 
-    <div class="row g-4">
+    <!-- Dashboard Cards -->
+    <div class="row g-3 g-lg-4">
 
         <!-- Shop Products -->
         <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
-                         style="width: 55px; height: 55px; background: #e1f4e8;">
-                        <i class="fa-solid fa-store text-success fs-4"></i>
+            <div class="dashboard-card">
+                <div class="dashboard-card-top"
+                     style="--card-accent: #34845b;"></div>
+
+                <div class="dashboard-card-body">
+                    <div class="dashboard-icon"
+                         style="--icon-bg: #e8f4eb; --icon-color: #34845b;">
+                        <i class="fa-solid fa-store"></i>
                     </div>
 
-                    <h5 class="fw-bold">Shop Products</h5>
-                    <p class="text-muted small">
-                        Discover products and find something you love.
+                    <h5>Shop Products</h5>
+                    <p>
+                        Explore our collection and discover products for your needs.
                     </p>
 
-                    <a href="/product"
-                       class="text-success fw-semibold text-decoration-none">
+                    <a href="/product" class="dashboard-link">
                         Browse Products
-                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -84,22 +303,24 @@
 
         <!-- My Cart -->
         <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
-                         style="width: 55px; height: 55px; background: #fff0d9;">
-                        <i class="fa-solid fa-cart-shopping text-warning fs-4"></i>
+            <div class="dashboard-card">
+                <div class="dashboard-card-top"
+                     style="--card-accent: #c58a32;"></div>
+
+                <div class="dashboard-card-body">
+                    <div class="dashboard-icon"
+                         style="--icon-bg: #fff3df; --icon-color: #b77a20;">
+                        <i class="fa-solid fa-cart-shopping"></i>
                     </div>
 
-                    <h5 class="fw-bold">My Cart</h5>
-                    <p class="text-muted small">
-                        Review your selected products before checkout.
+                    <h5>My Cart</h5>
+                    <p>
+                        Review your selected items before moving to checkout.
                     </p>
 
-                    <a href="/product/cart"
-                       class="text-success fw-semibold text-decoration-none">
+                    <a href="/product/cart" class="dashboard-link">
                         View Cart
-                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -107,22 +328,24 @@
 
         <!-- My Orders -->
         <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
-                         style="width: 55px; height: 55px; background: #e5edff;">
-                        <i class="fa-solid fa-box-open text-primary fs-4"></i>
+            <div class="dashboard-card">
+                <div class="dashboard-card-top"
+                     style="--card-accent: #527bc1;"></div>
+
+                <div class="dashboard-card-body">
+                    <div class="dashboard-icon"
+                         style="--icon-bg: #eaf0fc; --icon-color: #527bc1;">
+                        <i class="fa-solid fa-box-open"></i>
                     </div>
 
-                    <h5 class="fw-bold">My Orders</h5>
-                    <p class="text-muted small">
-                        Check your orders and follow their status.
+                    <h5>My Orders</h5>
+                    <p>
+                        Check your order history and see the latest order status.
                     </p>
 
-                    <a href="/orders/ordered"
-                       class="text-success fw-semibold text-decoration-none">
+                    <a href="/orders/ordered" class="dashboard-link">
                         View Orders
-                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -130,22 +353,24 @@
 
         <!-- My Profile -->
         <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center mb-3"
-                         style="width: 55px; height: 55px; background: #f2e5ff;">
-                        <i class="fa-solid fa-user text-primary fs-4"></i>
+            <div class="dashboard-card">
+                <div class="dashboard-card-top"
+                     style="--card-accent: #8a65b5;"></div>
+
+                <div class="dashboard-card-body">
+                    <div class="dashboard-icon"
+                         style="--icon-bg: #f1eafa; --icon-color: #8056ac;">
+                        <i class="fa-solid fa-user"></i>
                     </div>
 
-                    <h5 class="fw-bold">My Profile</h5>
-                    <p class="text-muted small">
-                        Manage your account and delivery addresses.
+                    <h5>My Profile</h5>
+                    <p>
+                        Keep your account information and delivery addresses updated.
                     </p>
 
-                    <a href="/users/profile"
-                       class="text-success fw-semibold text-decoration-none">
+                    <a href="/users/profile" class="dashboard-link">
                         View Profile
-                        <i class="fa-solid fa-arrow-right ms-1"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -153,22 +378,24 @@
 
     </div>
 
-    <!-- Shopping Tip -->
-    <div class="card border-0 rounded-4 mt-4"
-         style="background: #f0f8f2;">
-        <div class="card-body p-4 d-flex align-items-start gap-3">
-
-            <i class="fa-solid fa-circle-check text-success fs-4 mt-1"></i>
-
-            <div>
-                <h6 class="fw-bold mb-1">A better shopping experience</h6>
-                <p class="text-muted mb-0 small">
-                    Keep your profile and delivery details up to date
-                    for a smoother checkout.
-                </p>
+    <!-- Helpful Note -->
+    <section class="shopping-note mt-4 mt-lg-5 p-3 p-md-4">
+        <div class="d-flex align-items-start gap-3">
+            <div class="note-icon">
+                <i class="fa-solid fa-shield-heart"></i>
             </div>
 
+            <div>
+                <h6 class="fw-bold mb-1" style="color: #28583b;">
+                    Shopping made simple
+                </h6>
+
+                <p class="text-secondary small mb-0" style="line-height: 1.7;">
+                    Keep your delivery information up to date to help make checkout
+                    and order delivery smoother.
+                </p>
+            </div>
         </div>
-    </div>
+    </section>
 
 </div>

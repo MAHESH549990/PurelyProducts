@@ -1,26 +1,75 @@
-<%-layout("/boilerplate/userBoiler")%>
-<body>
-  <form action="/admin" method="get">
-   <button class="btn btn-outline-primary text-white mb-4">About Admin</button>
-  </form>
-  <div class="row">
-  <%for(let product of allProducts){%>
-  <div class="col-lg-3 col-md-4 col-sm-12">
-  <div class="card">
-  <a href="/product/<%=product._id%>" class="item-link">
-  <div class="container-fluid card p-3">
-  <img src="<%=product.image.url%>" class="card-img-top" alt="Product_images">
-  <div class="card-body">
-    <p class="card-text"><b><%=product.name%></b><br/>&#8377; <%=product.price.toLocaleString("en-IN") %></p>
-    <% for(let i = 1; i <= product.rating; i++) { %>
-      <i class="fa-solid fa-star text-warning"></i>
-     <% } %>
-     <span><%= product.rating %>/5</span>
-  </div>
-  </div>
-  </div>
-  </a>
-  </div>
-   <%}%>
+
+<%- layout("/boilerplate/userBoiler") %>
+<div class="products-page py-4 py-md-5">
+
+    <!-- Page Heading -->
+    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
+
+        <div class="products-heading">
+            <h2>Explore Products</h2>
+            <p>Find everyday essentials for your needs.</p>
+        </div>
+
+        <form action="/admin" method="get" class="m-0">
+            <button type="submit" class="admin-link">
+                <i class="fa-solid fa-user-shield"></i>
+                About Admin
+            </button>
+        </form>
+
+    </div>
+
+    <!-- Product Grid -->
+    <div class="row g-3 g-lg-4">
+
+        <% for(let product of allProducts) { %>
+
+            <div class="col-6 col-md-4 col-lg-3">
+
+                <a href="/product/<%= product._id %>" class="item-link">
+
+                    <div class="product-card">
+
+                        <div class="product-image-wrap">
+                            <img
+                                src="<%= product.image.url %>"
+                                class="product-image"
+                                alt="<%= product.name %>"
+                            >
+                        </div>
+
+                        <div class="product-info">
+
+                            <h5 class="product-name">
+                                <%= product.name %>
+                            </h5>
+
+                            <p class="product-price">
+                                &#8377; <%= product.price.toLocaleString("en-IN") %>
+                            </p>
+
+                            <div class="product-rating">
+                                <span class="stars">
+                                    <% for(let i = 1; i <= product.rating; i++) { %>
+                                        <i class="fa-solid fa-star"></i>
+                                    <% } %>
+                                </span>
+
+                                <span class="rating-number">
+                                    <%= product.rating %>/5
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
 </div>
-</body>
