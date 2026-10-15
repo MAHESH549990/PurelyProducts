@@ -1,183 +1,362 @@
+
 <%- layout("/boilerplate/adminBoiler.ejs") %>
 
-<div class="container py-5">
+<div class="container-fluid py-4 px-3 px-md-4" id="confirmedOrdersPage">
 
-  <!-- Page Header -->
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-    <div>
-      <h2 class="fw-bold mb-1">
-        <i class="fa-solid fa-clipboard-check text-success me-2"></i>
-        Confirmed Orders
-      </h2>
-      <p class="text-secondary mb-0">
-        View and manage orders accepted by the admin.
-      </p>
-    </div>
+    <!-- Page Header: Same design as Pending Orders -->
+    <div class="rounded-4 p-4 p-md-5 mb-4 text-white shadow-sm"
+         style="background: linear-gradient(120deg, #14532d, #198754);">
 
-    <span class="badge text-bg-success fs-6 px-3 py-2">
-      <%= orders.length %> Confirmed
-    </span>
-  </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
 
-  <% if (orders.length === 0) { %>
-
-    <!-- Empty State -->
-    <div class="card border-0 shadow-sm text-center py-5">
-      <div class="card-body">
-        <i class="fa-solid fa-clipboard-check fa-3x text-secondary mb-3"></i>
-        <h4 class="fw-bold">No Confirmed Orders</h4>
-        <p class="text-secondary mb-0">
-          Accepted customer orders will appear here.
-        </p>
-      </div>
-    </div>
-
-  <% } else { %>
-
-    <div class="row g-4">
-
-      <% for (let order of orders) { %>
-
-        <div class="col-12">
-          <div class="card border-0 shadow-sm rounded-4">
-
-            <!-- Order Header -->
-            <div class="card-header bg-light border-0 p-3 p-md-4 rounded-top-4">
-              <div class="row align-items-center g-3">
-
-                <div class="col-12 col-md-5">
-                  <div class="text-secondary small mb-1">ORDER ID</div>
-                  <div class="fw-bold text-break">
-                    #<%= order._id %>
-                  </div>
-                </div>
-
-                <div class="col-7 col-md-4">
-                  <div class="text-secondary small mb-1">ORDER DATE</div>
-                  <div class="fw-semibold">
-                    <%= new Date(order.createdAt).toLocaleDateString("en-IN", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric"
-                    }) %>
-                  </div>
-                </div>
-
-                <div class="col-5 col-md-3 text-md-end">
-                  <span class="badge text-bg-success px-3 py-2">
-                    <i class="fa-solid fa-check me-1"></i>
-                    <%= order.status %>
-                  </span>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Order Body -->
-            <div class="card-body p-3 p-md-4">
-
-              <!-- Customer Details -->
-              <h6 class="fw-bold mb-3">
-                <i class="fa-solid fa-user text-primary me-2"></i>
-                Customer Details
-              </h6>
-
-              <div class="bg-light rounded-3 p-3 mb-4">
-                <% if (order.customer) { %>
-
-                  <div class="fw-semibold">
-                    <%= order.customer.username || order.customer.name || "Customer" %>
-                  </div>
-
-                  <div class="text-secondary small">
-                    <%= order.customer.email || "Email unavailable" %>
-                  </div>
-
-                <% } else { %>
-
-                  <span class="text-danger">
-                    Customer details unavailable
-                  </span>
-
-                <% } %>
-              </div>
-
-              <!-- Product Details -->
-              <h6 class="fw-bold mb-3">
-                <i class="fa-solid fa-bag-shopping text-primary me-2"></i>
-                Ordered Products
-              </h6>
-
-              <div class="table-responsive mb-4">
-                <table class="table table-hover align-middle mb-0">
-
-                  <thead class="table-light">
-                    <tr>
-                      <th>Product</th>
-                      <th>Product ID</th>
-                      <th class="text-center">Quantity</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <% for (let item of order.products) { %>
-
-                      <tr>
-                        <td class="fw-semibold">
-                          <%= item.product
-                            ? (item.product.title || item.product.name || "Product")
-                            : "Product unavailable" %>
-                        </td>
-
-                        <td class="small text-secondary text-break">
-                          <%= item.product ? item.product._id : "N/A" %>
-                        </td>
-
-                        <td class="text-center">
-                          <span class="badge text-bg-secondary rounded-pill px-3 py-2">
-                            <%= item.quantity %>
-                          </span>
-                        </td>
-                      </tr>
-
-                    <% } %>
-                  </tbody>
-
-                </table>
-              </div>
-
-              <!-- Order Footer -->
-              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 border-top pt-4">
-
-                <div>
-                  <div class="text-secondary small mb-1">
-                    TOTAL AMOUNT
-                  </div>
-
-                  <h3 class="fw-bold text-success mb-0">
-                    ₹<%= Number(order.totalAmount || 0).toLocaleString("en-IN") %>
-                  </h3>
-                </div>
-
-                <span class="badge text-bg-light border text-dark fs-6 px-3 py-2">
-                  <i class="fa-solid fa-circle-check text-success me-2"></i>
-                  Order Accepted
+            <div>
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                      style="background: rgba(255,255,255,.16);">
+                    <i class="fa-solid fa-clipboard-check me-2"></i>
+                    ORDER MANAGEMENT
                 </span>
 
-              </div>
+                <h2 class="fw-bold mb-2">
+                    <i class="fa-solid fa-box-open me-2"></i>
+                    Confirmed Orders
+                </h2>
 
+                <p class="text-white-50 mb-0">
+                    Manage accepted customer orders and assign delivery partners.
+                </p>
             </div>
-          </div>
+
+            <div class="confirmed-summary">
+                <i class="fa-solid fa-circle-check fs-3 mb-2"></i>
+                <p class="small mb-1">Orders Confirmed</p>
+                <h2 class="fw-bold mb-0"><%= orders.length %></h2>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Section Heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-1">Confirmed Orders Queue</h4>
+            <p class="text-secondary mb-0">
+                Review accepted orders and manage delivery assignments.
+            </p>
         </div>
 
-      <% } %>
+        <span class="badge rounded-pill text-bg-success px-3 py-2">
+            <i class="fa-solid fa-check-circle me-1"></i>
+            <%= orders.length %> Confirmed
+        </span>
 
     </div>
 
-  <% } %>
-  <a href="#" class="btn btn-primary">
-  <i class="fa-solid fa-truck me-2"></i>
-  Assign Delivery Partner
-</a>
+    <!-- Empty State -->
+    <% if (orders.length === 0) { %>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body text-center py-5 px-3">
+
+                <div class="empty-order-icon mx-auto mb-3">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+
+                <h4 class="fw-bold">No Confirmed Orders</h4>
+
+                <p class="text-secondary mb-0">
+                    Accepted customer orders will appear here.
+                </p>
+
+            </div>
+        </div>
+
+    <% } else { %>
+
+        <!-- Orders List -->
+        <div class="row g-4">
+
+            <% for (let order of orders) { %>
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden order-card">
+
+                        <!-- Order Header -->
+                        <div class="order-header p-3 p-md-4">
+
+                            <div class="row align-items-center g-3">
+
+                                <div class="col-12 col-md-5">
+                                    <div class="text-secondary small mb-1">
+                                        ORDER ID
+                                    </div>
+
+                                    <div class="fw-bold text-break">
+                                        <i class="fa-solid fa-hashtag text-success me-1"></i>
+                                        <%= order._id %>
+                                    </div>
+                                </div>
+
+                                <div class="col-7 col-md-4">
+                                    <div class="text-secondary small mb-1">
+                                        ORDER DATE
+                                    </div>
+
+                                    <div class="fw-semibold">
+                                        <i class="fa-regular fa-calendar me-2 text-success"></i>
+                                        <%= new Date(order.createdAt).toLocaleDateString("en-IN", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric"
+                                        }) %>
+                                    </div>
+                                </div>
+
+                                <div class="col-5 col-md-3 text-md-end">
+                                    <span class="badge rounded-pill text-bg-success px-3 py-2">
+                                        <i class="fa-solid fa-circle-check me-1"></i>
+                                        <%= order.status %>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Order Details -->
+                        <div class="card-body p-3 p-md-4">
+
+                            <!-- Customer Details -->
+                            <div class="detail-section mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fa-solid fa-user text-success me-2"></i>
+                                    Customer Details
+                                </h6>
+
+                                <div class="customer-box rounded-3 p-3">
+
+                                    <% if (order.customer) { %>
+
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <div class="customer-avatar">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+
+                                            <div class="overflow-hidden">
+
+                                                <div class="fw-semibold text-break">
+                                                    <%= order.customer.username || order.customer.name || "Customer" %>
+                                                </div>
+
+                                                <div class="text-secondary small text-break">
+                                                    <i class="fa-regular fa-envelope me-1"></i>
+                                                    <%= order.customer.email || "Email unavailable" %>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    <% } else { %>
+
+                                        <div class="text-danger small">
+                                            <i class="fa-solid fa-circle-exclamation me-2"></i>
+                                            Customer details unavailable
+                                        </div>
+
+                                    <% } %>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Products -->
+                            <div class="detail-section mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fa-solid fa-bag-shopping text-success me-2"></i>
+                                    Ordered Products
+                                </h6>
+
+                                <div class="table-responsive rounded-3 border">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="py-3 ps-3">Product</th>
+                                                <th class="py-3">Product ID</th>
+                                                <th class="py-3 text-center">Quantity</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <% for (let item of (order.products || [])) { %>
+
+                                                <tr>
+
+                                                    <td class="py-3 ps-3 fw-semibold">
+                                                        <%= item.product
+                                                            ? (item.product.title || item.product.name || "Product")
+                                                            : "Product unavailable" %>
+                                                    </td>
+
+                                                    <td class="py-3 small text-secondary text-break">
+                                                        <%= item.product ? item.product._id : "N/A" %>
+                                                    </td>
+
+                                                    <td class="py-3 text-center">
+                                                        <span class="badge rounded-pill text-bg-light border px-3 py-2">
+                                                            <%= item.quantity %>
+                                                        </span>
+                                                    </td>
+
+                                                </tr>
+
+                                            <% } %>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Total and Assign Action -->
+                            <div class="order-footer pt-4">
+
+                                <div class="row align-items-center g-3">
+
+                                    <div class="col-12 col-md">
+
+                                        <div class="text-secondary small mb-1">
+                                            TOTAL AMOUNT
+                                        </div>
+
+                                        <h3 class="fw-bold text-success mb-0">
+                                            ₹<%= Number(order.totalAmount || 0).toLocaleString("en-IN") %>
+                                        </h3>
+
+                                    </div>
+
+                                    <div class="col-12 col-md-auto">
+
+                                        <a
+                                            href="/admin/users/orders/<%= order._id %>/assign-delivery"
+                                            class="btn btn-success btn-lg rounded-3 fw-semibold assign-button w-100"
+                                        >
+                                            <i class="fa-solid fa-truck-fast me-2"></i>
+                                            Assign Delivery Partner
+                                            <i class="fa-solid fa-arrow-right ms-2"></i>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    <% } %>
+
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-5 pt-3">
+        <i class="fa-solid fa-shield-halved me-1"></i>
+        PurelyProducts Admin Panel
+    </div>
 
 </div>
+
+<style>
+    #confirmedOrdersPage .confirmed-summary {
+        min-width: 165px;
+        padding: 20px 24px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .14);
+        text-align: center;
+    }
+
+    #confirmedOrdersPage .order-card {
+        transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    #confirmedOrdersPage .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .08) !important;
+    }
+
+    #confirmedOrdersPage .order-header {
+        background: #f8faf9;
+        border-bottom: 1px solid #edf0ee;
+    }
+
+    #confirmedOrdersPage .customer-box {
+        background: #f8faf9;
+        border: 1px solid #edf0ee;
+    }
+
+    #confirmedOrdersPage .customer-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        border-radius: 14px;
+        background: #d1e7dd;
+        color: #198754;
+        font-size: 1.1rem;
+    }
+
+    #confirmedOrdersPage .order-footer {
+        border-top: 1px solid #e9ecef;
+    }
+
+    #confirmedOrdersPage .assign-button {
+        box-shadow: 0 4px 12px rgba(25, 135, 84, .16);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    #confirmedOrdersPage .assign-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 16px rgba(25, 135, 84, .22);
+    }
+
+    #confirmedOrdersPage .empty-order-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 78px;
+        height: 78px;
+        border-radius: 22px;
+        background: #e9f7ef;
+        color: #198754;
+        font-size: 2rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #confirmedOrdersPage .order-card,
+        #confirmedOrdersPage .assign-button {
+            transition: none;
+        }
+
+        #confirmedOrdersPage .order-card:hover,
+        #confirmedOrdersPage .assign-button:hover {
+            transform: none;
+        }
+    }
+</style>

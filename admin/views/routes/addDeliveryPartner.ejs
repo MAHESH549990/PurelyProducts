@@ -1,0 +1,463 @@
+
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<style>
+  #addDeliveryPartnerPage {
+    --brand-green: #198754;
+    --brand-dark: #14532d;
+  }
+
+  #addDeliveryPartnerPage .form-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  #addDeliveryPartnerPage .page-heading {
+    max-width: 1100px;
+    margin: 0 auto 24px;
+  }
+
+  #addDeliveryPartnerPage .partner-card {
+    border: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+  }
+
+  #addDeliveryPartnerPage .partner-banner {
+    height: 100%;
+    min-height: 100%;
+    background: linear-gradient(145deg, #14532d, #198754);
+    color: white;
+    padding: 36px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #addDeliveryPartnerPage .brand-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 1.7rem;
+    margin-bottom: 22px;
+  }
+
+  #addDeliveryPartnerPage .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  #addDeliveryPartnerPage .feature-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  #addDeliveryPartnerPage .form-panel {
+    padding: 34px;
+  }
+
+  #addDeliveryPartnerPage .form-control {
+    min-height: 46px;
+    border-radius: 10px;
+    border-color: #dee2e6;
+    box-shadow: none;
+  }
+
+  #addDeliveryPartnerPage textarea.form-control {
+    min-height: 100px;
+  }
+
+  #addDeliveryPartnerPage .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.12);
+  }
+
+  #addDeliveryPartnerPage .input-group-text {
+    border-radius: 10px 0 0 10px;
+    background: #f8faf9;
+    color: #198754;
+    border-color: #dee2e6;
+  }
+
+  #addDeliveryPartnerPage .input-group .form-control {
+    border-radius: 0 10px 10px 0;
+  }
+
+  #addDeliveryPartnerPage .section-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #198754;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 18px;
+  }
+
+  #addDeliveryPartnerPage .submit-btn {
+    min-height: 49px;
+    border-radius: 11px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  #addDeliveryPartnerPage .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(25, 135, 84, 0.2);
+  }
+
+  #addDeliveryPartnerPage .form-note {
+    background: #f0f9f4;
+    border: 1px solid #d5eddf;
+    border-radius: 11px;
+    padding: 12px 14px;
+  }
+
+  @media (max-width: 767.98px) {
+    #addDeliveryPartnerPage .page-heading {
+      margin-bottom: 18px;
+    }
+
+    #addDeliveryPartnerPage .partner-banner {
+      padding: 28px 24px;
+    }
+
+    #addDeliveryPartnerPage .form-panel {
+      padding: 25px 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #addDeliveryPartnerPage .submit-btn {
+      transition: none;
+    }
+
+    #addDeliveryPartnerPage .submit-btn:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<div id="addDeliveryPartnerPage" class="container-fluid py-4 px-3 px-md-4">
+
+  <!-- Main heading: aligned with the form card -->
+  <div class="page-heading">
+    <h2 class="fw-bold mb-2">Add Delivery Partner</h2>
+    <p class="text-secondary mb-0">
+      Register a delivery partner and manage their account, contact and vehicle details.
+    </p>
+  </div>
+
+  <!-- Main form wrapper -->
+  <div class="form-wrapper">
+
+    <div class="card partner-card">
+      <div class="row g-0">
+
+        <!-- Left branding panel -->
+        <div class="col-12 col-md-5">
+          <div class="partner-banner">
+
+            <div class="brand-icon">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+
+            <h3 class="fw-bold mb-3">PurelyProducts</h3>
+
+            <h4 class="fw-semibold mb-3">
+              Add Your Delivery Team
+            </h4>
+
+            <p class="text-white-50 mb-2">
+              Register trusted delivery partners to help manage and deliver
+              customer orders efficiently.
+            </p>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fa-solid fa-user-check"></i>
+              </div>
+              <div>
+                <div class="fw-semibold">Partner Information</div>
+                <small class="text-white-50">
+                  Keep contact details organized.
+                </small>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fa-solid fa-motorcycle"></i>
+              </div>
+              <div>
+                <div class="fw-semibold">Vehicle Details</div>
+                <small class="text-white-50">
+                  Record vehicle and licence information.
+                </small>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fa-solid fa-box"></i>
+              </div>
+              <div>
+                <div class="fw-semibold">Order Fulfilment</div>
+                <small class="text-white-50">
+                  Prepare partners for order assignments.
+                </small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right registration form -->
+        <div class="col-12 col-md-7">
+          <div class="form-panel">
+
+            <div class="mb-4">
+              <h4 class="fw-bold mb-2">Partner Registration</h4>
+              <p class="text-secondary small mb-0">
+                Enter the details below to register a new delivery partner.
+              </p>
+            </div>
+
+            <form
+              action="/admin/delivery-partners"
+              method="POST"
+              autocomplete="on"
+            >
+
+              <!-- Account details -->
+              <div class="section-heading">
+                <i class="fa-solid fa-user-lock me-2"></i>
+                Account Details
+              </div>
+
+              <div class="row g-3 mb-4">
+
+                <div class="col-12 col-sm-6">
+                  <label for="username" class="form-label fw-semibold">
+                    Username <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-user"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      name="username"
+                      placeholder="Enter username"
+                      autocomplete="username"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                  <label for="email" class="form-label fw-semibold">
+                    Email Address <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="partner@example.com"
+                      autocomplete="email"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="password" class="form-label fw-semibold">
+                    Login Password <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      placeholder="Create a temporary password"
+                      autocomplete="new-password"
+                      minlength="8"
+                      required
+                    >
+                  </div>
+                  <div class="form-text">
+                    Create a strong password for the partner's account.
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Contact details -->
+              <div class="section-heading">
+                <i class="fa-solid fa-address-card me-2"></i>
+                Contact Details
+              </div>
+
+              <div class="row g-3 mb-4">
+
+                <div class="col-12">
+                  <label for="phone" class="form-label fw-semibold">
+                    Phone Number <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-phone"></i>
+                    </span>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="phone"
+                      name="phone"
+                      placeholder="Enter contact number"
+                      autocomplete="tel"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="address" class="form-label fw-semibold">
+                    Residential Address <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </span>
+                    <textarea
+                      class="form-control"
+                      id="address"
+                      name="address"
+                      rows="3"
+                      placeholder="House number, street, city, state and PIN code"
+                      autocomplete="street-address"
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Vehicle details -->
+              <div class="section-heading">
+                <i class="fa-solid fa-truck me-2"></i>
+                Vehicle Details
+              </div>
+
+              <div class="row g-3 mb-4">
+
+                <div class="col-12 col-sm-6">
+                  <label for="vehicleNumber" class="form-label fw-semibold">
+                    Vehicle Number <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-motorcycle"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control text-uppercase"
+                      id="vehicleNumber"
+                      name="vehicleNumber"
+                      placeholder="e.g. UK01AB1234"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                  <label for="licenseNumber" class="form-label fw-semibold">
+                    Driving Licence Number <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fa-solid fa-id-card"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control text-uppercase"
+                      id="licenseNumber"
+                      name="licenseNumber"
+                      placeholder="Enter licence number"
+                      required
+                    >
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Information note -->
+              <div class="form-note mb-4">
+                <div class="d-flex gap-2">
+                  <i class="fa-solid fa-circle-info text-success mt-1"></i>
+                  <div class="small text-secondary">
+                    Verify the partner's contact and vehicle information
+                    before creating the account.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form actions -->
+              <div class="d-flex flex-column flex-sm-row gap-3">
+
+                <button
+                  type="submit"
+                  class="btn btn-success submit-btn flex-grow-1"
+                >
+                  <i class="fa-solid fa-user-plus me-2"></i>
+                  Add Delivery Partner
+                </button>
+
+                <a
+                  href="/admin/delivery-partners"
+                  class="btn btn-outline-secondary submit-btn px-4 d-flex align-items-center justify-content-center"
+                >
+                  <i class="fa-solid fa-arrow-left me-2"></i>
+                  Cancel
+                </a>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-4">
+      <i class="fa-solid fa-shield-halved me-1"></i>
+      PurelyProducts Admin Panel
+    </div>
+
+  </div>
+</div>
