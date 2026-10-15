@@ -1,72 +1,279 @@
-<%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container bg-white rounded-3 p-4">
-    <form action="/admin/products/<%=item._id%>?_method=PUT" method="post" class="needs-validation" novalidate>
-        <h3 class="text-center my-3"><i class="fa-solid fa-code-compare"></i> Update Product Details</h3>
-        <div class="mt-3">
-        <label for="name" class="from-label"><i class="fa-solid fa-file-signature"></i> Name: </label>
-        <input type="text" class="form-control" id="name" name="name" value="<%=item.name%>" required>
-        <div class="valid-feedback">
-           Product name looks good!
-        </div>
-        <div class="invalid-feedback">
-           Please enter product name!
-        </div>
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container py-4">
+    <div class="bg-white rounded-4 shadow-sm overflow-hidden">
+
+        <!-- Header -->
+        <div class="p-4 p-md-5 text-white"
+             style="background: linear-gradient(135deg, #14532d, #198754);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center"
+                     style="width: 58px; height: 58px; background: rgba(255,255,255,0.16);">
+                    <i class="fa-solid fa-pen-to-square fs-3"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-1">Update Product</h2>
+                    <p class="mb-0 text-white-50">Make your product details shine.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="mt-3">
-        <label for="description" class="from-label"><i class="fa-brands fa-readme"></i> Description: </label>
-        <textarea type="text" class="form-control" id="description" name="description" placeholder="Bookbuddy Spiral Notebook with A4 sheet paper" required><%=item.description%></textarea>
-        <div class="valid-feedback">
-           Product description looks good!
-        </div>
-        <div class="invalid-feedback">
-           Please enter product description!
-        </div>
-        </div>
+        <form action="/admin/products/<%= item._id %>?_method=PUT"
+              method="post"
+              class="needs-validation p-4 p-md-5"
+              novalidate>
 
-        <div class="mt-3">
-        <div class="my-2">
-         <h5>Previous Image</h5>
-         <img src="<%=item.image.url%>" class="w-25 rounded-3">
-        </div>
-        <label for="image" class="from-label"><i class="fa-solid fa-image"></i> Image URL: </label>
-        <input type="text" class="form-control" id="image" name="image[url]" value="<%=item.image.url%>" required>
-        <div class="valid-feedback">
-           Product image looks good!
-        </div>
-        <div class="invalid-feedback">
-           Please enter product image!
-        </div>
-        </div>
+            <div class="row g-4">
 
-        <div class="row">
+                <!-- Left: Product Form -->
+                <div class="col-lg-7">
 
-      <div class="mt-3 col-lg-6 col-md-6 col-sm-12">
-        <label for="price" class="from-label"><i class="fa-solid fa-indian-rupee-sign"></i> Price: </label>
-        <input type="number" min="0" class="form-control" id="price" name="price" value="<%=item.price%>" required>
-        <div class="valid-feedback">
-           Product price looks good!
-        </div>
-        <div class="invalid-feedback">
-           Please enter product price!
-        </div>
-        </div>
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="fa-solid fa-sliders text-success"></i>
+                        <h5 class="fw-bold mb-0">Product Information</h5>
+                    </div>
 
-        <div class="mt-3 col-lg-6 col-md-6 col-sm-12">
-        <label for="rating" class="from-label"><i class="fa-regular fa-star"></i> Rating: </label>
-        <input type="number" min="1" max="5" class="form-control" id="rating" name="rating" value="<%=item.rating%>" required>
-        <div class="valid-feedback">
-           Product rating looks good!
-        </div>
-        <div class="invalid-feedback">
-           Please enter product rating!
-        </div>
-        </div>
-        </div>
+                    <!-- Name -->
+                    <div class="mb-4">
+                        <label for="name" class="form-label fw-semibold">
+                            Product Name
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fa-solid fa-tag text-success"></i>
+                            </span>
+                            <input type="text"
+                                   class="form-control"
+                                   id="name"
+                                   name="name"
+                                   value="<%= item.name %>"
+                                   placeholder="Enter product name"
+                                   required>
+                        </div>
+                        <div class="valid-feedback">Product name looks good!</div>
+                        <div class="invalid-feedback">Please enter product name!</div>
+                    </div>
 
-        <button class="mt-5 btn btn-outline-primary">Update Product</button>
-    </form>
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-semibold">
+                            Product Description
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light align-items-start pt-3">
+                                <i class="fa-solid fa-align-left text-success"></i>
+                            </span>
+                            <textarea class="form-control"
+                                      id="description"
+                                      name="description"
+                                      rows="4"
+                                      placeholder="Describe your product..."
+                                      required><%= item.description %></textarea>
+                        </div>
+                        <div class="valid-feedback">Product description looks good!</div>
+                        <div class="invalid-feedback">Please enter product description!</div>
+                    </div>
+
+                    <!-- Image URL -->
+                    <div class="mb-4">
+                        <label for="image" class="form-label fw-semibold">
+                            Product Image URL
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="fa-regular fa-image text-success"></i>
+                            </span>
+                            <input type="url"
+                                   class="form-control"
+                                   id="image"
+                                   name="image[url]"
+                                   value="<%= item.image.url %>"
+                                   placeholder="https://example.com/image.jpg"
+                                   required>
+                        </div>
+                        <div class="form-text">
+                            Change the URL to preview your updated image.
+                        </div>
+                        <div class="invalid-feedback">Please enter a valid image URL!</div>
+                    </div>
+
+                    <!-- Price and Rating -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="price" class="form-label fw-semibold">
+                                Price (₹)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fa-solid fa-indian-rupee-sign text-success"></i>
+                                </span>
+                                <input type="number"
+                                       min="0"
+                                       class="form-control"
+                                       id="price"
+                                       name="price"
+                                       value="<%= item.price %>"
+                                       placeholder="0"
+                                       required>
+                            </div>
+                            <div class="invalid-feedback">Please enter product price!</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="rating" class="form-label fw-semibold">
+                                Rating (1–5)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                </span>
+                                <input type="number"
+                                       min="1"
+                                       max="5"
+                                       class="form-control"
+                                       id="rating"
+                                       name="rating"
+                                       value="<%= item.rating %>"
+                                       placeholder="1–5"
+                                       required>
+                            </div>
+                            <div class="invalid-feedback">Please enter a rating from 1 to 5!</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right: Live Preview -->
+                <div class="col-lg-5">
+                    <div class="rounded-4 border bg-light p-3 p-md-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="fw-bold mb-0">Live Preview</h5>
+                            <span class="badge text-bg-success">Preview</span>
+                        </div>
+
+                        <div class="bg-white rounded-4 p-3 text-center border">
+                            <div class="d-flex align-items-center justify-content-center mb-3"
+                                 style="height: 230px;">
+                                <img id="previewImage"
+                                     src="<%= item.image.url %>"
+                                     alt="<%= item.name %>"
+                                     class="img-fluid rounded-3"
+                                     style="max-height: 220px; max-width: 100%; object-fit: contain;"
+                                     onerror="this.style.display='none'; document.getElementById('imageFallback').style.display='flex';"
+                                     onload="this.style.display='block'; document.getElementById('imageFallback').style.display='none';">
+                                <div id="imageFallback"
+                                     class="align-items-center justify-content-center flex-column text-secondary"
+                                     style="display:none; height: 200px;">
+                                    <i class="fa-regular fa-image fs-1 mb-2"></i>
+                                    <span>Image preview unavailable</span>
+                                </div>
+                            </div>
+
+                            <div class="text-start">
+                                <span class="badge rounded-pill text-bg-light border mb-2">
+                                    PurelyProducts
+                                </span>
+                                <h5 id="previewName" class="fw-bold text-dark">
+                                    <%= item.name %>
+                                </h5>
+
+                                <p id="previewDescription"
+                                   class="text-secondary small"
+                                   style="white-space: pre-line; overflow-wrap: anywhere;"><%= item.description %></p>
+
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                    <h4 class="text-success fw-bold mb-0">
+                                        ₹<span id="previewPrice"><%= item.price %></span>
+                                    </h4>
+                                    <span class="badge rounded-pill text-bg-warning">
+                                        <i class="fa-solid fa-star me-1"></i>
+                                        <span id="previewRating"><%= item.rating %></span>/5
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="small text-secondary mt-3 mb-0">
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            Preview changes as you edit the fields.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex flex-column flex-sm-row gap-3 mt-5 pt-4 border-top">
+                <button type="submit"
+                        class="btn btn-success btn-lg rounded-3 px-4 fw-semibold">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                    Save Changes
+                </button>
+
+                <a href="/admin/products"
+                   class="btn btn-outline-secondary btn-lg rounded-3 px-4 fw-semibold">
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    Back to Products
+                </a>
+            </div>
+
+        </form>
+    </div>
 </div>
 
+<script>
+    const nameInput = document.getElementById("name");
+    const descriptionInput = document.getElementById("description");
+    const imageInput = document.getElementById("image");
+    const priceInput = document.getElementById("price");
+    const ratingInput = document.getElementById("rating");
 
+    nameInput.addEventListener("input", function () {
+        document.getElementById("previewName").textContent =
+            this.value || "Product Name";
+    });
 
+    descriptionInput.addEventListener("input", function () {
+        document.getElementById("previewDescription").textContent =
+            this.value || "Product description";
+    });
+
+    imageInput.addEventListener("input", function () {
+        const preview = document.getElementById("previewImage");
+        const fallback = document.getElementById("imageFallback");
+
+        preview.style.display = "none";
+        fallback.style.display = "flex";
+
+        if (this.value.trim()) {
+            preview.src = this.value.trim();
+        }
+    });
+
+    priceInput.addEventListener("input", function () {
+        document.getElementById("previewPrice").textContent =
+            this.value || "0";
+    });
+
+    ratingInput.addEventListener("input", function () {
+        document.getElementById("previewRating").textContent =
+            this.value || "0";
+    });
+
+    (() => {
+        "use strict";
+
+        const forms = document.querySelectorAll(".needs-validation");
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener("submit", event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add("was-validated");
+            });
+        });
+    })();
+</script>

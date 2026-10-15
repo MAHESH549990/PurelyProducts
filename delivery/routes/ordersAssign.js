@@ -25,8 +25,7 @@ router.get("/assign/out-for-delivery",async(req,res)=>{
 router.get("/assign/:id",async(req,res)=>{
   let {id}=req.params;
   let order=await Order.findById(id).populate("products.product").populate("customer");
-  let user=await User.find({_id:{$in:order.customer._id}})
-  console.log(user);
+  let user=await User.find({_id:{$in:order.customer._id}});
   res.render("routes/assignProductDetails.ejs",{order});
 });
 
@@ -51,4 +50,26 @@ router.patch("/assign/:id/out-for-delivery",async(req,res)=>{
      res.redirect("/delivery");
 });
 
+
+//order delivered 
+router.patch("/assign/:id/out-for-delivery/delivered",async(req,res)=>{
+   let {id}=req.params;
+   let order=await Order.findById(id);
+  
+    if (!order) {
+          req.flash("error", "Order not found");
+          return res.redirect("/delivery");
+      }
+
+      if (order.status !== "out_for_delivery") {
+          req.flash("error", "This order cannot be accepted");
+          return res.redirect("/delivery");
+      }
+
+      order.status = "delivered";
+      await order.save();
+
+     req.flash("success", "Order Delivered Successfully!");
+     res.redirect("/delivery");
+})
 module.exports=router;

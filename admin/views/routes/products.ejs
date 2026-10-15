@@ -1,31 +1,197 @@
-<%-layout("/boilerplate/adminBoiler.ejs")%>
-<div class="container-fluid">
-  <div class="bg-white row my-4 rounded-3 p-1">
-  <div class="col-lg-6 col-md-6 col-sm-12">
-        <a href="/admin/products/new"><button class="btn btn-outline-dark btn-lg p-3 my-3"><i class="fa-solid fa-square-plus"></i> Add New Product</button></a>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-12 mt-4">
-       <h4>Total Products: <%=totalProducts%></h4>
-  </div>
-  </div>
-  <class class="row">
-    <%for(let product of products){%>
-         <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="card">
-            <a href="/admin/products/<%=product._id%>" class="item-link">
-            <div class="container-fluid card p-3">
-            <img src="<%=product.image.url%>" class="card-img-top" alt="Product_images">
-            <div class="card-body">
-              <p class="card-text"><b><%=product.name%></b><br/>&#8377; <%=product.price.toLocaleString("en-IN") %></p>
-              <% for(let i = 1; i <= product.rating; i++) { %>
-                <i class="fa-solid fa-star text-warning"></i>
-              <% } %>
-              <span><%= product.rating %>/5</span>
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Header -->
+    <div class="rounded-4 p-4 p-md-5 mb-4 text-white shadow-sm"
+         style="background: linear-gradient(135deg, #14532d, #198754);">
+        <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+                <span class="badge rounded-pill mb-3 px-3 py-2"
+                      style="background: rgba(255,255,255,0.16);">
+                    <i class="fa-solid fa-gauge-high me-2"></i>Admin Dashboard
+                </span>
+                <h2 class="fw-bold mb-2">Product Management</h2>
+                <p class="mb-0 text-white-50">
+                    Manage your products, update details, and keep your store organized.
+                </p>
             </div>
+
+            <div class="col-lg-4 text-lg-end">
+                <a href="/admin/products/new"
+                   class="btn btn-light btn-lg rounded-3 fw-semibold px-4">
+                    <i class="fa-solid fa-plus me-2 text-success"></i>
+                    Add New Product
+                </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Summary and Search -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-4 col-md-5">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100 border">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center"
+                         style="width: 55px; height: 55px; background: #e8f5e9;">
+                        <i class="fa-solid fa-boxes-stacked fs-4 text-success"></i>
+                    </div>
+                    <div>
+                        <p class="text-secondary mb-1">Total Products</p>
+                        <h3 class="fw-bold mb-0"><%= totalProducts %></h3>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="col-lg-8 col-md-7">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100 border">
+                <label for="productSearch" class="form-label fw-semibold">
+                    <i class="fa-solid fa-magnifying-glass text-success me-2"></i>
+                    Search Products
+                </label>
+                <input type="search"
+                       id="productSearch"
+                       class="form-control form-control-lg rounded-3"
+                       placeholder="Search by product name...">
+                <small class="text-secondary">Type a product name to filter the cards.</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Product Grid Heading -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h4 class="fw-bold mb-0">
+            <i class="fa-solid fa-store text-success me-2"></i>
+            All Products
+        </h4>
+        <span class="text-secondary small">
+            <i class="fa-solid fa-hand-pointer me-1"></i>
+            Select a product to view its details
+        </span>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="row g-4" id="productGrid">
+
+        <% for (let product of products) { %>
+
+            <div class="col-12 col-sm-6 col-md-4 col-xl-3 product-card"
+                 data-name="<%= product.name %>">
+
+                <div class="card h-100 border-0 rounded-4 shadow-sm overflow-hidden">
+
+                    <!-- Product Image -->
+                    <a href="/admin/products/<%= product._id %>"
+                       class="text-decoration-none text-dark">
+
+                        <div class="position-relative bg-light d-flex align-items-center justify-content-center p-3"
+                             style="height: 220px;">
+
+                            <img src="<%= product.image.url %>"
+                                 class="img-fluid rounded-3"
+                                 alt="<%= product.name %>"
+                                 loading="lazy"
+                                 style="max-height: 190px; max-width: 100%; object-fit: contain;">
+
+                            <span class="badge bg-white text-success border rounded-pill position-absolute top-0 end-0 m-3">
+                                <i class="fa-solid fa-circle-check me-1"></i>Listed
+                            </span>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="card-body p-3">
+
+                            <h5 class="fw-bold mb-2 product-name"
+                                style="overflow-wrap: anywhere;">
+                                <%= product.name %>
+                            </h5>
+
+                            <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                                <h5 class="fw-bold text-success mb-0">
+                                    ₹<%= product.price.toLocaleString("en-IN") %>
+                                </h5>
+
+                                <span class="small text-secondary">
+                                    <i class="fa-solid fa-star text-warning me-1"></i>
+                                    <%= product.rating %>/5
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <% if (i <= product.rating) { %>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    <% } else { %>
+                                        <i class="fa-regular fa-star text-secondary"></i>
+                                    <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="d-grid">
+                                <span class="btn btn-outline-success rounded-3 fw-semibold">
+                                    <i class="fa-solid fa-eye me-2"></i>
+                                    View Product Details
+                                </span>
+                            </div>
+
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        <% } %>
+
+    </div>
+
+    <!-- No Search Results -->
+    <div id="noProductsFound"
+         class="bg-white rounded-4 shadow-sm p-5 text-center mt-3"
+         style="display: none;">
+        <i class="fa-solid fa-box-open fs-1 text-secondary mb-3"></i>
+        <h5 class="fw-bold">No products found</h5>
+        <p class="text-secondary mb-0">Try searching with a different product name.</p>
+    </div>
+
+    <!-- Empty Store -->
+    <% if (products.length === 0) { %>
+        <div class="bg-white rounded-4 shadow-sm p-5 text-center mt-3">
+            <i class="fa-solid fa-box-open fs-1 text-secondary mb-3"></i>
+            <h5 class="fw-bold">Your store is empty</h5>
+            <p class="text-secondary">Add your first product to get started.</p>
+            <a href="/admin/products/new"
+               class="btn btn-success rounded-3 fw-semibold">
+                <i class="fa-solid fa-plus me-2"></i>Add New Product
             </a>
-            </div>
-    <%}%>
-  </class>
+        </div>
+    <% } %>
+
 </div>
+
+<script>
+    const productSearch = document.getElementById("productSearch");
+    const productCards = document.querySelectorAll(".product-card");
+    const noProductsFound = document.getElementById("noProductsFound");
+
+    productSearch.addEventListener("input", function () {
+        const searchValue = this.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const productName = card.dataset.name.toLowerCase();
+            const matches = productName.includes(searchValue);
+
+            card.style.display = matches ? "" : "none";
+
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        noProductsFound.style.display =
+            visibleCount === 0 && productCards.length > 0 ? "block" : "none";
+    });
+</script>

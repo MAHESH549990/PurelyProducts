@@ -16,7 +16,6 @@ router.get("/details/:id",async(req,res)=>{
   let {id}=req.params;
   let users=await User.findById(id);
   let orders=await Order.find({customer:id}).populate("products.product");
-  console.log(users);
   res.render("routes/usersDetails.ejs",{
     orders,
     users

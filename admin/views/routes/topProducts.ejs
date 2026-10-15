@@ -1,71 +1,107 @@
 <%- layout("/boilerplate/adminBoiler.ejs") %>
 
-<div class="container-fluid py-4 px-3 px-md-4">
+<div class="container-fluid py-4 px-3 px-md-4" id="topProductsPage">
 
     <!-- Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div>
-            <h2 class="fw-bold mb-1">
-                <i class="fa-solid fa-fire text-danger me-2"></i>
-                Top Products
-            </h2>
-            <p class="text-secondary mb-0">
-                Explore your store's featured products and customer ratings.
-            </p>
-        </div>
+    <div class="rounded-4 p-4 p-md-5 mb-4 text-white shadow-sm"
+         style="background: linear-gradient(120deg, #14532d, #198754);">
 
-        <div class="bg-white border shadow-sm rounded-4 p-3">
-            <div class="d-flex align-items-center gap-3">
-                <div class="bg-warning-subtle text-warning rounded-3 p-3">
-                    <i class="fa-solid fa-boxes-stacked fa-xl"></i>
-                </div>
-                <div>
-                    <p class="text-secondary small mb-1">Products Listed</p>
-                    <h4 class="fw-bold mb-0"><%= products.length %></h4>
-                </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+            <div>
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                      style="background: rgba(255,255,255,.16);">
+                    <i class="fa-solid fa-chart-line me-2"></i>
+                    PRODUCT INSIGHTS
+                </span>
+
+                <h2 class="fw-bold mb-2">
+                    <i class="fa-solid fa-fire me-2"></i>Top Products
+                </h2>
+
+                <p class="text-white-50 mb-0">
+                    Explore your store's featured products, prices, and customer ratings.
+                </p>
+            </div>
+
+            <div class="product-summary">
+                <i class="fa-solid fa-boxes-stacked fs-3 mb-2"></i>
+                <p class="small mb-1">Products Listed</p>
+                <h2 class="fw-bold mb-0"><%= products.length %></h2>
             </div>
         </div>
     </div>
 
+    <!-- Section Heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">Your Product Collection</h4>
+            <p class="text-secondary mb-0">
+                Browse products and check their current ratings.
+            </p>
+        </div>
+
+        <a href="/admin/products"
+           class="btn btn-outline-success rounded-3 fw-semibold">
+            <i class="fa-solid fa-box-open me-2"></i>
+            Manage Products
+        </a>
+    </div>
+
     <hr class="text-secondary opacity-25 mb-4">
 
-    <!-- Products Grid -->
+    <!-- Empty State -->
     <% if (!products || products.length === 0) { %>
 
         <div class="bg-white rounded-4 shadow-sm text-center p-5">
-            <i class="fa-solid fa-box-open fa-3x text-secondary mb-3"></i>
+            <div class="empty-icon mx-auto mb-3">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+
             <h4 class="fw-bold">No Products Found</h4>
-            <p class="text-secondary mb-0">
-                Products will appear here when they are available.
+
+            <p class="text-secondary mb-4">
+                Add products to your store to see them listed here.
             </p>
+
+            <a href="/admin/products/new"
+               class="btn btn-success rounded-3 px-4">
+                <i class="fa-solid fa-plus me-2"></i>
+                Add Product
+            </a>
         </div>
 
     <% } else { %>
 
+        <!-- Products Grid -->
         <div class="row g-4">
 
             <% for (let product of products) { %>
 
-                <div class="col-12 col-md-6 col-xl-4">
+                <div class="col-12 col-sm-6 col-xl-4">
 
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden product-card">
 
-                       <!-- Product Image -->
-                      <div class="bg-light p-3">
-                          <div class="rounded-4 overflow-hidden border bg-white">
-                              <img
-                                  src="<%= product.image.url %>"
-                                  alt="<%= product.name %>"
-                                  class="w-100 d-block rounded-4"
-                                  style="height: 240px; object-fit: contain;"
-                              >
-                          </div>
-                      </div>
+                        <!-- Product Image -->
+                        <div class="product-image-wrap p-3">
+                            <div class="product-image-box rounded-4 overflow-hidden bg-white">
+                                <img
+                                    src="<%= product.image.url %>"
+                                    alt="<%= product.name %>"
+                                    loading="lazy"
+                                    class="product-image"
+                                >
+
+                                <span class="product-image-badge">
+                                    <i class="fa-solid fa-star me-1"></i>
+                                    Featured
+                                </span>
+                            </div>
+                        </div>
 
                         <!-- Product Information -->
                         <div class="card-body p-4 d-flex flex-column">
 
-                            <h5 class="fw-bold mb-2">
+                            <h5 class="fw-bold mb-2 product-name">
                                 <%= product.name %>
                             </h5>
 
@@ -73,24 +109,35 @@
                                 &#8377;<%= product.price.toLocaleString("en-IN") %>
                             </h4>
 
-                            <p class="text-secondary mb-3">
+                            <p class="text-secondary small product-description mb-3">
                                 <%= product.description %>
                             </p>
 
                             <!-- Rating -->
                             <div class="mt-auto pt-3 border-top">
-                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
                                     <div class="text-warning">
                                         <% for (let i = 1; i <= 5; i++) { %>
-                                            <i class="fa-<%= i <= product.rating ? 'solid' : 'regular' %> fa-star"></i>
+                                            <% if (i <= product.rating) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else { %>
+                                                <i class="fa-regular fa-star"></i>
+                                            <% } %>
                                         <% } %>
                                     </div>
 
-                                    <span class="badge text-bg-warning rounded-pill">
+                                    <span class="badge rounded-pill text-bg-warning px-3 py-2">
                                         <i class="fa-solid fa-star me-1"></i>
                                         <%= product.rating %>/5
                                     </span>
                                 </div>
+
+                                <!-- Product Details -->
+                                <a href="/admin/products/<%= product._id %>"
+                                   class="btn btn-outline-success w-100 rounded-3 fw-semibold product-button">
+                                    View Product Details
+                                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                                </a>
                             </div>
 
                         </div>
@@ -104,4 +151,120 @@
 
     <% } %>
 
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-5 pt-3">
+        <i class="fa-solid fa-shield-halved me-1"></i>
+        PurelyProducts Admin Panel
+    </div>
+
 </div>
+
+<style>
+    #topProductsPage .product-summary {
+        min-width: 150px;
+        padding: 20px 24px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .14);
+        text-align: center;
+    }
+
+    #topProductsPage .product-card {
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    #topProductsPage .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .10) !important;
+    }
+
+    #topProductsPage .product-image-wrap {
+        background: #f5f7f6;
+    }
+
+    #topProductsPage .product-image-box {
+        height: 245px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e9ecef;
+    }
+
+    #topProductsPage .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 12px;
+        transition: transform .3s ease;
+    }
+
+    #topProductsPage .product-card:hover .product-image {
+        transform: scale(1.04);
+    }
+
+    #topProductsPage .product-image-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #fff;
+        color: #198754;
+        font-size: .75rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    #topProductsPage .product-name {
+        overflow-wrap: anywhere;
+    }
+
+    #topProductsPage .product-description {
+        line-height: 1.65;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        min-height: 4.7em;
+    }
+
+    #topProductsPage .product-button {
+        transition: all .2s ease;
+    }
+
+    #topProductsPage .empty-icon {
+        width: 75px;
+        height: 75px;
+        border-radius: 22px;
+        background: #e9f7ef;
+        color: #198754;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #topProductsPage .product-card,
+        #topProductsPage .product-image,
+        #topProductsPage .product-button {
+            transition: none;
+        }
+
+        #topProductsPage .product-card:hover,
+        #topProductsPage .product-card:hover .product-image {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        #topProductsPage .product-summary {
+            width: 100%;
+        }
+
+        #topProductsPage .product-image-box {
+            height: 220px;
+        }
+    }
+</style>

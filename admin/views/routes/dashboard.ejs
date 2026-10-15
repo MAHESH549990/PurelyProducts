@@ -1,158 +1,341 @@
 <%- layout("/boilerplate/adminBoiler.ejs") %>
 
-<div class="container-fluid px-3 px-md-4 py-4">
+<div class="container-fluid px-3 px-md-4 py-4" id="adminDashboard">
 
-  <!-- Dashboard Header -->
-  <div class="mb-4">
-    <h3 class="fw-bold mb-1">Admin Dashboard</h3>
-    <p class="text-secondary mb-0">
-      Welcome to PurelyProducts. Manage your store operations from here.
-    </p>
-  </div>
+    <!-- Dashboard Header -->
+    <div class="rounded-4 p-4 p-md-5 mb-5 text-white shadow-sm dashboard-hero"
+         style="background: linear-gradient(120deg, #14532d, #198754);">
 
-  <!-- Management Overview -->
-  <div class="row g-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                      style="background: rgba(255,255,255,.16);">
+                    <i class="fa-solid fa-gauge-high me-2"></i>
+                    ADMIN CONTROL CENTER
+                </span>
 
-    <!-- User Management -->
-    <div class="col-12 col-sm-6 col-xl-4">
-      <div class="card h-100 border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">User Management</h5>
-            <span class="bg-primary-subtle text-primary rounded-3 p-3">
-              <i class="fa-solid fa-users fs-4"></i>
-            </span>
-          </div>
+                <h2 class="fw-bold mb-2">Admin Dashboard</h2>
 
-          <p class="text-secondary small">
-            View registered users and access customer account details.
-          </p>
+                <p class="text-white-50 mb-0">
+                    Welcome to PurelyProducts. Manage your store operations from here.
+                </p>
+            </div>
 
-          <a href="/admin/users/details"
-             class="btn btn-outline-primary btn-sm rounded-3">
-            Manage Users <i class="fa-solid fa-arrow-right ms-2"></i>
-          </a>
+            <div class="dashboard-hero-icon">
+                <i class="fa-solid fa-store"></i>
+            </div>
         </div>
-      </div>
     </div>
 
-    <!-- Product Management -->
-    <div class="col-12 col-sm-6 col-xl-4">
-      <div class="card h-100 border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Inventory Management</h5>
-            <span class="bg-success-subtle text-success rounded-3 p-3">
-              <i class="fa-solid fa-boxes-stacked fs-4"></i>
-            </span>
-          </div>
-
-          <p class="text-secondary small">
-            Add new products, update product information, and manage your catalog.
-          </p>
-
-          <a href="/admin/products"
-             class="btn btn-outline-success btn-sm rounded-3">
-            Manage Products <i class="fa-solid fa-arrow-right ms-2"></i>
-          </a>
-        </div>
-      </div>
+    <!-- Management Overview -->
+    <div class="mb-4">
+        <h4 class="fw-bold mb-1">Management Overview</h4>
+        <p class="text-secondary mb-0">
+            Choose a section to manage your store.
+        </p>
     </div>
 
-    <!-- Popular Products -->
-    <div class="col-12 col-sm-6 col-xl-4">
-      <div class="card h-100 border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Sales Insights</h5>
-            <span class="bg-warning-subtle text-warning-emphasis rounded-3 p-3">
-              <i class="fa-solid fa-chart-line fs-4"></i>
-            </span>
-          </div>
+    <div class="row g-4">
 
-          <p class="text-secondary small">
-            Explore popular products and identify items customers order frequently.
-          </p>
+        <!-- User Management -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 dashboard-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="dashboard-icon text-primary bg-primary-subtle">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light">CUSTOMERS</span>
+                    </div>
 
-          <a href="/admin/users/orders/top"
-             class="btn btn-outline-warning btn-sm rounded-3">
-            Explore Products <i class="fa-solid fa-arrow-right ms-2"></i>
-          </a>
+                    <h5 class="fw-bold">User Management</h5>
+                    <p class="text-secondary small flex-grow-1">
+                        View registered users and access customer account details.
+                    </p>
+
+                    <a href="/admin/users/details"
+                       class="btn btn-outline-primary rounded-3 dashboard-link">
+                        Manage Users
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Inventory Management -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 dashboard-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="dashboard-icon text-success bg-success-subtle">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light">INVENTORY</span>
+                    </div>
+
+                    <h5 class="fw-bold">Inventory Management</h5>
+                    <p class="text-secondary small flex-grow-1">
+                        Add new products, update product information, and manage your catalog.
+                    </p>
+
+                    <a href="/admin/products"
+                       class="btn btn-outline-success rounded-3 dashboard-link">
+                        Manage Products
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Insights -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 dashboard-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="dashboard-icon text-warning bg-warning-subtle">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light">INSIGHTS</span>
+                    </div>
+
+                    <h5 class="fw-bold">Sales Insights</h5>
+                    <p class="text-secondary small flex-grow-1">
+                        Explore popular products and identify items customers order frequently.
+                    </p>
+
+                    <a href="/admin/users/orders/top"
+                       class="btn btn-outline-warning rounded-3 dashboard-link">
+                        Explore Products
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Operations -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 dashboard-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="dashboard-icon text-info bg-info-subtle">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light">LOGISTICS</span>
+                    </div>
+
+                    <h5 class="fw-bold">Delivery Operations</h5>
+                    <p class="text-secondary small flex-grow-1">
+                        Manage delivery partner accounts and coordinate order assignments.
+                    </p>
+
+                    <a href="/admin/delivery-partners"
+                       class="btn btn-outline-info rounded-3 dashboard-link">
+                        Manage Delivery Partners
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Processing -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 dashboard-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="dashboard-icon text-danger bg-danger-subtle">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light">ORDERS</span>
+                    </div>
+
+                    <h5 class="fw-bold">Order Processing</h5>
+                    <p class="text-secondary small flex-grow-1">
+                        Review customer orders, confirm purchases, and prepare orders for delivery.
+                    </p>
+
+                    <a href="/admin/orders/pending"
+                       class="btn btn-outline-danger rounded-3 dashboard-link">
+                        Review Orders
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Delivery Management -->
-    <div class="col-12 col-sm-6 col-xl-4">
-      <div class="card h-100 border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Delivery Operations</h5>
-            <span class="bg-info-subtle text-info-emphasis rounded-3 p-3">
-              <i class="fa-solid fa-truck-fast fs-4"></i>
-            </span>
-          </div>
+    <!-- Store Administration - Always Visible at Bottom -->
+    <div class="mt-5 pt-2" id="storeAdministration">
 
-          <p class="text-secondary small">
-            Manage delivery partner accounts and coordinate order assignments.
-          </p>
-
-          <a href="/admin/delivery-partners"
-             class="btn btn-outline-info btn-sm rounded-3">
-            Manage Delivery Partners
-            <i class="fa-solid fa-arrow-right ms-2"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Admin Responsibilities -->
-  <div class="mt-5">
-    <h5 class="fw-bold mb-3">Store Administration</h5>
-
-    <div class="card border-0 shadow-sm rounded-4">
-      <div class="card-body p-4">
-
-        <div class="d-flex gap-3 mb-4">
-          <div class="text-primary fs-4">
-            <i class="fa-solid fa-box"></i>
-          </div>
-          <div>
-            <h6 class="fw-bold mb-1">Order Processing</h6>
-            <p class="text-secondary small mb-0">
-              Review customer orders, confirm purchases, and prepare orders for delivery.
+        <div class="mb-4">
+            <h4 class="fw-bold mb-1">
+                <i class="fa-solid fa-sliders text-success me-2"></i>
+                Store Administration
+            </h4>
+            <p class="text-secondary mb-0">
+                Keep track of your main store operations and responsibilities.
             </p>
-          </div>
         </div>
 
-        <div class="d-flex gap-3 mb-4">
-          <div class="text-success fs-4">
-            <i class="fa-solid fa-truck"></i>
-          </div>
-          <div>
-            <h6 class="fw-bold mb-1">Delivery Coordination</h6>
-            <p class="text-secondary small mb-0">
-              Assign confirmed orders to delivery partners and monitor their progress.
-            </p>
-          </div>
-        </div>
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="row g-4">
 
-        <div class="d-flex gap-3">
-          <div class="text-warning fs-4">
-            <i class="fa-solid fa-chart-pie"></i>
-          </div>
-          <div>
-            <h6 class="fw-bold mb-1">Store Performance</h6>
-            <p class="text-secondary small mb-0">
-              Review popular products and use order data to understand customer demand.
-            </p>
-          </div>
-        </div>
+                    <!-- Order Processing -->
+                    <div class="col-12 col-md-4">
+                        <div class="admin-task h-100 p-3 rounded-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="task-icon text-primary bg-primary-subtle">
+                                    <i class="fa-solid fa-box-open"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Order Processing</h6>
+                            </div>
 
-      </div>
+                            <p class="text-secondary small mb-3">
+                                Review customer orders, confirm purchases, and prepare orders for delivery.
+                            </p>
+
+                            <a href="/admin/orders/pending"
+                               class="text-primary text-decoration-none fw-semibold small">
+                                Review Orders <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Coordination -->
+                    <div class="col-12 col-md-4">
+                        <div class="admin-task h-100 p-3 rounded-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="task-icon text-success bg-success-subtle">
+                                    <i class="fa-solid fa-truck"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Delivery Coordination</h6>
+                            </div>
+
+                            <p class="text-secondary small mb-3">
+                                Assign confirmed orders to delivery partners and coordinate delivery progress.
+                            </p>
+
+                            <a href="/admin/delivery-partners"
+                               class="text-success text-decoration-none fw-semibold small">
+                                Manage Partners <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Store Performance -->
+                    <div class="col-12 col-md-4">
+                        <div class="admin-task h-100 p-3 rounded-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="task-icon text-warning bg-warning-subtle">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Store Performance</h6>
+                            </div>
+
+                            <p class="text-secondary small mb-3">
+                                Explore popular products and understand customer demand using available order data.
+                            </p>
+
+                            <a href="/admin/users/orders/top"
+                               class="text-warning-emphasis text-decoration-none fw-semibold small">
+                                View Insights <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-5 pt-3">
+        <i class="fa-solid fa-shield-halved me-1"></i>
+        PurelyProducts Admin Panel
+    </div>
 
 </div>
+
+<style>
+    #adminDashboard .dashboard-hero {
+        overflow: hidden;
+    }
+
+    #adminDashboard .dashboard-hero-icon {
+        width: 90px;
+        height: 90px;
+        min-width: 90px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        background: rgba(255, 255, 255, .14);
+    }
+
+    #adminDashboard .dashboard-card {
+        transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    #adminDashboard .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .09) !important;
+    }
+
+    #adminDashboard .dashboard-icon {
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    #adminDashboard .dashboard-link {
+        font-weight: 600;
+        transition: all .2s ease;
+    }
+
+    #adminDashboard .admin-task {
+        background: #f8f9fa;
+        border: 1px solid transparent;
+        transition: background-color .2s ease, border-color .2s ease;
+    }
+
+    #adminDashboard .admin-task:hover {
+        background: #fff;
+        border-color: #dee2e6;
+    }
+
+    #adminDashboard .task-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #adminDashboard .dashboard-card,
+        #adminDashboard .dashboard-link,
+        #adminDashboard .admin-task {
+            transition: none;
+        }
+
+        #adminDashboard .dashboard-card:hover {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        #adminDashboard .dashboard-hero-icon {
+            display: none;
+        }
+    }
+</style>
