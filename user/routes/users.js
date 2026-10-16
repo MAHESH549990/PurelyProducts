@@ -132,5 +132,9 @@ router.get("/dashboard", (req, res) => {
     res.render("routes/userDashboard.ejs");
 });
 
+router.get("/profile/request/delivery",(req,res)=>{
+  res.render("routes/deliveryRequest.ejs");
+});
+
 module.exports=router;
 

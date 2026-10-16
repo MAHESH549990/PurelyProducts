@@ -9,7 +9,7 @@ const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 
 router.get("/details",isAdmin,async(req,res)=>{
-  let users=await User.find();
+  let users=await User.find({role:{$in:"customer"}});
   res.render("routes/users.ejs",{users});
 });
 
