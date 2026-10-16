@@ -1,0 +1,380 @@
+
+<%- layout("/boilerplate/deliveryBoiler") %>
+
+<style>
+  #deliveredOrdersPage {
+    --delivery-green: #198754;
+    --delivery-dark: #14532d;
+    --delivery-light: #eaf6ee;
+    --delivery-border: #e9ecef;
+    color: #212529;
+  }
+
+  #deliveredOrdersPage .page-wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+  }
+
+  #deliveredOrdersPage .page-header {
+    background: linear-gradient(120deg, #14532d, #198754);
+    color: #fff;
+    padding: 30px;
+    border-radius: 18px;
+  }
+
+  #deliveredOrdersPage .header-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    flex-shrink: 0;
+  }
+
+  #deliveredOrdersPage .summary-card {
+    border: 1px solid var(--delivery-border);
+    border-radius: 15px;
+    background: #fff;
+    height: 100%;
+  }
+
+  #deliveredOrdersPage .summary-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--delivery-light);
+    color: var(--delivery-green);
+    font-size: 1.2rem;
+  }
+
+  #deliveredOrdersPage .order-card {
+    border: 1px solid var(--delivery-border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 20px;
+  }
+
+  #deliveredOrdersPage .order-card-header {
+    padding: 18px 22px;
+    background: #f8faf9;
+    border-bottom: 1px solid var(--delivery-border);
+  }
+
+  #deliveredOrdersPage .order-card-body {
+    padding: 22px;
+  }
+
+  #deliveredOrdersPage .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dff5e6;
+    color: #146c43;
+    border-radius: 30px;
+    padding: 7px 12px;
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  #deliveredOrdersPage .detail-label {
+    font-size: .78rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+
+  #deliveredOrdersPage .detail-value {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  #deliveredOrdersPage .info-box {
+    background: #f8faf9;
+    border: 1px solid #edf0ee;
+    border-radius: 12px;
+    padding: 15px;
+    height: 100%;
+  }
+
+  #deliveredOrdersPage .product-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #edf0ee;
+  }
+
+  #deliveredOrdersPage .product-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  #deliveredOrdersPage .total-box {
+    background: var(--delivery-light);
+    border-radius: 12px;
+    padding: 15px 18px;
+  }
+
+  #deliveredOrdersPage .empty-state {
+    padding: 55px 20px;
+    text-align: center;
+    border: 1px dashed #ced8d1;
+    border-radius: 16px;
+    background: #fff;
+  }
+
+  #deliveredOrdersPage .empty-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--delivery-light);
+    color: var(--delivery-green);
+    font-size: 2rem;
+  }
+
+  @media (max-width: 575.98px) {
+    #deliveredOrdersPage .page-header {
+      padding: 22px 18px;
+    }
+
+    #deliveredOrdersPage .order-card-header,
+    #deliveredOrdersPage .order-card-body {
+      padding: 16px;
+    }
+  }
+</style>
+
+<div id="deliveredOrdersPage" class="container-fluid py-4 px-3 px-md-4">
+  <div class="page-wrapper">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <div class="header-icon">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div>
+          <h2 class="fw-bold mb-2">Delivered Orders</h2>
+          <p class="mb-0 text-white-50">
+            View your successfully completed deliveries and order details.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="summary-card p-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="summary-icon">
+              <i class="fa-solid fa-box"></i>
+            </div>
+            <div>
+              <div class="text-secondary small">Total Delivered Orders</div>
+              <h3 class="fw-bold mb-0"><%= orders.length %></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="summary-card p-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="summary-icon">
+              <i class="fa-solid fa-check-double"></i>
+            </div>
+            <div>
+              <div class="text-secondary small">Delivery Status</div>
+              <h5 class="fw-bold mb-0 text-success">Completed</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders List -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+      <h4 class="fw-bold mb-0">Order History</h4>
+      <span class="text-secondary small">
+        <i class="fa-solid fa-list-check me-1"></i>
+        <%= orders.length %> order(s) found
+      </span>
+    </div>
+
+    <% if (orders.length === 0) { %>
+
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fa-solid fa-box-open"></i>
+        </div>
+
+        <h4 class="fw-bold mb-2">No Delivered Orders Yet</h4>
+
+        <p class="text-secondary mb-0">
+          Your completed deliveries will appear here once orders are delivered.
+        </p>
+      </div>
+
+    <% } else { %>
+
+      <% orders.forEach((order) => { %>
+
+        <div class="order-card">
+
+          <!-- Order Header -->
+          <div class="order-card-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+              
+              <div>
+                <div class="text-secondary small mb-1">Order Number</div>
+                  <div class="fw-bold">
+                   Order <%= orders.indexOf(order) + 1 %>
+                </div>
+              </div>
+              
+
+              <span class="status-badge">
+                <i class="fa-solid fa-circle-check"></i>
+                Delivered
+              </span>
+
+            </div>
+          </div>
+
+          <!-- Order Body -->
+          <div class="order-card-body">
+
+            <!-- Customer Information -->
+            <div class="row g-3 mb-4">
+
+              <div class="col-12 col-md-6">
+                <div class="info-box">
+                  <div class="detail-label">
+                    <i class="fa-solid fa-user me-1"></i>
+                    Customer
+                  </div>
+
+                  <div class="detail-value">
+                    <%= order.customer
+                      ? (order.customer.username || order.customer.email || "Customer")
+                      : "Customer information unavailable" %>
+                  </div>
+
+                  <% if (order.customer && order.customer.email) { %>
+                    <div class="small text-secondary mt-1">
+                      <i class="fa-solid fa-envelope me-1"></i>
+                      <%= order.customer.email %>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="info-box">
+                  <div class="detail-label">
+                    <i class="fa-solid fa-calendar-check me-1"></i>
+                    Order Reference
+                  </div>
+
+                  <div class="detail-value">
+                    <%= order._id %>
+                  </div>
+
+                  <div class="small text-secondary mt-1">
+                    Successfully completed
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Products -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-2">
+                <i class="fa-solid fa-bag-shopping me-2 text-success"></i>
+                Ordered Products
+              </h6>
+
+              <% if (order.products && order.products.length > 0) { %>
+
+                <% order.products.forEach((item) => { %>
+                  <div class="product-row">
+
+                    <div class="flex-grow-1">
+                      <div class="fw-semibold">
+                        <%= item.product
+                          ? item.product.title
+                          : "Product unavailable" %>
+                      </div>
+
+                      <div class="text-secondary small mt-1">
+                        Quantity: <%= item.quantity %>
+                      </div>
+                    </div>
+
+                    <% if (item.product && item.product.price != null) { %>
+                      <div class="fw-semibold text-nowrap">
+                        ₹<%= (item.product.price * item.quantity).toLocaleString("en-IN") %>
+                      </div>
+                    <% } %>
+
+                  </div>
+                <% }) %>
+
+              <% } else { %>
+
+                <p class="text-secondary small mb-0">
+                  Product details are unavailable.
+                </p>
+
+              <% } %>
+            </div>
+
+            <!-- Total -->
+            <div class="total-box">
+              <div class="d-flex justify-content-between align-items-center gap-3">
+                <div>
+                  <div class="text-secondary small">Total Order Amount</div>
+                  <div class="text-secondary small mt-1">
+                    <i class="fa-solid fa-circle-check text-success me-1"></i>
+                    Delivery completed
+                  </div>
+                </div>
+
+                <h4 class="fw-bold text-success mb-0 text-nowrap">
+                  ₹<%= (order.totalAmount || 0).toLocaleString("en-IN") %>
+                </h4>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      <% }) %>
+
+    <% } %>
+
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-4 mb-2">
+      <i class="fa-solid fa-shield-halved me-1"></i>
+      PurelyProducts Delivery Portal
+    </div>
+
+  </div>
+</div>

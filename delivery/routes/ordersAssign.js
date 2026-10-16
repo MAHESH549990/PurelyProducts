@@ -20,6 +20,24 @@ router.get("/assign/out-for-delivery",async(req,res)=>{
   res.render("routes/outOfDeliveryOrders.ejs",{orders});
 });
 
+//dilivered order details
+router.get("/assign/delivered", async (req, res) => {
+  try {
+    const orders = await Order.find({
+      status: "delivered"
+    })
+      .populate("customer")
+      .populate("products.product");
+
+    res.render("routes/deliveredOrders.ejs", { orders });
+
+  } catch (err) {
+    console.error("Delivered Orders Error:", err);
+    req.flash("error", "Unable to load delivered orders.");
+    res.redirect("/delivery");
+  }
+});
+
 
 //assigned orderss
 router.get("/assign/:id",async(req,res)=>{
@@ -71,5 +89,7 @@ router.patch("/assign/:id/out-for-delivery/delivered",async(req,res)=>{
 
      req.flash("success", "Order Delivered Successfully!");
      res.redirect("/delivery");
-})
+});
+
+
 module.exports=router;
