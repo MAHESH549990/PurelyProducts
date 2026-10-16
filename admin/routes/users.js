@@ -6,13 +6,14 @@ const asyncWrap=require("../../utils/asyncWrap.js");
 const ExpressError=require("../../utils/ExpressError.js");
 const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
+const { isAdmin } = require("../adminmiddlerware.js");
 
-router.get("/details",async(req,res)=>{
+router.get("/details",isAdmin,async(req,res)=>{
   let users=await User.find();
   res.render("routes/users.ejs",{users});
 });
 
-router.get("/details/:id",async(req,res)=>{
+router.get("/details/:id",isAdmin,async(req,res)=>{
   let {id}=req.params;
   let users=await User.findById(id);
   let orders=await Order.find({customer:id}).populate("products.product");

@@ -274,15 +274,6 @@
         background: rgba(255, 255, 255, .14);
     }
 
-    #adminDashboard .dashboard-card {
-        transition: transform .22s ease, box-shadow .22s ease;
-    }
-
-    #adminDashboard .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .09) !important;
-    }
-
     #adminDashboard .dashboard-icon {
         width: 58px;
         height: 58px;
@@ -296,18 +287,11 @@
 
     #adminDashboard .dashboard-link {
         font-weight: 600;
-        transition: all .2s ease;
     }
 
     #adminDashboard .admin-task {
         background: #f8f9fa;
         border: 1px solid transparent;
-        transition: background-color .2s ease, border-color .2s ease;
-    }
-
-    #adminDashboard .admin-task:hover {
-        background: #fff;
-        border-color: #dee2e6;
     }
 
     #adminDashboard .task-icon {
@@ -319,18 +303,6 @@
         align-items: center;
         justify-content: center;
         font-size: 1.2rem;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        #adminDashboard .dashboard-card,
-        #adminDashboard .dashboard-link,
-        #adminDashboard .admin-task {
-            transition: none;
-        }
-
-        #adminDashboard .dashboard-card:hover {
-            transform: none;
-        }
     }
 
     @media (max-width: 575.98px) {

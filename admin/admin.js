@@ -8,6 +8,8 @@ const reviews=require("./routes/reviews.js");
 const users=require("./routes/users.js");
 const orders=require("./routes/orders.js");
 const delivery=require("./routes/deliveryPartner.js");
+const profile=require("./routes/profile.js");
+const { isAdmin } = require("./adminmiddlerware.js");
 
 main().then(()=>{
   console.log("Database connected");
@@ -20,7 +22,7 @@ async function main(){
 }
 
 
-router.get("/",(req,res)=>{
+router.get("/",isAdmin,(req,res)=>{
   res.render("routes/dashboard.ejs");
 });
 
@@ -37,6 +39,9 @@ router.use("/delivery",delivery);
 
 //users order status 
 router.use("/users/orders",orders);
+
+//admin profile
+router.use("/profile",profile);
 
 router.use((req,res,next)=>{
   next(new ExpressError(404,"Page not found"));

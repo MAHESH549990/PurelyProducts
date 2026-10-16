@@ -128,7 +128,7 @@ router.get("/updatePassword", (req, res) => {
   res.render("userLogin/forgetPass.ejs");
 });
 
-router.get("/dashboard", isLoggedIn, (req, res) => {
+router.get("/dashboard", (req, res) => {
     res.render("routes/userDashboard.ejs");
 });
 

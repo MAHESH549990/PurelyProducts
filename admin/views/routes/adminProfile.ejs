@@ -1,0 +1,252 @@
+
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container-fluid px-3 px-md-4 py-4" id="adminProfile">
+
+    <!-- Profile Header -->
+    <div class="rounded-4 p-4 p-md-5 mb-4 text-white shadow-sm profile-hero"
+         style="background: linear-gradient(120deg, #14532d, #198754);">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                      style="background: rgba(255,255,255,.16);">
+                    <i class="fa-solid fa-shield-halved me-2"></i>
+                    ADMIN ACCOUNT
+                </span>
+
+                <h2 class="fw-bold mb-2">Admin Profile</h2>
+
+                <p class="text-white-50 mb-0">
+                    View your account details and manage your administrator profile.
+                </p>
+            </div>
+
+            <div class="profile-hero-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="row g-4">
+
+        <!-- Admin Information -->
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="profile-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h5 class="fw-bold mb-1">Personal Information</h5>
+                            <p class="text-secondary small mb-0">
+                                Your administrator account details.
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+
+                    <!-- Username -->
+                    <div class="detail-row mb-4">
+                        <div class="detail-icon">
+                            <i class="fa-solid fa-id-badge"></i>
+                        </div>
+
+                        <div>
+                            <small class="text-secondary d-block mb-1">
+                                Username
+                            </small>
+                            <h6 class="fw-semibold mb-0">
+                                <%= currUser.username %>
+                            </h6>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="detail-row mb-4">
+                        <div class="detail-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+
+                        <div>
+                            <small class="text-secondary d-block mb-1">
+                                Email Address
+                            </small>
+                            <h6 class="fw-semibold mb-0">
+                                <%= currUser.email || "Not provided" %>
+                            </h6>
+                        </div>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="detail-row mb-4">
+                        <div class="detail-icon">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+
+                        <div>
+                            <small class="text-secondary d-block mb-1">
+                                Account Role
+                            </small>
+                            <span class="badge rounded-pill text-bg-success px-3 py-2">
+                                <%= currUser.role %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Account Status -->
+                    <div class="detail-row">
+                        <div class="detail-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <div>
+                            <small class="text-secondary d-block mb-1">
+                                Account Status
+                            </small>
+                            <h6 class="fw-semibold mb-0 text-success">
+                                Active
+                            </h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Summary -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 text-center d-flex flex-column align-items-center">
+
+                    <div class="admin-avatar mb-3">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+
+                    <h5 class="fw-bold mb-1">
+                        <%= currUser.username %>
+                    </h5>
+
+                    <p class="text-secondary small mb-3">
+                        PurelyProducts Administrator
+                    </p>
+
+                    <span class="badge rounded-pill text-bg-success px-3 py-2 mb-4">
+                        <i class="fa-solid fa-check me-1"></i>
+                        Administrator
+                    </span>
+
+                    <div class="w-100 text-start bg-light rounded-4 p-3 mb-3">
+                        <small class="text-secondary d-block mb-1">
+                            <i class="fa-solid fa-lock me-2"></i>
+                            Account Security
+                        </small>
+                        <span class="small fw-semibold">
+                            Protected Admin Access
+                        </span>
+                    </div>
+
+                    <div class="w-100 text-start bg-light rounded-4 p-3">
+                        <small class="text-secondary d-block mb-1">
+                            <i class="fa-solid fa-store me-2"></i>
+                            Store
+                        </small>
+                        <span class="small fw-semibold">
+                            PurelyProducts
+                        </span>
+                    </div>
+
+                    <a href="/admin"
+                       class="btn btn-success rounded-3 w-100 mt-4">
+                        <i class="fa-solid fa-arrow-left me-2"></i>
+                        Back to Dashboard
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-secondary small mt-5 pt-3">
+        <i class="fa-solid fa-shield-halved me-1"></i>
+        PurelyProducts Admin Panel
+    </div>
+
+</div>
+
+<style>
+    #adminProfile .profile-hero {
+        overflow: hidden;
+    }
+
+    #adminProfile .profile-hero-icon {
+        width: 90px;
+        height: 90px;
+        min-width: 90px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        background: rgba(255, 255, 255, .14);
+    }
+
+    #adminProfile .profile-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: #198754;
+        background: #d1e7dd;
+    }
+
+    #adminProfile .detail-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        overflow-wrap: anywhere;
+    }
+
+    #adminProfile .detail-icon {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #198754;
+        background: #f0f7f2;
+        font-size: 1.1rem;
+    }
+
+    #adminProfile .admin-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #d1e7dd;
+        color: #198754;
+        font-size: 3rem;
+        border: 5px solid #f0f7f2;
+    }
+
+    @media (max-width: 575.98px) {
+        #adminProfile .profile-hero-icon {
+            display: none;
+        }
+    }
+</style>

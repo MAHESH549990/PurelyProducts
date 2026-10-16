@@ -7,24 +7,25 @@ const ExpressError=require("../../utils/ExpressError.js");
 const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
 const { route } = require("./users.js");
+const { isAdmin } = require("../adminmiddlerware.js");
 
 
 
 //top products
-router.get("/top",async(req,res)=>{
+router.get("/top",isAdmin,async(req,res)=>{
   let products=await Product.find({rating:{$gt:4}});
   res.render("routes/topProducts.ejs",{products});
 });
 
 //see pending orders
-router.get("/pending",async(req,res)=>{
+router.get("/pending",isAdmin,async(req,res)=>{
   let orders=await Order.find({status:{$in:"placed"}}).populate("customer").populate("products.product");
   let users=await User.find();
   res.render("routes/pendingOrders.ejs",{orders,users});
 })
 
 // //Status of placed orders
-router.patch("/confirmed/:id/accept",async(req,res)=>{
+router.patch("/confirmed/:id/accept",isAdmin,async(req,res)=>{
     let {id}=req.params;
     let order=await Order.findById(id);
     
@@ -46,7 +47,7 @@ router.patch("/confirmed/:id/accept",async(req,res)=>{
  });
 
 
- router.get("/accepted",async(req,res)=>{
+ router.get("/accepted",isAdmin,async(req,res)=>{
     let orders=await Order.find({status:{$in:"confirmed"}}).populate("customer").populate("products.product");
     res.render("routes/confirmedOrders.ejs",{orders});
  })
