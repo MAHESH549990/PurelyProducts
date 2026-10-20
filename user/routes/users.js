@@ -45,8 +45,14 @@ router.post("/login",
     failureFlash:true
   }),
   asyncWrap(async(req,res)=>{
-     req.flash("success","Welcome back! to PurelyProducts");
-     res.redirect("/users/dashboard");
+     if(req.user.role=="admin"){
+     req.flash("success","Welcome Admin back! to PurelyProducts");
+     res.redirect("/admin");
+     }
+     else{
+      req.flash("success","Welcome back! to PurelyProducts");
+     res.redirect("/user/dashboard");
+     }
 }));
 
 router.get("/logout",(req,res,next)=>{

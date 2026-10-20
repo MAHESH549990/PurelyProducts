@@ -1,0 +1,219 @@
+ <%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<div class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Delivery Partner Requests</h2>
+            <p class="text-secondary mb-0">
+                Review and manage delivery partner applications.
+            </p>
+        </div>
+
+        <span class="badge bg-warning-subtle text-warning-emphasis fs-6 px-3 py-2">
+            Pending: <%= deliveries.filter(d => d.applicationStatus === "pending").length %>
+        </span>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary mb-2">Total Applications</p>
+                            <h3 class="fw-bold mb-0"><%= deliveries.length %></h3>
+                        </div>
+                        <i class="fa-solid fa-users fs-3 text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary mb-2">Pending Requests</p>
+                            <h3 class="fw-bold mb-0">
+                                <%= deliveries.filter(d => d.applicationStatus === "pending").length %>
+                            </h3>
+                        </div>
+                        <i class="fa-solid fa-clock fs-3 text-warning"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-secondary mb-2">Approved Partners</p>
+                            <h3 class="fw-bold mb-0">
+                                <%= deliveries.filter(d => d.applicationStatus === "approved").length %>
+                            </h3>
+                        </div>
+                        <i class="fa-solid fa-circle-check fs-3 text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Requests Table -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+        <div class="card-header bg-white border-bottom p-3 p-md-4">
+            <h5 class="fw-bold mb-0">All Applications</h5>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3">No.</th>
+                        <th class="py-3">Applicant</th>
+                        <th class="py-3">Contact</th>
+                        <th class="py-3">Vehicle</th>
+                        <th class="py-3">Experience</th>
+                        <th class="py-3">Licence</th>
+                        <th class="py-3">Status</th>
+                        <th class="px-4 py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% if (deliveries.length === 0) { %>
+
+                        <tr>
+                            <td colspan="8" class="text-center py-5">
+                                <i class="fa-solid fa-truck-fast fs-1 text-secondary mb-3"></i>
+                                <h6 class="fw-semibold">No delivery requests found</h6>
+                                <p class="text-secondary small mb-0">
+                                    New applications will appear here.
+                                </p>
+                            </td>
+                        </tr>
+
+                    <% } else { %>
+
+                        <% deliveries.forEach((delivery, index) => { %>
+
+                            <tr>
+                                <td class="px-4 fw-semibold"><%= index + 1 %></td>
+
+                                <td>
+                                    <div class="fw-semibold">
+                                        <%= delivery.user?.username || "N/A" %>
+                                    </div>
+                                    <small class="text-secondary">
+                                        <%= delivery.user?.email || "No email" %>
+                                    </small>
+                                </td>
+
+                                <td>
+                                    <%= delivery.phone %>
+                                    <div class="small text-secondary">
+                                        <%= delivery.address %>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        <%= delivery.vehicleNumber %>
+                                    </span>
+                                </td>
+
+                                <td><%= delivery.experience %></td>
+
+                                <td>
+                                    <a href="<%= delivery.licenseImage.url %>"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fa-solid fa-file-lines me-1"></i>
+                                        View Document
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <% if (delivery.applicationStatus === "pending") { %>
+                                        <span class="badge bg-warning-subtle text-warning-emphasis">
+                                            Pending
+                                        </span>
+                                    <% } else if (delivery.applicationStatus === "approved") { %>
+                                        <span class="badge bg-success-subtle text-success">
+                                            Approved
+                                        </span>
+                                    <% } else { %>
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            Rejected
+                                        </span>
+                                    <% } %>
+                                </td>
+
+                                <td class="px-4">
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <% if (delivery.applicationStatus === "pending") { %>
+
+                                            <form action="/admin/delivery-requests/<%= delivery._id %>/approve"
+                                                  method="POST"
+                                                  onsubmit="return confirm('Approve this delivery partner application?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-success">
+                                                    <i class="fa-solid fa-check me-1"></i>
+                                                    Approve
+                                                </button>
+                                            </form>
+
+                                            <form action="/admin/delivery-requests/<%= delivery._id %>/reject"
+                                                  method="POST"
+                                                  onsubmit="return confirm('Reject this delivery partner application?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    <i class="fa-solid fa-xmark me-1"></i>
+                                                    Reject
+                                                </button>
+                                            </form>
+
+                                        <% } else { %>
+
+                                            <span class="text-secondary small">
+                                                Reviewed
+                                            </span>
+
+                                        <% } %>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        <% }) %>
+
+                    <% } %>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer bg-white border-0 py-3 px-4">
+            <small class="text-secondary">
+                Showing <%= deliveries.length %> delivery partner application(s)
+            </small>
+        </div>
+
+    </div>
+
+</div>

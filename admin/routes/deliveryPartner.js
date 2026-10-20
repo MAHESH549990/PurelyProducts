@@ -7,7 +7,7 @@ const ExpressError=require("../../utils/ExpressError.js");
 const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
-
+const Delivery = require("../../models/delivery.js");
 
 router.get("/partners",isAdmin,(req,res)=>{
   res.render("routes/deliveryboys.ejs");
@@ -15,6 +15,21 @@ router.get("/partners",isAdmin,(req,res)=>{
 
 router.get("/partners/new",isAdmin,(req,res)=>{
   res.render("routes/addDeliveryPartner.ejs");
+});
+
+
+router.get("/requests", isAdmin, async (req, res) => {
+    try {
+        const deliveries = await Delivery.find({})
+            .populate("user", "username email")
+            .sort({ createdAt: -1 });
+
+        res.render("routes/newDeliveryRequests.ejs", { deliveries });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Unable to load delivery requests.");
+        res.redirect("/admin");
+    }
 });
 
 module.exports=router;
