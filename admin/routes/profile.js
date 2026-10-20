@@ -12,7 +12,7 @@ const { isAdmin } = require("../adminmiddlerware.js");
 
 router.post("/", async (req, res) => {
     try {
-        const adminName = "PurelyAdmin_Mahesh";
+        const adminName = process.env.ADMIN_NAME;
         const password = process.env.ADMIN_PASSWORD;
         const email = process.env.ADMIN_EMAIL;
 
