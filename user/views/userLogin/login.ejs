@@ -1,66 +1,203 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Login | PurelyProducts</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="/login.css">
-    <link rel="icon" href="/images/Website_logo.png">
-</head>
-<body>
-  <br>
-  <%- include("../layout/flash.ejs") %>
-  <form action="/users/login" method="post" class="mt-3 needs-validation" novalidate>
-    <div class="container-fluid bg-white">
-    <div class="row flex-class">
-            <!--image-->
-      <div class="col-lg-6 col-md-8 col-sm-12">
-        <img src="/images/login-side-img.png" style="height:70%;width:90%" class="image">
-      </div>
-      <div class="col-lg-5 col-md-8 col-sm-12">
-        <div class="card border-0 text-center">
-        <div class="card-title mb-4 mt-5"><i class="fa-brands fa-shopware"></i>PurelyProducts</div>
-          <h2 class="mb-5">Welcome back!</h2>
-        </div>
-      <div class="mb-4">
-        <label class="form-label" for="name"><i class="fa-solid fa-address-card"></i> Name: </label>
-        <input type="text" placeholder="Rakesh Joshi" id="name" class="form-control" name="username" required>
-        <div class="valid-feedback">
-          Name look's good
-        </div>
-        <div class="invalid-feedback">
-          Please enter name
-        </div>
-      </div>
-      <div class="mb-5">
-        <label class="form-label" for="password"><i class="fa-solid fa-lock"></i> Password: </label>
-        <input type="password" placeholder="" id="password" class="form-control" name="password" required>
-        <div class="valid-feedback">
-          Password look's good
-        </div>
-        <div class="invalid-feedback">
-          Please enter password
-        </div>
-      </div>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-      <div class="d-flex justify-content-between">
-      <div class="mb-5">
-          <button class="btn btn-outline-success mb-4">Login</button>
-      </div>
-      <div>
-         <a href="/users/updatePassword" class="a-tag">Forget password?</a>
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-  </form>
+  <link rel="stylesheet" href="/login.css">
+  <link rel="icon" href="/images/Website_logo.png">
+</head>
+
+<body class="login-page">
+
+  <%- include("../layout/flash.ejs") %>
+
+  <main class="login-wrapper">
+    <div class="login-shell">
+
+      <!-- Left: Brand section -->
+      <section class="login-visual">
+        <div class="visual-top">
+          <a href="/" class="brand-logo">
+            <span class="brand-icon">
+              <i class="fa-brands fa-shopware"></i>
+            </span>
+            <span>Purely<span class="brand-light">Products</span></span>
+          </a>
+
+          <span class="visual-label">
+            <i class="fa-solid fa-leaf me-2"></i> A better way to shop
+          </span>
+        </div>
+
+        <div class="visual-content">
+          <span class="eyebrow">YOUR EVERYDAY ESSENTIALS</span>
+
+          <h1>Good products.<br>Better <span>living.</span></h1>
+
+          <p>
+            Your favourite finds are just a step away.
+            Sign in and make everyday shopping simple.
+          </p>
+
+          <div class="visual-benefits">
+            <div>
+              <span class="benefit-icon"><i class="fa-solid fa-bag-shopping"></i></span>
+              <span>Discover your favourites</span>
+            </div>
+            <div>
+              <span class="benefit-icon"><i class="fa-solid fa-box"></i></span>
+              <span>Keep track of your orders</span>
+            </div>
+            <div>
+              <span class="benefit-icon"><i class="fa-solid fa-heart"></i></span>
+              <span>Enjoy a simpler shopping experience</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="visual-footer">
+          <span>Thoughtful shopping starts here.</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </section>
+
+      <!-- Right: Login form -->
+      <section class="login-form-section">
+        <div class="mobile-brand">
+          <i class="fa-brands fa-shopware"></i>
+          PurelyProducts
+        </div>
+
+        <div class="login-form-inner">
+
+          <div class="welcome-tag">
+            <span class="status-dot"></span>
+            WELCOME BACK
+          </div>
+
+          <h2>Sign in to your<br>account<span class="heading-dot">.</span></h2>
+
+          <p class="form-subtitle">
+            Good to see you again! Enter your details below.
+          </p>
+
+          <form action="/users/login" method="post"
+                class="needs-validation" novalidate>
+
+            <div class="mb-4">
+              <label for="name" class="form-label">Username</label>
+
+              <div class="input-wrapper">
+                <i class="fa-regular fa-user input-icon"></i>
+                <input
+                  type="text"
+                  id="name"
+                  name="username"
+                  class="form-control custom-input"
+                  placeholder="Enter your username"
+                  autocomplete="username"
+                  required
+                >
+              </div>
+
+              <div class="invalid-feedback">
+                Please enter your username.
+              </div>
+            </div>
+
+            <div class="mb-3">
+
+              <div class="input-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control custom-input password-input"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                >
+
+                <button type="button" class="password-toggle"
+                        id="togglePassword"
+                        aria-label="Show password"
+                        aria-pressed="false">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+
+              <div class="invalid-feedback">
+                Please enter your password.
+              </div>
+            </div>
+
+             <div class="password-label-row">
+                <a href="/users/signup" class="forgot-link">
+                  Create account
+                </a>
+              </div>
+
+            <button type="submit" class="login-button">
+              <span>Sign in</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="login-divider">
+              <span>YOUR SHOPPING JOURNEY CONTINUES</span>
+            </div>
+
+            <p class="security-note">
+              <i class="fa-solid fa-shield-halved"></i>
+              Your account, your shopping, your way.
+            </p>
+          </form>
+
+        </div>
+
+        <div class="form-footer">
+          <span>© <%= new Date().getFullYear() %> PurelyProducts</span>
+          <a href="/">Back to home <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i></a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
   <script src="/validation.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      const isHidden = passwordInput.type === "password";
+
+      passwordInput.type = isHidden ? "text" : "password";
+      togglePassword.innerHTML = isHidden
+        ? '<i class="fa-regular fa-eye-slash"></i>'
+        : '<i class="fa-regular fa-eye"></i>';
+
+      togglePassword.setAttribute("aria-label",
+        isHidden ? "Hide password" : "Show password");
+
+      togglePassword.setAttribute("aria-pressed", String(isHidden));
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

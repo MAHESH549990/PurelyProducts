@@ -1,8 +1,15 @@
+const dns = require("node:dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 const mongoose=require("mongoose");
 const data=require("./data.js");
-const Product=require("../models/products.js");
+const Product=require("../../models/products.js");
+require("dotenv").config({
+    path: require("path").resolve(__dirname, "../../.env")
+});
 
-const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
+const ATLAS_URL=process.env.ATLAS_URL;
 
 main().then(()=>{
   console.log("Database connected");
@@ -11,7 +18,7 @@ main().then(()=>{
   console.log(err);
 });
 async function main(){
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(ATLAS_URL);
 }
 
 const initDB=async ()=>{

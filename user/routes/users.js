@@ -51,7 +51,7 @@ router.post("/login",
      }
      else{
       req.flash("success","Welcome back! to PurelyProducts");
-     res.redirect("/user/dashboard");
+     res.redirect("/users/dashboard");
      }
 }));
 

@@ -6,7 +6,7 @@ const asyncWrap=require("../../utils/asyncWrap.js");
 const {isLoggedIn,isAddress}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
 
-router.get("/ordered",isLoggedIn,isAddress,asyncWrap(async(req,res)=>{
+router.get("/ordered",isLoggedIn,asyncWrap(async(req,res)=>{
   let orders=await Order.find({customer:req.user._id}).populate("products.product").populate("customer");
   if(orders.length==0 || orders.length<=0){
      return res.render("routes/emptyOrders.ejs");

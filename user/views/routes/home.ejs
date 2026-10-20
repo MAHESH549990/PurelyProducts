@@ -1,9 +1,259 @@
 
 <%- layout("/boilerplate/userBoiler") %>
-<div class="products-page py-4 py-md-5">
+
+<style>
+    .products-page {
+        width: 96%;
+        max-width: 1800px;
+        margin: 0 auto;
+        --products-green: #237a50;
+        --products-dark: #185638;
+        --products-border: #e2eae4;
+    }
+
+    /* Page heading */
+    .products-heading {
+        border-left: 5px solid var(--products-green);
+        padding-left: 17px;
+    }
+
+    .products-heading h2 {
+        margin-bottom: 7px;
+        color: #233b2c;
+        font-size: clamp(1.7rem, 2.5vw, 2.25rem);
+        font-weight: 800;
+        letter-spacing: -0.6px;
+    }
+
+    .products-heading p {
+        margin-bottom: 0;
+        color: #758078;
+        font-size: 0.96rem;
+        line-height: 1.7;
+    }
+
+    .admin-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 17px;
+        border: 1px solid #d5e5d9;
+        border-radius: 10px;
+        background: #edf6ef;
+        color: var(--products-dark);
+        font-size: 0.9rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .admin-link:hover,
+    .admin-link:focus {
+        background: #dcefe1;
+        color: var(--products-dark);
+    }
+
+    /* Product link */
+    .item-link {
+        display: block;
+        height: 100%;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* Product card */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 100%;
+        overflow: hidden;
+        border: 1px solid var(--products-border);
+        border-radius: 15px;
+        background: #fff;
+    }
+
+    /* Consistent image dimensions */
+    .product-image-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        padding: 12px;
+        background: #f7f9f7;
+        border-bottom: 1px solid #edf1ed;
+    }
+
+    .product-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Product information */
+    .product-info {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 17px;
+    }
+
+    .product-name {
+        display: -webkit-box;
+        width: 100%;
+        min-height: 2.8em;
+        margin: 0 0 10px;
+        overflow: hidden;
+        color: #293b30;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        -webkit-box-orient: vertical;
+    }
+
+    .product-price {
+        margin: 0 0 12px;
+        color: var(--products-green);
+        font-size: 1.2rem;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .product-rating {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 11px;
+        border-top: 1px solid #edf1ed;
+        width: 100%;
+    }
+
+    .stars {
+        display: inline-flex;
+        gap: 2px;
+        color: #e6a52b;
+        font-size: 0.8rem;
+    }
+
+    .rating-number {
+        color: #6d786f;
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+
+    /* Empty product list */
+    .empty-products {
+        padding: 55px 20px;
+        border: 1px dashed #cddbd0;
+        border-radius: 16px;
+        background: #f8fbf8;
+        text-align: center;
+    }
+
+    .empty-products-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 65px;
+        height: 65px;
+        margin-bottom: 18px;
+        border-radius: 50%;
+        background: #e5f2e8;
+        color: var(--products-green);
+        font-size: 1.7rem;
+    }
+
+    .empty-products h4 {
+        margin-bottom: 8px;
+        color: #293b30;
+        font-weight: 750;
+    }
+
+    .empty-products p {
+        margin-bottom: 0;
+        color: #758078;
+    }
+
+    .item-link:focus-visible,
+    .admin-link:focus-visible {
+        outline: 3px solid #8bb99a;
+        outline-offset: 3px;
+    }
+
+    /* Tablet */
+    @media (max-width: 767.98px) {
+        .products-page {
+            width: 94%;
+        }
+
+        .product-info {
+            padding: 13px;
+        }
+
+        .product-name {
+            font-size: 0.92rem;
+        }
+
+        .product-price {
+            font-size: 1.05rem;
+        }
+
+        .product-rating {
+            gap: 5px;
+        }
+
+        .stars {
+            font-size: 0.7rem;
+        }
+
+        .rating-number {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Small phones */
+    @media (max-width: 420px) {
+        .products-page {
+            width: 94%;
+        }
+
+        .product-info {
+            padding: 11px;
+        }
+
+        .product-image-wrap {
+            padding: 8px;
+        }
+
+        .product-name {
+            font-size: 0.85rem;
+        }
+
+        .product-price {
+            font-size: 0.98rem;
+        }
+
+        .admin-link {
+            padding: 10px 13px;
+            font-size: 0.82rem;
+        }
+    }
+</style>
+
+<div class="products-page py-4 py-lg-5">
 
     <!-- Page Heading -->
-    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
+    <div class="d-flex flex-column flex-sm-row
+                align-items-sm-center justify-content-between
+                gap-3 mb-4 mb-lg-5">
 
         <div class="products-heading">
             <h2>Explore Products</h2>
@@ -20,56 +270,83 @@
     </div>
 
     <!-- Product Grid -->
-    <div class="row g-3 g-lg-4">
+    <% if (allProducts && allProducts.length > 0) { %>
 
-        <% for(let product of allProducts) { %>
+        <div class="row g-3 g-lg-4">
 
-            <div class="col-6 col-md-4 col-lg-3">
+            <% for (let product of allProducts) { %>
 
-                <a href="/product/<%= product._id %>" class="item-link">
+                <div class="col-6 col-md-4 col-lg-3">
 
-                    <div class="product-card">
+                    <a href="/product/<%= product._id %>"
+                       class="item-link">
 
-                        <div class="product-image-wrap">
-                            <img
-                                src="<%= product.image.url %>"
-                                class="product-image"
-                                alt="<%= product.name %>"
-                            >
-                        </div>
+                        <article class="product-card">
 
-                        <div class="product-info">
-
-                            <h5 class="product-name">
-                                <%= product.name %>
-                            </h5>
-
-                            <p class="product-price">
-                                &#8377; <%= product.price.toLocaleString("en-IN") %>
-                            </p>
-
-                            <div class="product-rating">
-                                <span class="stars">
-                                    <% for(let i = 1; i <= product.rating; i++) { %>
-                                        <i class="fa-solid fa-star"></i>
-                                    <% } %>
-                                </span>
-
-                                <span class="rating-number">
-                                    <%= product.rating %>/5
-                                </span>
+                            <!-- Product Image -->
+                            <div class="product-image-wrap">
+                                <img
+                                    src="<%= product.image.url %>"
+                                    class="product-image"
+                                    alt="<%= product.name %>"
+                                    loading="lazy"
+                                >
                             </div>
 
-                        </div>
+                            <!-- Product Details -->
+                            <div class="product-info">
 
-                    </div>
+                                <h5 class="product-name">
+                                    <%= product.name %>
+                                </h5>
 
-                </a>
+                                <p class="product-price">
+                                    &#8377; <%= Number(product.price).toLocaleString("en-IN") %>
+                                </p>
 
+                                <div class="product-rating">
+
+                                    <span class="stars">
+                                        <% for (let i = 1; i <= Math.floor(product.rating || 0); i++) { %>
+                                            <i class="fa-solid fa-star"></i>
+                                        <% } %>
+
+                                        <% if ((product.rating || 0) % 1 >= 0.5) { %>
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        <% } %>
+                                    </span>
+
+                                    <span class="rating-number">
+                                        <%= Number(product.rating || 0).toFixed(1) %>/5
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </a>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    <% } else { %>
+
+        <!-- No Products Available -->
+        <div class="empty-products">
+            <div class="empty-products-icon">
+                <i class="fa-solid fa-box-open"></i>
             </div>
 
-        <% } %>
+            <h4>No products available</h4>
 
-    </div>
+            <p>Please check back later for new products.</p>
+        </div>
+
+    <% } %>
 
 </div>

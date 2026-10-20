@@ -1,7 +1,14 @@
+const dns = require("node:dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+require("dotenv").config({
+    path: require("path").resolve(__dirname, "../.env")
+});
+
 const express=require("express");
 const router=express.Router();
 const mongoose=require("mongoose");
-const MONGO_URL="mongodb://127.0.0.1:27017/PurelyProducts";
 const ExpressError=require("../utils/ExpressError.js");
 const products=require("./routes/product.js");
 const reviews=require("./routes/reviews.js");
@@ -11,6 +18,9 @@ const delivery=require("./routes/deliveryPartner.js");
 const profile=require("./routes/profile.js");
 const { isAdmin } = require("./adminmiddlerware.js");
 
+
+const ATLAS_URL=process.env.ATLAS_URL;
+
 main().then(()=>{
   console.log("Database connected");
 })
@@ -18,7 +28,7 @@ main().then(()=>{
   console.log(err);
 });
 async function main(){
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(ATLAS_URL);
 }
 
 

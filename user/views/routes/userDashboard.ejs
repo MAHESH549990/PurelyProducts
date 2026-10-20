@@ -5,219 +5,313 @@
     .user-dashboard {
         --user-green: #237a50;
         --user-dark: #185638;
-        --user-border: #e3ebe5;
-        width: 90%;
-        max-width: 1500px;
-        margin-left: auto;
-        margin-right: auto;
+        --user-border: #e0e9e2;
+        width: 96%;
+        max-width: 1800px;
+        margin: 0 auto;
+        color: #263b2e;
     }
 
-    /* Welcome banner */
+    /* Welcome section */
     .welcome-panel {
         width: 100%;
-        background: linear-gradient(115deg, #edf7f0, #ffffff);
-        border: 1px solid #e0eee4;
-        border-radius: 18px;
+        background: linear-gradient(120deg, #e8f5ec 0%, #f7fbf8 58%, #ffffff 100%);
+        border: 1px solid #dcebe0;
+        border-radius: 22px;
+        overflow: hidden;
     }
 
     .welcome-label {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: #dcefe2;
-        color: var(--user-dark);
-        padding: 8px 13px;
+        gap: 9px;
+        padding: 9px 14px;
         border-radius: 8px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        letter-spacing: 0.3px;
+        background: #d8ecdf;
+        color: var(--user-dark);
+        font-size: 0.78rem;
+        font-weight: 750;
+        letter-spacing: 1px;
     }
 
     .welcome-title {
         color: var(--user-dark);
-        font-size: clamp(1.8rem, 3vw, 2.5rem);
-        font-weight: 750;
-        letter-spacing: -0.8px;
-        line-height: 1.25;
+        font-size: clamp(1.9rem, 3vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.2;
         overflow-wrap: anywhere;
     }
 
     .welcome-description {
-        color: #64736a;
-        max-width: 650px;
-        line-height: 1.8;
+        max-width: 680px;
+        color: #64756a;
+        font-size: 1rem;
+        line-height: 1.85;
     }
 
     .welcome-art {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: #dcefe2;
-        color: var(--user-green);
+        width: clamp(100px, 12vw, 165px);
+        height: clamp(100px, 12vw, 165px);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 9px solid #f5faf6;
+        border-radius: 50%;
+        background: #d9eddf;
+        border: 9px solid #f4faf5;
+        color: var(--user-green);
     }
 
     .welcome-art i {
-        font-size: 3.6rem;
+        font-size: clamp(2.5rem, 4vw, 4.3rem);
     }
 
     .explore-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
+        padding: 13px 21px;
+        border: 1px solid var(--user-green);
+        border-radius: 10px;
         background: var(--user-green);
         color: #fff;
-        border: 1px solid var(--user-green);
-        border-radius: 9px;
-        padding: 12px 19px;
-        font-weight: 600;
+        font-size: 0.95rem;
+        font-weight: 700;
         text-decoration: none;
     }
 
-    .explore-btn:hover {
+    /* The button stays clearly visible without hovering */
+    .explore-btn:hover,
+    .explore-btn:focus {
         background: var(--user-dark);
+        border-color: var(--user-dark);
         color: #fff;
     }
 
-    /* Dashboard section heading */
+    /* Section heading */
     .section-heading {
         color: #263b2e;
-        font-weight: 750;
-        letter-spacing: -0.3px;
+        font-size: clamp(1.4rem, 2vw, 1.8rem);
+        font-weight: 800;
+        letter-spacing: -0.5px;
     }
 
     .section-accent {
-        width: 38px;
+        width: 48px;
         height: 4px;
+        margin-top: 11px;
+        border-radius: 10px;
         background: var(--user-green);
-        border-radius: 5px;
-        margin-top: 10px;
     }
 
     /* Dashboard cards */
     .dashboard-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
         height: 100%;
+        min-height: 290px;
+        overflow: hidden;
         background: #fff;
         border: 1px solid var(--user-border);
-        border-radius: 14px;
-        overflow: hidden;
+        border-radius: 16px;
     }
 
     .dashboard-card-top {
-        height: 4px;
+        flex-shrink: 0;
+        height: 5px;
         background: var(--card-accent, #237a50);
     }
 
     .dashboard-card-body {
-        padding: 23px;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 27px 24px;
     }
 
     .dashboard-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+        width: 58px;
+        height: 58px;
+        margin-bottom: 23px;
+        border-radius: 15px;
         background: var(--icon-bg, #edf7f0);
         color: var(--icon-color, #237a50);
-        font-size: 1.25rem;
-        margin-bottom: 18px;
+        font-size: 1.45rem;
     }
 
     .dashboard-card h5 {
+        margin-bottom: 12px;
         color: #263b2e;
-        font-size: 1.08rem;
-        font-weight: 700;
-        margin-bottom: 9px;
+        font-size: 1.15rem;
+        font-weight: 800;
     }
 
     .dashboard-card p {
-        color: #758078;
-        font-size: 0.88rem;
-        line-height: 1.7;
-        min-height: 48px;
-        margin-bottom: 19px;
+        flex: 1;
+        margin-bottom: 23px;
+        color: #718077;
+        font-size: 0.93rem;
+        line-height: 1.8;
     }
 
+    /* Always-visible action buttons */
     .dashboard-link {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        color: var(--user-green);
-        font-weight: 650;
-        font-size: 0.88rem;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 45px;
+        margin-top: auto;
+        padding: 11px 14px;
+        border: 1px solid #dce9df;
+        border-radius: 9px;
+        background: #f0f7f2;
+        color: var(--user-dark);
+        font-size: 0.9rem;
+        font-weight: 750;
+        text-align: center;
         text-decoration: none;
     }
 
-    .dashboard-link:hover {
+    .dashboard-link:hover,
+    .dashboard-link:focus {
+        background: #e1f0e5;
+        border-color: #bcd9c5;
         color: var(--user-dark);
-        text-decoration: underline;
+        text-decoration: none;
+    }
+
+    .dashboard-link i {
+        font-size: 0.85rem;
     }
 
     /* Helpful note */
     .shopping-note {
         width: 100%;
-        background: #f5f9f5;
-        border: 1px solid #e5eee6;
-        border-radius: 13px;
+        border: 1px solid #e0ebe2;
+        border-radius: 15px;
+        background: #f5faf6;
     }
 
     .note-icon {
-        width: 42px;
-        height: 42px;
-        flex-shrink: 0;
-        border-radius: 10px;
-        background: #dcefe2;
-        color: var(--user-green);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #dcefe2;
+        color: var(--user-green);
+        font-size: 1.2rem;
     }
 
+    /* Keyboard accessibility */
+    .explore-btn:focus-visible,
+    .dashboard-link:focus-visible {
+        outline: 3px solid #8bb99a;
+        outline-offset: 3px;
+    }
+
+    /* Tablet */
+    @media (max-width: 991.98px) {
+        .user-dashboard {
+            width: 94%;
+        }
+
+        .dashboard-card {
+            min-height: 270px;
+        }
+
+        .dashboard-card-body {
+            padding: 23px 20px;
+        }
+    }
+
+    /* Mobile */
     @media (max-width: 767.98px) {
         .user-dashboard {
             width: 94%;
         }
 
+        .welcome-panel {
+            border-radius: 16px;
+        }
+
         .welcome-art {
-            width: 85px;
-            height: 85px;
+            width: 80px;
+            height: 80px;
             border-width: 5px;
         }
 
         .welcome-art i {
-            font-size: 2.3rem;
+            font-size: 2rem;
+        }
+
+        .welcome-description {
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .dashboard-card {
+            min-height: 255px;
         }
 
         .dashboard-card-body {
-            padding: 17px;
+            padding: 20px 17px;
+        }
+
+        .dashboard-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 18px;
+            font-size: 1.25rem;
         }
 
         .dashboard-card p {
-            min-height: auto;
+            font-size: 0.87rem;
         }
     }
 
     @media (max-width: 420px) {
         .user-dashboard {
-            width: 96%;
+            width: 94%;
         }
 
         .welcome-title {
             font-size: 1.65rem;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-label {
+            padding: 7px 9px;
+            font-size: 0.68rem;
+        }
+
+        .explore-btn {
+            padding: 11px 13px;
+            font-size: 0.85rem;
+        }
+
+        .dashboard-card {
+            min-height: 245px;
         }
     }
 </style>
 
-<div class="user-dashboard py-4 py-md-5">
+<div class="user-dashboard py-4 py-lg-5">
 
     <!-- Welcome Banner -->
-    <section class="welcome-panel mb-4 mb-md-5 overflow-hidden">
+    <section class="welcome-panel mb-4 mb-lg-5">
         <div class="p-4 p-lg-5">
             <div class="row align-items-center g-3">
 
@@ -238,9 +332,9 @@
                     </p>
 
                     <a href="/product" class="explore-btn">
-                        <i class="fa-solid fa-bag-shopping me-2"></i>
+                        <i class="fa-solid fa-bag-shopping"></i>
                         Start Shopping
-                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
@@ -255,7 +349,7 @@
     </section>
 
     <!-- Dashboard Heading -->
-    <section class="mb-4">
+    <section class="mb-4 mb-lg-5">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
                 <h3 class="section-heading mb-0">Your Shopping Space</h3>
@@ -269,15 +363,15 @@
         </div>
 
         <p class="text-secondary mt-3 mb-0">
-            Choose where you want to go next.
+            Manage your shopping, orders, and account from one place.
         </p>
     </section>
 
     <!-- Dashboard Cards -->
-    <div class="row g-3 g-lg-4">
+    <div class="row g-3 g-xl-4">
 
         <!-- Shop Products -->
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="dashboard-card">
                 <div class="dashboard-card-top"
                      style="--card-accent: #34845b;"></div>
@@ -289,8 +383,10 @@
                     </div>
 
                     <h5>Shop Products</h5>
+
                     <p>
-                        Explore our collection and discover products for your needs.
+                        Explore our collection and discover everyday products
+                        for your needs.
                     </p>
 
                     <a href="/product" class="dashboard-link">
@@ -302,7 +398,7 @@
         </div>
 
         <!-- My Cart -->
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="dashboard-card">
                 <div class="dashboard-card-top"
                      style="--card-accent: #c58a32;"></div>
@@ -314,8 +410,10 @@
                     </div>
 
                     <h5>My Cart</h5>
+
                     <p>
-                        Review your selected items before moving to checkout.
+                        Review your selected products and prepare your items
+                        for checkout.
                     </p>
 
                     <a href="/product/cart" class="dashboard-link">
@@ -327,7 +425,7 @@
         </div>
 
         <!-- My Orders -->
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="dashboard-card">
                 <div class="dashboard-card-top"
                      style="--card-accent: #527bc1;"></div>
@@ -339,8 +437,10 @@
                     </div>
 
                     <h5>My Orders</h5>
+
                     <p>
-                        Check your order history and see the latest order status.
+                        Review your order history and check the latest status
+                        of your purchases.
                     </p>
 
                     <a href="/orders/ordered" class="dashboard-link">
@@ -352,7 +452,7 @@
         </div>
 
         <!-- My Profile -->
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="dashboard-card">
                 <div class="dashboard-card-top"
                      style="--card-accent: #8a65b5;"></div>
@@ -364,8 +464,10 @@
                     </div>
 
                     <h5>My Profile</h5>
+
                     <p>
-                        Keep your account information and delivery addresses updated.
+                        Manage your account details and keep your delivery
+                        address up to date.
                     </p>
 
                     <a href="/users/profile" class="dashboard-link">
@@ -390,9 +492,9 @@
                     Shopping made simple
                 </h6>
 
-                <p class="text-secondary small mb-0" style="line-height: 1.7;">
-                    Keep your delivery information up to date to help make checkout
-                    and order delivery smoother.
+                <p class="text-secondary small mb-0" style="line-height: 1.8;">
+                    Keep your delivery information up to date to help make
+                    checkout and order delivery smoother.
                 </p>
             </div>
         </div>

@@ -1,78 +1,254 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SignUp</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Create Account | PurelyProducts</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-   <link rel="icon" href="/images/Website_logo.png">
-   <link rel="stylesheet" href="/login.css">
-  </head>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/login.css">
+  <link rel="icon" href="/images/Website_logo.png">
 </head>
-<body>
-  <br/>
+
+<body class="login-page signup-page">
+
   <%- include("../layout/flash.ejs") %>
-  <form action="/users/signup" method="post" class="needs-validation" novalidate>
-    <div class="container-fluid bg-white">
-    <div class="row flex-class">
-            <!--image-->
-      <div class="col-lg-6 col-md-8 col-sm-12">
-        <img src="/images/login-side-img.png" style="height:75%;width:94%" class="image">
-      </div>
-      <div class="col-lg-5 col-md-8 col-sm-12 mt-5">
-        <div class="card border-0 text-center">
-        <div class="card-title mb-4"><i class="fa-brands fa-shopware"></i>PurelyProducts</div>
-          <h2 class="mb-5">Create your account</h2>
-        </div>
-      <div class="mb-4">
-        <label class="form-label" for="name"><i class="fa-solid fa-address-card"></i> Name: </label>
-        <input type="text" placeholder="Rakesh Joshi" id="name" class="form-control" name="username" required>
-        <div class="valid-feedback">
-          Name look's good
-        </div>
-        <div class="invalid-feedback">
-          Please enter name
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="form-label" for="email"><i class="fa-solid fa-envelope"></i> Email: </label>
-        <input type="email" placeholder="abc@gmail.com" id="name" class="form-control" name="email" required>
-        <div class="valid-feedback">
-          Email look's good
-        </div>
-        <div class="invalid-feedback">
-          Please enter email
-        </div>
-      </div>
-      <div class="mb-5">
-        <label class="form-label" for="password"><i class="fa-solid fa-lock"></i> Password: </label>
-        <input type="password" placeholder="" id="password" class="form-control" name="password" required>
-        <div class="valid-feedback">
-          Password look's good
-        </div>
-        <div class="invalid-feedback">
-          Please enter password
-        </div>
-      </div>
-      <div class="d-flex justify-content-between">
-      <div>
-        <button class="btn btn-outline-success mb-4">SignUp</button>
-      </div>
-      <div>
-        Already have an account? <a href="/users/login" class="a-tag">Login</a>
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-  </form>
 
+  <main class="login-wrapper">
+    <div class="login-shell signup-shell">
 
- <script src="/validation.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+      <!-- Left: Brand section -->
+      <section class="login-visual">
+        <div class="visual-top">
+          <a href="/" class="brand-logo">
+            <span class="brand-icon">
+              <i class="fa-brands fa-shopware"></i>
+            </span>
+            <span>Purely<span class="brand-light">Products</span></span>
+          </a>
+
+          <span class="visual-label">
+            <i class="fa-solid fa-leaf me-2"></i> A better way to shop
+          </span>
+        </div>
+
+        <div class="visual-content">
+          <span class="eyebrow">YOUR SHOPPING JOURNEY STARTS HERE</span>
+
+          <h1>Find your<br>kind of <span>good.</span></h1>
+
+          <p>
+            Create your account and make room for a better,
+            simpler, and more enjoyable shopping experience.
+          </p>
+
+          <div class="visual-benefits">
+            <div>
+              <span class="benefit-icon">
+                <i class="fa-solid fa-compass"></i>
+              </span>
+              <span>Explore products you'll love</span>
+            </div>
+
+            <div>
+              <span class="benefit-icon">
+                <i class="fa-solid fa-box-open"></i>
+              </span>
+              <span>Manage your orders in one place</span>
+            </div>
+
+            <div>
+              <span class="benefit-icon">
+                <i class="fa-solid fa-user-check"></i>
+              </span>
+              <span>Your own personalised account</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-footer">
+          <span>Good things are better when they're easy.</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </section>
+
+      <!-- Right: Signup form -->
+      <section class="login-form-section signup-form-section">
+
+        <div class="mobile-brand">
+          <i class="fa-brands fa-shopware"></i>
+          PurelyProducts
+        </div>
+
+        <div class="login-form-inner signup-form-inner">
+
+          <div class="welcome-tag">
+            <span class="status-dot"></span>
+            JOIN PURELYPRODUCTS
+          </div>
+
+          <h2>Create your<br>account<span class="heading-dot">.</span></h2>
+
+          <p class="form-subtitle">
+            A few details, and you're ready to get started.
+          </p>
+
+          <form action="/users/signup" method="post"
+                class="needs-validation" novalidate>
+
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+
+              <div class="input-wrapper">
+                <i class="fa-regular fa-user input-icon"></i>
+
+                <input
+                  type="text"
+                  placeholder="Choose a username"
+                  id="username"
+                  class="form-control custom-input"
+                  name="username"
+                  autocomplete="username"
+                  required
+                  minlength="3"
+                >
+              </div>
+
+              <div class="valid-feedback">Username looks good!</div>
+              <div class="invalid-feedback">
+                Enter a username with at least 3 characters.
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+
+              <div class="input-wrapper">
+                <i class="fa-regular fa-envelope input-icon"></i>
+
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  id="email"
+                  class="form-control custom-input"
+                  name="email"
+                  autocomplete="email"
+                  required
+                >
+              </div>
+
+              <div class="valid-feedback">Email looks good!</div>
+              <div class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-2">
+              <label for="password" class="form-label">Password</label>
+
+              <div class="input-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+
+                <input
+                  type="password"
+                  placeholder="Create a password"
+                  id="password"
+                  class="form-control custom-input password-input"
+                  name="password"
+                  autocomplete="new-password"
+                  required
+                  minlength="8"
+                >
+
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="togglePassword"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                >
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+
+              <div class="password-hint">
+                <i class="fa-solid fa-circle-info me-1"></i>
+                Use at least 8 characters.
+              </div>
+
+              <div class="invalid-feedback">
+                Password must contain at least 8 characters.
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="login-button signup-button">
+              <span>Create account</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <p class="signup-login-link">
+              Already have an account?
+              <a href="/users/login">Login in</a>
+            </p>
+
+            <div class="login-divider">
+              <span>A FRESH START, JUST FOR YOU</span>
+            </div>
+
+            <p class="security-note">
+              <i class="fa-solid fa-shield-halved"></i>
+              Your shopping journey starts with one account.
+            </p>
+
+          </form>
+        </div>
+
+        <div class="form-footer">
+          <span>© <%= new Date().getFullYear() %> PurelyProducts</span>
+          <a href="/">Back to home
+            <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+          </a>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <script src="/validation.js"></script>
+
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+      const isHidden = passwordInput.type === "password";
+
+      passwordInput.type = isHidden ? "text" : "password";
+
+      togglePassword.innerHTML = isHidden
+        ? '<i class="fa-regular fa-eye-slash"></i>'
+        : '<i class="fa-regular fa-eye"></i>';
+
+      togglePassword.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+      );
+
+      togglePassword.setAttribute("aria-pressed", String(isHidden));
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
