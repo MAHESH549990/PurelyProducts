@@ -1,21 +1,16 @@
 const express=require("express");
 const router=express.Router();
-const Product=require("../../models/products.js");
-const Order=require("../../models/orders.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
-const ExpressError=require("../../utils/ExpressError.js");
-const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
-const passport = require("passport");
 const { isLoggedIn } = require("../../user/userMiddleware.js");
 const { isAdmin } = require("../adminmiddlerware.js");
+
 
 router.post("/", async (req, res) => {
     try {
         const adminName = process.env.ADMIN_NAME;
         const password = process.env.ADMIN_PASSWORD;
         const email = process.env.ADMIN_EMAIL;
-
         if (!password || !email) {
             return res.status(500).send("Admin credentials are not configured");
         }

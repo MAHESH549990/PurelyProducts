@@ -1,11 +1,22 @@
 const express = require("express");
 const router=express.Router({mergeParams:true});
-const Product = require("../../models/products.js");
 const User = require("../../models/user.js");
 const passport=require("passport");
 const asyncWrap=require("../../utils/asyncWrap.js");
-const ExpressError=require("../../utils/ExpressError.js");
+const Delivery = require("../../models/delivery.js");
 const {isLoggedIn}=require("../userMiddleware.js");
+//for storing the file data 
+const multer = require("multer");
+const cloudinary = require("../../cloudConfig.js");
+const { Readable } = require("stream");
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
+
 //login,register route
 
 router.get("/signup", (req, res) => {
@@ -142,5 +153,136 @@ router.get("/profile/request/delivery",(req,res)=>{
   res.render("routes/deliveryRequest.ejs");
 });
 
+router.post(
+    "/profile/request/delivery",
+    isLoggedIn,
+    upload.single("licenseImage"),
+    asyncWrap(async (req, res) => {
+        let uploadedFile;
+
+        try {
+            // 1. Check whether this user has already applied
+            const existingApplication = await Delivery.findOne({
+                user: req.user._id
+            });
+
+            if (existingApplication) {
+                req.flash(
+                    "error",
+                    "Your delivery partner application has already been submitted."
+                );
+                return res.redirect("/users/profile");
+            }
+
+            // 2. Check uploaded file
+            if (!req.file) {
+                req.flash("error", "Please upload your driving licence.");
+                return res.redirect("/users/profile/request/delivery");
+            }
+
+            const allowedTypes = [
+                "application/pdf",
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            if (!allowedTypes.includes(req.file.mimetype)) {
+                req.flash(
+                    "error",
+                    "Invalid file type. Upload a PDF, JPG, PNG, or WEBP file."
+                );
+                return res.redirect("/users/profile/request/delivery");
+            }
+
+            const {
+                phone,
+                experience,
+                address,
+                vehicleNumber,
+                licenseNumber
+            } = req.body;
+
+            // 3. Upload the licence to Cloudinary
+            const result = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "purelyproducts/delivery-licenses",
+                        resource_type: "raw",
+                        type: "authenticated"
+                    },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result);
+                    }
+                );
+
+                Readable.from(req.file.buffer).pipe(stream);
+            });
+
+            uploadedFile = result;
+
+            // 4. Save the application in MongoDB
+            await Delivery.create({
+                user: req.user._id,
+                phone,
+                experience,
+                address,
+                vehicleNumber,
+                licenseNumber,
+                licenseImage: {
+                    url: result.secure_url,
+                    filename: req.file.originalname,
+                    publicId: result.public_id
+                },
+                applicationStatus: "pending"
+            });
+
+            req.flash(
+                "success",
+                "Your delivery partner application has been submitted successfully!"
+            );
+
+            return res.redirect("/users/profile");
+
+        } catch (err) {
+            console.error("Delivery application error:", err);
+
+            // 5. Clean up Cloudinary file if saving failed
+            if (uploadedFile?.public_id) {
+                try {
+                    await cloudinary.uploader.destroy(
+                        uploadedFile.public_id,
+                        {
+                            resource_type: "raw",
+                            type: "authenticated"
+                        }
+                    );
+                } catch (cleanupError) {
+                    console.error(
+                        "Cloudinary cleanup failed:",
+                        cleanupError
+                    );
+                }
+            }
+
+            // Handle duplicate-key errors if a unique index exists
+            if (err.code === 11000) {
+                req.flash(
+                    "error",
+                    "Your delivery partner application has already been submitted."
+                );
+                return res.redirect("/users/profile");
+            }
+
+            req.flash(
+                "error",
+                "Unable to submit your application. Please try again."
+            );
+
+            return res.redirect("/users/profile/request/delivery");
+        }
+    })
+);
 module.exports=router;
 

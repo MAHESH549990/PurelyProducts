@@ -18,13 +18,38 @@ router.get("/partners/new",isAdmin,(req,res)=>{
 });
 
 
-router.get("/requests", isAdmin, async (req, res) => {
+// View delivery applications
+router.get("/applications", isAdmin, async (req, res) => {
     try {
-        const deliveries = await Delivery.find({})
+        const applications = await Delivery.find({})
             .populate("user", "username email")
             .sort({ createdAt: -1 });
 
-        res.render("routes/newDeliveryRequests.ejs", { deliveries });
+        res.render("routes/deliveryboys.ejs", {
+            applications
+        });
+
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Unable to load delivery applications.");
+        res.redirect("/admin");
+    }
+});
+
+
+// View new delivery requests
+router.get("/requests", isAdmin, async (req, res) => {
+    try {
+        const deliveries = await Delivery.find({
+            applicationStatus: "pending"
+        })
+            .populate("user", "username email")
+            .sort({ createdAt: -1 });
+
+        res.render("routes/newDeliveryRequests.ejs", {
+            deliveries
+        });
+
     } catch (err) {
         console.error(err);
         req.flash("error", "Unable to load delivery requests.");
