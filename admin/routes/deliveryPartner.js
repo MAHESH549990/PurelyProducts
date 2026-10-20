@@ -57,4 +57,73 @@ router.get("/requests", isAdmin, async (req, res) => {
     }
 });
 
+
+// View all approved delivery partners
+router.get("/approved", isAdmin, asyncWrap(async (req, res) => {
+    const deliveries = await Delivery.find({
+        applicationStatus: "approved"
+    })
+    .populate("user", "username email")
+    .sort({ createdAt: -1 });
+
+    res.render("routes/approvedDeliveryDetails.ejs", {
+        deliveries
+    });
+}));
+
+router.post("/:id/approve", isAdmin, asyncWrap(async (req, res) => {
+    const delivery = await Delivery.findById(req.params.id);
+
+    if (!delivery) {
+        req.flash("error", "Delivery application not found.");
+        return res.redirect("/admin/delivery/requests");
+    }
+
+    delivery.applicationStatus = "approved";
+    await delivery.save();
+
+    req.flash("success", "Delivery partner approved successfully!");
+    res.redirect("/admin/delivery/requests");
+}));
+
+// View one approved delivery partner's details
+router.get(
+    "/approved/:id",
+    isAdmin,
+    asyncWrap(async (req, res) => {
+        const delivery = await Delivery.findOne({
+            _id: req.params.id,
+            applicationStatus: "approved"
+        }).populate("user", "username email");
+
+        if (!delivery) {
+            req.flash("error", "Approved delivery partner not found.");
+            return res.redirect("/admin/delivery/approved");
+        }
+
+        res.render("routes/approvedDeliveryBoyDetails.ejs", {
+            delivery
+        });
+    })
+);
+
+// View a delivery partner's private licence document
+router.get(
+    "/:id/license",
+    isAdmin,
+    asyncWrap(async (req, res) => {
+        const delivery = await Delivery.findById(req.params.id);
+
+        if (!delivery || !delivery.licenseImage?.url) {
+            req.flash("error", "Licence document not found.");
+            return res.redirect("/admin/delivery/approved");
+        }
+
+        // Redirect to the stored URL for now.
+        // Note: authenticated Cloudinary raw files may not open
+        // directly without a signed URL or server-side delivery.
+        return res.redirect(delivery.licenseImage.url);
+    })
+);
+
 module.exports=router;

@@ -166,9 +166,9 @@
 
                                         <% if (delivery.applicationStatus === "pending") { %>
 
-                                            <form action="/admin/delivery-requests/<%= delivery._id %>/approve"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Approve this delivery partner application?');">
+                                            <form action="/admin/delivery/<%= delivery._id %>/approve"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Approve this delivery partner application?');">
 
                                                 <button type="submit"
                                                         class="btn btn-sm btn-success">
@@ -177,7 +177,7 @@
                                                 </button>
                                             </form>
 
-                                            <form action="/admin/delivery-requests/<%= delivery._id %>/reject"
+                                            <form action="/admin/delivery/requests/<%= delivery._id %>/reject"
                                                   method="POST"
                                                   onsubmit="return confirm('Reject this delivery partner application?');">
 

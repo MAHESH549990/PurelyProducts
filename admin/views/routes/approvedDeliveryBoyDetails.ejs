@@ -1,0 +1,221 @@
+<%- layout("/boilerplate/adminBoiler.ejs") %>
+
+<style>
+    #approvedPartnerDetails .detail-card {
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    #approvedPartnerDetails .profile-icon {
+        width: 68px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: #e8f5ed;
+        color: #198754;
+        font-size: 1.8rem;
+    }
+
+    #approvedPartnerDetails .detail-label {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+
+    #approvedPartnerDetails .detail-value {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+        margin-bottom: 0;
+    }
+
+    #approvedPartnerDetails .detail-item {
+        padding: 16px;
+        height: 100%;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+</style>
+
+<div id="approvedPartnerDetails" class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Delivery Partner Details</h2>
+            <p class="text-secondary mb-0">
+                View the information of your approved delivery partner.
+            </p>
+        </div>
+
+        <a href="/admin/delivery/approved" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Back to Approved Partners
+        </a>
+    </div>
+
+    <!-- Partner Profile -->
+    <div class="card detail-card mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap align-items-center gap-3">
+
+                <div class="profile-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+
+                <div class="flex-grow-1">
+                    <h4 class="fw-bold mb-2">
+                        <%= delivery.user?.username || "N/A" %>
+                    </h4>
+
+                    <div class="text-secondary">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        <%= delivery.user?.email || "N/A" %>
+                    </div>
+                </div>
+
+                <span class="badge bg-success-subtle text-success fs-6 px-3 py-2">
+                    <i class="fa-solid fa-circle-check me-1"></i>
+                    Approved
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Personal and Contact Details -->
+    <div class="card detail-card mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-4">
+                <i class="fa-solid fa-user text-success me-2"></i>
+                Personal & Contact Information
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="detail-item">
+                        <p class="detail-label">Full Name</p>
+                        <p class="detail-value">
+                            <%= delivery.user?.username || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="detail-item">
+                        <p class="detail-label">Email Address</p>
+                        <p class="detail-value">
+                            <%= delivery.user?.email || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="detail-item">
+                        <p class="detail-label">Phone Number</p>
+                        <p class="detail-value">
+                            <%= delivery.phone || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="detail-item">
+                        <p class="detail-label">Residential Address</p>
+                        <p class="detail-value">
+                            <%= delivery.address || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicle and Licence Details -->
+    <div class="card detail-card mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-4">
+                <i class="fa-solid fa-car text-success me-2"></i>
+                Vehicle & Licence Information
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6">
+                    <div class="detail-item">
+                        <p class="detail-label">Vehicle Number</p>
+                        <p class="detail-value">
+                            <%= delivery.vehicleNumber || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="detail-item">
+                        <p class="detail-label">Driving Licence Number</p>
+                        <p class="detail-value">
+                            <%= delivery.licenseNumber || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="detail-item">
+                        <p class="detail-label">Delivery Experience</p>
+                        <p class="detail-value">
+                            <%= delivery.experience || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="detail-item">
+                        <p class="detail-label">Application Status</p>
+                        <p class="detail-value text-success text-capitalize">
+                            <%= delivery.applicationStatus || "N/A" %>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <h6 class="fw-bold mb-1">Driving Licence Document</h6>
+                    <p class="text-secondary small mb-0">
+                        Access the document through your protected document-viewing route.
+                    </p>
+                </div>
+
+                <% if (delivery.licenseImage?.url) { %>
+                    <a href="/admin/delivery/<%= delivery._id %>/license"
+                       class="btn btn-outline-success"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fa-solid fa-file-lines me-2"></i>
+                        View Licence
+                    </a>
+                <% } else { %>
+                    <span class="text-secondary small">No document available</span>
+                <% } %>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="d-flex flex-wrap gap-2 justify-content-end">
+        <a href="/admin/delivery/approved" class="btn btn-outline-secondary">
+            Back to Partners
+        </a>
+    </div>
+
+</div>

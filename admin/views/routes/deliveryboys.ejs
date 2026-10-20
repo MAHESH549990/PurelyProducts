@@ -1,4 +1,3 @@
-
 <%- layout("/boilerplate/adminBoiler.ejs") %>
 
 <style>
@@ -80,13 +79,11 @@
   }
 </style>
 
-<div id="deliveryOperationsPage"
-     class="container-fluid py-4 px-3 px-md-4">
+<div id="deliveryOperationsPage" class="container-fluid py-4 px-3 px-md-4">
 
   <!-- Page Heading -->
   <div class="page-header">
-    <div class="d-flex flex-column flex-md-row
-                justify-content-between align-items-md-center gap-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
 
       <div>
         <div class="small text-white-50 fw-semibold mb-2">
@@ -99,17 +96,13 @@
         </h2>
 
         <p class="text-white-50 mb-0">
-          Manage delivery partner accounts and coordinate order assignments.
+          Manage delivery partner applications, approved accounts and order assignments.
         </p>
       </div>
 
-      <div class="d-flex align-items-center gap-3">
-        <div class="d-none d-sm-flex align-items-center justify-content-center
-                    rounded-4"
-             style="width: 76px; height: 76px;
-                    background: rgba(255,255,255,0.14);">
-          <i class="fa-solid fa-boxes-stacked fa-2x"></i>
-        </div>
+      <div class="d-none d-sm-flex align-items-center justify-content-center rounded-4"
+           style="width: 76px; height: 76px; background: rgba(255,255,255,0.14);">
+        <i class="fa-solid fa-boxes-stacked fa-2x"></i>
       </div>
 
     </div>
@@ -126,23 +119,45 @@
   <!-- Operation Cards -->
   <div class="row g-4">
 
-    <!-- Delivery Partners -->
+    <!-- Pending Delivery Requests -->
     <div class="col-12 col-md-6 col-xl-4">
-      <div class="operation-card p-4">
+      <div class="operation-card p-4 d-flex flex-column">
+
+        <div class="operation-icon mb-4">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <h5 class="fw-bold mb-3">Delivery Requests</h5>
+
+        <p class="operation-description mb-4">
+          Review new applications, check applicant information and approve or reject requests.
+        </p>
+
+        <a href="/admin/delivery-requests/requests"
+           class="btn btn-outline-success operation-link w-100 mt-auto">
+          <i class="fa-solid fa-clipboard-check me-2"></i>
+          Review Requests
+        </a>
+
+      </div>
+    </div>
+
+    <!-- All Applications -->
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="operation-card p-4 d-flex flex-column">
 
         <div class="operation-icon mb-4">
           <i class="fa-solid fa-users"></i>
         </div>
 
-        <h5 class="fw-bold mb-3">Delivery Partners</h5>
+        <h5 class="fw-bold mb-3">All Applications</h5>
 
         <p class="operation-description mb-4">
-          View delivery partner accounts and access their contact,
-          vehicle and other personal details.
+          View delivery partner applications and check their current approval status.
         </p>
 
-        <a href="/admin/delivery/applications"
-          class="btn btn-outline-success operation-link w-100">
+        <a href="/admin/delivery-requests/applications"
+           class="btn btn-outline-success operation-link w-100 mt-auto">
           <i class="fa-solid fa-eye me-2"></i>
           View Applications
         </a>
@@ -150,9 +165,32 @@
       </div>
     </div>
 
+    <!-- Approved Delivery Partners -->
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="operation-card p-4 d-flex flex-column">
+
+        <div class="operation-icon mb-4">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h5 class="fw-bold mb-3">Approved Partners</h5>
+
+        <p class="operation-description mb-4">
+          Access approved delivery partner details, including their contact and vehicle information.
+        </p>
+
+        <a href="/admin/delivery-requests/approved"
+           class="btn btn-success operation-link w-100 mt-auto">
+          <i class="fa-solid fa-user-check me-2"></i>
+          View Approved Partners
+        </a>
+
+      </div>
+    </div>
+
     <!-- Add Delivery Partner -->
     <div class="col-12 col-md-6 col-xl-4">
-      <div class="operation-card p-4">
+      <div class="operation-card p-4 d-flex flex-column">
 
         <div class="operation-icon mb-4">
           <i class="fa-solid fa-user-plus"></i>
@@ -161,12 +199,11 @@
         <h5 class="fw-bold mb-3">Add Delivery Partner</h5>
 
         <p class="operation-description mb-4">
-          Register a new delivery partner and enter their login,
-          contact, address and vehicle information.
+          Open the form to register a delivery partner and enter their account and vehicle information.
         </p>
 
         <a href="/admin/delivery/partners/new"
-           class="btn btn-success operation-link w-100">
+           class="btn btn-outline-success operation-link w-100 mt-auto">
           <i class="fa-solid fa-plus me-2"></i>
           Add New Delivery Partner
         </a>
@@ -176,7 +213,7 @@
 
     <!-- Order Assignments -->
     <div class="col-12 col-md-6 col-xl-4">
-      <div class="operation-card p-4">
+      <div class="operation-card p-4 d-flex flex-column">
 
         <div class="operation-icon mb-4">
           <i class="fa-solid fa-box-open"></i>
@@ -185,14 +222,13 @@
         <h5 class="fw-bold mb-3">Order Assignments</h5>
 
         <p class="operation-description mb-4">
-          Coordinate confirmed orders and assign deliveries to
-          the appropriate delivery partners.
+          Manage confirmed orders and assign deliveries to approved delivery partners.
         </p>
 
-        <a href="#"
-           class="btn btn-outline-success operation-link w-100">
-          <i class="fa-solid fa-clipboard-list me-2"></i>
-          View Assignments
+        <a href="/admin/orders/confirmed"
+           class="btn btn-outline-success operation-link w-100 mt-auto">
+          <i class="fa-solid fa-truck-fast me-2"></i>
+          View Confirmed Orders
         </a>
 
       </div>
@@ -209,8 +245,8 @@
       <div>
         <h6 class="fw-bold mb-1">Delivery Workflow</h6>
         <p class="text-secondary small mb-0">
-          Add delivery partners, manage their information, and assign
-          confirmed customer orders when the corresponding routes are ready.
+          Review applications, approve eligible partners, view their details,
+          and assign confirmed customer orders when the assignment workflow is ready.
         </p>
       </div>
 
