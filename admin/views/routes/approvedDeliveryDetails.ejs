@@ -1,62 +1,318 @@
 <%- layout("/boilerplate/adminBoiler.ejs") %>
 
-<div class="container py-4">
+<div class="container-fluid px-3 px-md-4 py-4" id="approvedPartnersPage">
+
+    <!-- Header -->
+    <div class="partner-hero rounded-4 p-4 p-md-5 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="badge rounded-pill bg-white text-success mb-3 px-3 py-2">
+                    <i class="fa-solid fa-user-check me-2"></i>
+                    APPROVED TEAM
+                </span>
+
+                <h2 class="fw-bold mb-2">
+                    <%= typeof order !== "undefined" && order
+                        ? "Assign Delivery Partner"
+                        : "Approved Delivery Partners" %>
+                </h2>
+
+                <p class="mb-0 text-white-50">
+                    <%= typeof order !== "undefined" && order
+                        ? "Choose an approved partner for this order."
+                        : "View and manage your approved delivery team." %>
+                </p>
+
+                <% if (typeof order !== "undefined" && order) { %>
+                    <div class="mt-3">
+                        <span class="badge bg-white text-success p-2">
+                            <i class="fa-solid fa-box me-1"></i>
+                            Order: <%= order._id %>
+                        </span>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="partner-hero-icon">
+                <i class="fa-solid fa-truck-fast"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and summary -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-            <h2 class="fw-bold mb-1">Approved Delivery Partners</h2>
-            <p class="text-secondary mb-0">Manage your approved delivery team.</p>
+            <h4 class="fw-bold mb-1">Delivery Team</h4>
+            <p class="text-secondary mb-0">
+                <span id="visibleCount"><%= deliveries.length %></span> approved partners
+            </p>
         </div>
 
-        <a href="/admin" class="btn btn-outline-secondary">
-            <i class="fa-solid fa-arrow-left me-2"></i>Back
+        <div class="partner-search">
+            <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+            <input type="text"
+                   id="partnerSearch"
+                   class="form-control"
+                   placeholder="Search name, email, phone or vehicle...">
+        </div>
+    </div>
+
+    <% if (deliveries.length === 0) { %>
+        <div class="card border-0 shadow-sm rounded-4 text-center py-5">
+            <div class="mb-3 text-secondary">
+                <i class="fa-solid fa-users-slash fa-3x"></i>
+            </div>
+            <h5 class="fw-bold">No Approved Partners Yet</h5>
+            <p class="text-secondary mb-0">
+                Approved delivery partners will appear here.
+            </p>
+        </div>
+    <% } else { %>
+
+        <div class="row g-4" id="partnerList">
+
+            <% deliveries.forEach((delivery, index) => { %>
+
+                <div class="col-12 col-md-6 col-xl-4 partner-item"
+                     data-search="<%= [
+                        delivery.user?.username,
+                        delivery.user?.email,
+                        delivery.phone,
+                        delivery.vehicleNumber,
+                        delivery.experience,
+                        delivery.licenseNumber
+                     ].filter(Boolean).join(' ').toLowerCase() %>">
+
+                    <div class="card partner-card h-100 border-0 shadow-sm rounded-4">
+                        <div class="card-body p-4 d-flex flex-column">
+
+                            <div class="d-flex justify-content-between align-items-start mb-4">
+                                <div class="partner-avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+
+                                <span class="badge rounded-pill bg-success-subtle text-success px-3 py-2">
+                                    <i class="fa-solid fa-circle-check me-1"></i>
+                                    Approved
+                                </span>
+                            </div>
+
+                            <h5 class="fw-bold mb-1">
+                                <%= delivery.user?.username || "Unnamed Partner" %>
+                            </h5>
+
+                            <p class="text-secondary small mb-4">
+                                <i class="fa-solid fa-envelope me-2"></i>
+                                <%= delivery.user?.email || "No email available" %>
+                            </p>
+
+                            <div class="partner-info mb-4">
+
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="info-icon">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-secondary d-block">Phone</small>
+                                        <span class="fw-semibold">
+                                            <%= delivery.phone || "N/A" %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="info-icon">
+                                        <i class="fa-solid fa-motorcycle"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-secondary d-block">Vehicle Number</small>
+                                        <span class="fw-semibold">
+                                            <%= delivery.vehicleNumber || "N/A" %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="info-icon">
+                                        <i class="fa-solid fa-briefcase"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-secondary d-block">Experience</small>
+                                        <span class="fw-semibold">
+                                            <%= delivery.experience || "N/A" %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-auto d-grid gap-2">
+
+                                <a href="/admin/delivery/approved/<%= delivery._id %>"
+                                   class="btn btn-outline-success rounded-3">
+                                    <i class="fa-solid fa-eye me-2"></i>
+                                    View Full Details
+                                </a>
+
+                                <% if (typeof order !== "undefined" && order) { %>
+
+                                    <form action="/admin/users/orders/<%= order._id %>/assign-delivery"
+                                          method="POST"
+                                          onsubmit="return confirm('Assign this delivery partner to the order?');">
+
+                                        <input type="hidden"
+                                               name="deliveryPartnerId"
+                                               value="<%= delivery.user?._id %>">
+
+                                        <button type="submit"
+                                                class="btn btn-success rounded-3 w-100"
+                                                <%= delivery.user?._id ? "" : "disabled" %>>
+                                            <i class="fa-solid fa-truck-fast me-2"></i>
+                                            Assign This Partner
+                                        </button>
+                                    </form>
+
+                                <% } %>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            <% }) %>
+
+        </div>
+
+        <div id="noSearchResults" class="text-center text-secondary py-5 d-none">
+            <i class="fa-solid fa-magnifying-glass fa-2x mb-3"></i>
+            <h5>No matching partners found</h5>
+            <p class="mb-0">Try another name, email, phone number or vehicle number.</p>
+        </div>
+
+    <% } %>
+
+    <div class="text-center mt-5">
+        <a href="<%= typeof order !== 'undefined' && order
+            ? '/admin/users/orders/accepted'
+            : '/admin' %>"
+           class="btn btn-outline-secondary rounded-3 px-4">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            <%= typeof order !== "undefined" && order
+                ? "Back to Orders"
+                : "Back to Dashboard" %>
         </a>
     </div>
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="p-3">No.</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Vehicle Number</th>
-                        <th>Experience</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <% if (deliveries.length === 0) { %>
-                        <tr>
-                            <td colspan="7" class="text-center py-5 text-secondary">
-                                No approved delivery partners found.
-                            </td>
-                        </tr>
-                    <% } else { %>
-                        <% deliveries.forEach((delivery, index) => { %>
-                            <tr>
-                                <td class="p-3"><%= index + 1 %></td>
-                                <td class="fw-semibold">
-                                    <%= delivery.user?.username || "N/A" %>
-                                </td>
-                                <td><%= delivery.user?.email || "N/A" %></td>
-                                <td><%= delivery.phone || "N/A" %></td>
-                                <td><%= delivery.vehicleNumber || "N/A" %></td>
-                                <td><%= delivery.experience || "N/A" %></td>
-                                <td class="text-center">
-                                    <a href="/admin/delivery/approved/<%= delivery._id %>"
-                                       class="btn btn-sm btn-outline-success">
-                                        <i class="fa-solid fa-eye me-1"></i>
-                                        View Details
-                                    </a>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
+
+<style>
+    #approvedPartnersPage .partner-hero {
+        color: white;
+        background: linear-gradient(120deg, #14532d, #198754);
+    }
+
+    #approvedPartnersPage .partner-hero-icon {
+        width: 85px;
+        height: 85px;
+        min-width: 85px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .14);
+        font-size: 2.5rem;
+    }
+
+    #approvedPartnersPage .partner-search {
+        width: 100%;
+        max-width: 420px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 14px;
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+        background: white;
+    }
+
+    #approvedPartnersPage .partner-search .form-control {
+        border: none;
+        box-shadow: none;
+    }
+
+    #approvedPartnersPage .partner-card {
+        transition: box-shadow .2s ease;
+    }
+
+    #approvedPartnersPage .partner-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, .09) !important;
+    }
+
+    #approvedPartnersPage .partner-avatar {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 17px;
+        background: #e8f5ec;
+        color: #198754;
+        font-size: 1.5rem;
+    }
+
+    #approvedPartnersPage .info-icon {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f3;
+        color: #198754;
+        border-radius: 11px;
+    }
+
+    #approvedPartnersPage .partner-info {
+        padding: 16px;
+        background: #f8faf9;
+        border-radius: 14px;
+    }
+
+    @media (max-width: 575.98px) {
+        #approvedPartnersPage .partner-hero-icon {
+            display: none;
+        }
+
+        #approvedPartnersPage .partner-search {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<script>
+    const partnerSearch = document.getElementById("partnerSearch");
+    const partnerItems = document.querySelectorAll("#partnerList .partner-item");
+    const visibleCount = document.getElementById("visibleCount");
+    const noSearchResults = document.getElementById("noSearchResults");
+
+    if (partnerSearch) {
+        partnerSearch.addEventListener("input", function () {
+            const query = this.value.toLowerCase().trim();
+            let visible = 0;
+
+            partnerItems.forEach(function (item) {
+                const matches = item.dataset.search.includes(query);
+                item.classList.toggle("d-none", !matches);
+
+                if (matches) visible++;
+            });
+
+            if (visibleCount) visibleCount.textContent = visible;
+
+            if (noSearchResults) {
+                noSearchResults.classList.toggle("d-none", visible !== 0);
+            }
+        });
+    }
+</script>

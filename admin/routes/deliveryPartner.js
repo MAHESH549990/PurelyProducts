@@ -9,15 +9,6 @@ const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 const Delivery = require("../../models/delivery.js");
 
-router.get("/partners",isAdmin,(req,res)=>{
-  res.render("routes/deliveryboys.ejs");
-});
-
-router.get("/partners/new",isAdmin,(req,res)=>{
-  res.render("routes/addDeliveryPartner.ejs");
-});
-
-
 // View delivery applications
 router.get("/applications", isAdmin, async (req, res) => {
     try {
@@ -63,13 +54,27 @@ router.get("/approved", isAdmin, asyncWrap(async (req, res) => {
     const deliveries = await Delivery.find({
         applicationStatus: "approved"
     })
-    .populate("user", "username email")
-    .sort({ createdAt: -1 });
+        .populate("user", "username email")
+        .sort({ createdAt: -1 });
+
+    let order = null;
+
+    if (req.query.orderId) {
+        order = await Order.findById(req.query.orderId);
+
+        if (!order) {
+            req.flash("error", "Order not found.");
+            return res.redirect("/admin/orders/pending");
+        }
+    }
 
     res.render("routes/approvedDeliveryDetails.ejs", {
-        deliveries
+        deliveries,
+        order
     });
 }));
+
+
 
 router.post("/:id/approve", isAdmin, asyncWrap(async (req, res) => {
     const delivery = await Delivery.findById(req.params.id);

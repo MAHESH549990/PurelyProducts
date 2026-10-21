@@ -246,14 +246,11 @@
 
                                     <div class="col-12 col-md-auto">
 
-                                        <a
-                                            href="/admin/users/orders/<%= order._id %>/assign-delivery"
-                                            class="btn btn-success btn-lg rounded-3 fw-semibold assign-button w-100"
-                                        >
-                                            <i class="fa-solid fa-truck-fast me-2"></i>
-                                            Assign Delivery Partner
-                                            <i class="fa-solid fa-arrow-right ms-2"></i>
-                                        </a>
+                                            <a href="/admin/delivery/approved?orderId=<%= order._id %>"
+                                            class="btn btn-success rounded-3">
+                                                <i class="fa-solid fa-truck-fast me-2"></i>
+                                                Assign Delivery Partner
+                                            </a>
 
                                     </div>
 

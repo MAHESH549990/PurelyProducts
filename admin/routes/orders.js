@@ -8,6 +8,7 @@ const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
 const { route } = require("./users.js");
 const { isAdmin } = require("../adminmiddlerware.js");
+const Delivery=require("../../models/delivery.js");
 
 
 
@@ -50,6 +51,11 @@ router.patch("/confirmed/:id/accept",isAdmin,async(req,res)=>{
  router.get("/accepted",isAdmin,async(req,res)=>{
     let orders=await Order.find({status:{$in:"confirmed"}}).populate("customer").populate("products.product");
     res.render("routes/confirmedOrders.ejs",{orders});
+ })
+
+ router.get(("/:id/assign-delivery"),async(req,res)=>{
+     const deliveries=await Delivery.find();
+     res.render("routes/approvedDeliveryDetails.ejs",{deliveries});
  })
 
 module.exports=router;
