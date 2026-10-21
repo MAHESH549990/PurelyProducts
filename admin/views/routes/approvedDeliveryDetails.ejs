@@ -156,17 +156,21 @@
 
                                 <% if (typeof order !== "undefined" && order) { %>
 
-                                    <form action="/admin/users/orders/<%= order._id %>/assign-delivery"
-                                          method="POST"
-                                          onsubmit="return confirm('Assign this delivery partner to the order?');">
+                                    <form
+                                        action="/admin/users/orders/<%= order._id %>/assign-delivery"
+                                        method="POST"
+                                        onsubmit="return confirm('Assign this delivery partner to the order?');">
 
-                                        <input type="hidden"
-                                               name="deliveryPartnerId"
-                                               value="<%= delivery.user?._id %>">
+                                        <input
+                                            type="hidden"
+                                            name="deliveryPartnerId"
+                                            value="<%= delivery.user?._id || '' %>">
 
-                                        <button type="submit"
-                                                class="btn btn-success rounded-3 w-100"
-                                                <%= delivery.user?._id ? "" : "disabled" %>>
+                                        <button
+                                            type="submit"
+                                            class="btn btn-success rounded-3 w-100"
+                                            <%= delivery.user?._id ? "" : "disabled" %>>
+
                                             <i class="fa-solid fa-truck-fast me-2"></i>
                                             Assign This Partner
                                         </button>
