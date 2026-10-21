@@ -1,22 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const requireDeliveryPartner=require("../requireDeliveryPartner.js");
 
 const Order = require("../../models/orders.js");
-
-// Middleware: allow only logged-in delivery partners
-function requireDeliveryPartner(req, res, next) {
-    if (!req.isAuthenticated || !req.isAuthenticated()) {
-        req.flash("error", "Please log in first.");
-        return res.redirect("/users/login");
-    }
-
-    if (req.user.role !== "delivery") {
-        req.flash("error", "Access denied. Delivery partners only.");
-        return res.redirect("/");
-    }
-
-    next();
-}
 
 // GET: Assigned orders
 router.get("/assign", requireDeliveryPartner, async (req, res) => {

@@ -84,12 +84,36 @@ router.post("/:id/approve", isAdmin, asyncWrap(async (req, res) => {
         return res.redirect("/admin/delivery/requests");
     }
 
+    // Only pending applications can be approved
+    if (delivery.applicationStatus !== "pending") {
+        req.flash("error", "This application has already been processed.");
+        return res.redirect("/admin/delivery/requests");
+    }
+
+    // Find the associated user
+    const user = await User.findById(delivery.user);
+
+    if (!user) {
+        req.flash("error", "Associated user account not found.");
+        return res.redirect("/admin/delivery/requests");
+    }
+
+    // Update the user's role
+    user.role = "delivery";
+    await user.save();
+
+    // Approve the delivery application
     delivery.applicationStatus = "approved";
     await delivery.save();
 
-    req.flash("success", "Delivery partner approved successfully!");
-    res.redirect("/admin/delivery/requests");
+    req.flash(
+        "success",
+        `${user.username} is now an approved delivery partner!`
+    );
+
+    return res.redirect("/admin/delivery/requests");
 }));
+
 
 // View one approved delivery partner's details
 router.get(
@@ -111,6 +135,28 @@ router.get(
         });
     })
 );
+
+//rejext request of the delivery partner 
+router.post("/requests/:id/reject", isAdmin, asyncWrap(async (req, res) => {
+    const delivery = await Delivery.findById(req.params.id);
+
+    if (!delivery) {
+        req.flash("error", "Delivery application not found.");
+        return res.redirect("/admin/delivery/requests");
+    }
+
+    if (delivery.applicationStatus !== "pending") {
+        req.flash("error", "This application has already been processed.");
+        return res.redirect("/admin/delivery/requests");
+    }
+
+    delivery.applicationStatus = "rejected";
+    await delivery.save();
+
+    req.flash("success", "Delivery partner application rejected successfully!");
+
+    return res.redirect("/admin/delivery/requests");
+}));
 
 // View a delivery partner's private licence document
 router.get(

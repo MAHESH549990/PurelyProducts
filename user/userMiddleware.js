@@ -31,7 +31,7 @@ module.exports.isReviewOwner=async(req,res,next)=>{
 
 module.exports.isAddress=(req,res,next)=>{
   if(req.user.address.length<=0){
-    req.flash("error","You need to add address before place the order");
+    req.flash("error","You need to add address before perform this action");
     return res.redirect("/users/profile/location");
   }
   next();

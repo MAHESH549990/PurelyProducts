@@ -4,7 +4,8 @@ const User = require("../../models/user.js");
 const passport=require("passport");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const Delivery = require("../../models/delivery.js");
-const {isLoggedIn}=require("../userMiddleware.js");
+const {isLoggedIn, isAddress}=require("../userMiddleware.js");
+
 //for storing the file data 
 const multer = require("multer");
 const cloudinary = require("../../cloudConfig.js");
@@ -60,9 +61,13 @@ router.post("/login",
      req.flash("success","Welcome Admin back! to PurelyProducts");
      res.redirect("/admin");
      }
+     else if(req.user.role=="delivery"){
+      req.flash("success","Welcome Delivery Partner back! to PurelyProducts");
+      res.redirect("/delivery");
+     }
      else{
-      req.flash("success","Welcome back! to PurelyProducts");
-     res.redirect("/users/dashboard");
+        req.flash("success","Welcome back! to PurelyProducts");
+      res.redirect("/users/dashboard");
      }
 }));
 
@@ -149,13 +154,14 @@ router.get("/dashboard", (req, res) => {
     res.render("routes/userDashboard.ejs");
 });
 
-router.get("/profile/request/delivery",(req,res)=>{
+router.get("/profile/request/delivery",isAddress,isLoggedIn,(req,res)=>{
   res.render("routes/deliveryRequest.ejs");
 });
 
 router.post(
     "/profile/request/delivery",
     isLoggedIn,
+    isAddress,
     upload.single("licenseImage"),
     asyncWrap(async (req, res) => {
         let uploadedFile;
