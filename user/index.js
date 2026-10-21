@@ -7,8 +7,7 @@ const orders = require("./routes/orders.js");
 
 
 router.get("/", (req, res) => {
-    console.log("USER INSIDE USER INDEX:", req.user);
-    res.send("You're in the home page");
+    res.render("userLogin/login.ejs");
 });
 
 //orders
