@@ -1,0 +1,468 @@
+
+<%- layout("/boilerplate/deliveryBoiler") %>
+
+<div class="container-fluid px-3 px-md-4 py-4 profile-page">
+
+    <!-- Page Header -->
+    <div class="mb-4">
+        <p class="text-success fw-semibold small mb-2">
+            DELIVERY PARTNER / MY PROFILE
+        </p>
+
+        <h2 class="fw-bold mb-2">My Profile</h2>
+
+        <p class="text-secondary mb-0">
+            View your account details and delivery partner information.
+        </p>
+    </div>
+
+    <!-- Profile Banner -->
+    <div class="profile-banner rounded-4 p-4 p-md-5 mb-4">
+        <div class="row align-items-center g-4">
+
+            <div class="col-auto">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="small fw-semibold mb-2 profile-eyebrow">
+                    DELIVERY PARTNER ACCOUNT
+                </p>
+
+                <h3 class="fw-bold mb-2">
+                    <%= username || "Delivery Partner" %>
+                </h3>
+
+                <p class="mb-3 profile-email">
+                    <i class="fa-solid fa-envelope me-2"></i>
+                    <%= email %>
+                </p>
+
+                <span class="account-badge">
+                    <i class="fa-solid fa-circle-check me-2"></i>
+                    Active Delivery Partner
+                </span>
+            </div>
+
+            <div class="col-12 col-md-auto">
+                <a href="/delivery"
+                   class="btn btn-light text-success fw-semibold rounded-3 px-4 py-3">
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    Dashboard
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Account Information -->
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-6">
+            <div class="profile-card h-100">
+
+                <div class="section-heading">
+                    <div class="section-icon personal-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Account Information</h5>
+                        <p class="text-secondary small mb-0">
+                            Your registered account details
+                        </p>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Username</span>
+                    <span class="detail-value">
+                        <%= username || "Not available" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Email Address</span>
+                    <span class="detail-value text-break">
+                        <%= email || "Not available" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Account Role</span>
+                    <span class="detail-value">
+                        Delivery Partner
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Delivery Information -->
+        <div class="col-12 col-xl-6">
+            <div class="profile-card h-100">
+
+                <div class="section-heading">
+                    <div class="section-icon delivery-icon">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Delivery Information</h5>
+                        <p class="text-secondary small mb-0">
+                            Details from your delivery application
+                        </p>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Phone Number</span>
+                    <span class="detail-value">
+                        <%= deliveryPartner.phone || "Not provided" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Experience</span>
+                    <span class="detail-value">
+                        <%= deliveryPartner.experience || "Not provided" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Application Status</span>
+
+                    <span class="status-badge
+                        <%= deliveryPartner.applicationStatus === 'approved'
+                            ? 'status-approved'
+                            : deliveryPartner.applicationStatus === 'rejected'
+                            ? 'status-rejected'
+                            : 'status-pending' %>">
+
+                        <i class="fa-solid
+                            <%= deliveryPartner.applicationStatus === 'approved'
+                                ? 'fa-circle-check'
+                                : deliveryPartner.applicationStatus === 'rejected'
+                                ? 'fa-circle-xmark'
+                                : 'fa-clock' %> me-1"></i>
+
+                        <%= deliveryPartner.applicationStatus
+                            ? deliveryPartner.applicationStatus.replace(
+                                /^./, letter => letter.toUpperCase()
+                            )
+                            : "Pending" %>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <!--Address-->
+        <div class="col-12 col-xl-6">
+            <div class="profile-card h-100">
+                <div class="section-heading">
+                    <div class="section-icon address-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Address</h5>
+                        <p class="text-secondary small mb-0">
+                            Your registered delivery address
+                        </p>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-map me-2"></i>State
+                    </span>
+                    <span class="detail-value">
+                        <%= address.state || "Not provided" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-city me-2"></i>City
+                    </span>
+                    <span class="detail-value">
+                        <%= address.city || "Not provided" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-map-pin me-2"></i>Location
+                    </span>
+                    <span class="detail-value text-end">
+                        <%= address.location || "Not provided" %>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle & License -->
+        <div class="col-12 col-xl-6">
+            <div class="profile-card h-100">
+
+                <div class="section-heading">
+                    <div class="section-icon vehicle-icon">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Vehicle & License</h5>
+                        <p class="text-secondary small mb-0">
+                            Your registered vehicle and license details
+                        </p>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Vehicle Number</span>
+                    <span class="detail-value">
+                        <%= deliveryPartner.vehicleNumber || "Not provided" %>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">License Number</span>
+                    <span class="detail-value text-break">
+                        <%= deliveryPartner.licenseNumber || "Not provided" %>
+                    </span>
+                </div>
+
+                <% if (deliveryPartner.licenseImage &&
+                       deliveryPartner.licenseImage.url) { %>
+
+                    <div class="license-section mt-4">
+                        <p class="fw-semibold mb-3">
+                            <i class="fa-solid fa-file-image text-success me-2"></i>
+                            Uploaded License Document
+                        </p>
+
+                        <a href="<%= deliveryPartner.licenseImage.url %>"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-outline-success rounded-3 fw-semibold">
+                            <i class="fa-solid fa-eye me-2"></i>
+                            View License Document
+                        </a>
+                    </div>
+
+                <% } else { %>
+
+                    <div class="license-notice mt-4">
+                        <i class="fa-solid fa-circle-info me-2"></i>
+                        No license document is available.
+                    </div>
+
+                <% } %>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Note -->
+    <div class="profile-note mt-4 p-3 p-md-4 rounded-3">
+        <i class="fa-solid fa-shield-halved text-success me-2"></i>
+        <span class="text-secondary small">
+            Your profile information is available to you after signing in
+            to your delivery partner account.
+        </span>
+    </div>
+
+</div>
+
+<style>
+    .profile-page {
+        color: #24352b;
+    }
+
+    .profile-banner {
+        background: linear-gradient(115deg, #123b2a, #198754);
+        color: #fff;
+        box-shadow: 0 7px 22px rgba(18, 59, 42, 0.10);
+    }
+
+    .profile-avatar {
+        width: 86px;
+        height: 86px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        font-size: 2.3rem;
+    }
+
+    .profile-eyebrow {
+        color: #d4f0df;
+        letter-spacing: 1px;
+    }
+
+    .profile-email {
+        color: #e1f4e8;
+        overflow-wrap: anywhere;
+    }
+
+    .account-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .profile-card {
+        padding: 24px;
+        background: #fff;
+        border: 1px solid #e2e8e3;
+        border-radius: 16px;
+        box-shadow: 0 4px 14px rgba(24, 60, 40, 0.035);
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 20px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid #edf1ed;
+    }
+
+    .section-icon {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        font-size: 1.2rem;
+    }
+
+    .personal-icon {
+        background: #e8f0ff;
+        color: #3867d6;
+    }
+
+    .delivery-icon {
+        background: #e1f7e9;
+        color: #198754;
+    }
+
+    .address-icon {
+        background: #fff2df;
+        color: #c17b00;
+    }
+
+    .vehicle-icon {
+        background: #f0eaff;
+        color: #7652c9;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid #f0f3f0;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        color: #718076;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+
+    .detail-value {
+        color: #25392c;
+        font-size: 0.92rem;
+        font-weight: 600;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 7px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-approved {
+        color: #167344;
+        background: #e1f7e9;
+    }
+
+    .status-pending {
+        color: #986300;
+        background: #fff2d9;
+    }
+
+    .status-rejected {
+        color: #b42318;
+        background: #feeceb;
+    }
+
+    .license-notice {
+        background: #f6f9f6;
+        border: 1px solid #e5ece5;
+        border-radius: 10px;
+        padding: 12px;
+        color: #718076;
+        font-size: 0.88rem;
+    }
+
+    .profile-note {
+        background: #f3f8f4;
+        border: 1px solid #e0ece2;
+    }
+
+    /* No hover effects */
+    .profile-page a,
+    .profile-page .btn {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    @media (max-width: 575.98px) {
+        .profile-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            font-size: 1.8rem;
+        }
+
+        .profile-card {
+            padding: 18px;
+        }
+
+        .detail-row {
+            gap: 10px;
+        }
+
+        .detail-label,
+        .detail-value {
+            font-size: 0.84rem;
+        }
+
+        .section-heading h5 {
+            font-size: 1rem;
+        }
+    }
+</style>

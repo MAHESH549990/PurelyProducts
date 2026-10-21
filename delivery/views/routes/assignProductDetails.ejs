@@ -89,6 +89,7 @@
             </div>
         </div>
 
+      
         <!-- Status Actions -->
         <div class="col-12 col-lg-4">
             <div class="card details-card">
@@ -102,35 +103,33 @@
                     <% if (order.status === "assigned") { %>
 
                         <form action="/delivery/orders/<%= order._id %>/confirm"
-                              method="POST"
-                              onsubmit="return confirm('Confirm this assigned order?');">
-
-                            <button type="submit"
-                                    class="btn btn-success w-100 py-3 rounded-3 fw-semibold">
-                                <i class="fa-solid fa-check me-2"></i>
-                                Confirm Order
-                            </button>
-                        </form>
-
-                    <% } else if (order.status === "confirmed" || order.status === "packed") { %>
-
-                        <form action="/delivery/orders/assign/<%= order._id %>/out-for-delivery?_method=PATCH"
-                              method="POST"
-                              onsubmit="return confirm('Mark this order as out for delivery?');">
+                            method="POST"
+                            onsubmit="return confirm('Confirm this order and start delivery?');">
 
                             <button type="submit"
                                     class="btn btn-success w-100 py-3 rounded-3 fw-semibold">
                                 <i class="fa-solid fa-truck-fast me-2"></i>
-                                Out for Delivery
+                                Confirm Order & Start Delivery
                             </button>
                         </form>
 
                     <% } else if (order.status === "out_for_delivery") { %>
 
-                        <div class="status-message">
+                        <div class="status-message mb-3">
                             <i class="fa-solid fa-truck-fast me-2"></i>
                             This order is out for delivery.
                         </div>
+
+                        <form action="/delivery/orders/assign/<%= order._id %>/out-for-delivery/delivered?_method=PATCH"
+                            method="POST"
+                            onsubmit="return confirm('Mark this order as delivered?');">
+
+                            <button type="submit"
+                                    class="btn btn-success w-100 py-3 rounded-3 fw-semibold">
+                                <i class="fa-solid fa-circle-check me-2"></i>
+                                Mark as Delivered
+                            </button>
+                        </form>
 
                     <% } else if (order.status === "delivered") { %>
 
@@ -161,6 +160,10 @@
                             </p>
                         </div>
                     </div>
+
+                </div>
+            </div>
+        </div>
 
                 </div>
             </div>

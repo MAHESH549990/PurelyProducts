@@ -1,57 +1,55 @@
 
 <%- layout("/boilerplate/deliveryBoiler") %>
 
-<div class="container-fluid px-3 px-md-4 py-4">
+<div class="container-fluid px-3 px-md-4 py-4 delivery-dashboard">
 
     <!-- Header -->
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <p class="text-success fw-semibold small mb-2">
+                <i class="fa-solid fa-location-dot me-1"></i>
                 DELIVERY PARTNER / OVERVIEW
             </p>
-            <h2 class="fw-bold mb-1">Delivery Dashboard</h2>
+
+            <h2 class="fw-bold mb-2 dashboard-title">Delivery Dashboard</h2>
+
             <p class="text-secondary mb-0">
                 Welcome back, Delivery Partner!
             </p>
         </div>
 
-        <a href="/delivery/orders"
-           class="btn btn-success px-4 py-2 rounded-3 fw-semibold">
+        <a href="/delivery/orders/assign/delivered"
+           class="btn btn-success px-4 py-3 rounded-3 fw-semibold dashboard-button">
             <i class="fa-solid fa-arrow-right me-2"></i>
             View My Deliveries
         </a>
     </div>
 
     <!-- Main Banner -->
-    <div class="rounded-4 p-4 p-md-5 mb-4 text-white position-relative overflow-hidden"
-         style="background: linear-gradient(115deg, #123b2a, #198754);">
+    <div class="dashboard-banner rounded-4 p-4 p-md-5 mb-4 text-white position-relative overflow-hidden">
 
         <div class="row align-items-center">
-            <div class="col-md-8 position-relative" style="z-index: 1;">
+            <div class="col-md-8 position-relative banner-content">
                 <span class="badge bg-white text-success rounded-pill px-3 py-2 mb-3">
                     <i class="fa-solid fa-truck-fast me-2"></i>
                     Delivery Partner Portal
                 </span>
 
-                <h1 class="fw-bold mb-3">
+                <h1 class="fw-bold mb-3 banner-title">
                     Manage your deliveries.
                 </h1>
 
-                <p class="mb-4" style="max-width: 500px; color: #e1f4e8;">
+                <p class="mb-4 banner-description">
                     Manage assigned orders, update delivery statuses, and help
                     customers receive their purchases on time.
                 </p>
 
-                <a href="/delivery/orders"
-                   class="btn btn-light text-success fw-semibold rounded-3 px-4 py-2">
-                    Open Deliveries
-                    <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
-                </a>
             </div>
 
-            <div class="col-md-4 text-md-end mt-4 mt-md-0">
-                <i class="fa-solid fa-truck-fast"
-                   style="font-size: clamp(5rem, 12vw, 9rem); opacity: 0.18;"></i>
+            <div class="col-md-4 text-md-end mt-4 mt-md-0 text-center">
+                <div class="banner-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -73,26 +71,27 @@
         <div class="col-md-6 col-xl-4">
             <a href="/delivery/orders/assign"
                class="text-decoration-none text-dark">
-                <div class="card delivery-card h-100 border rounded-4">
+                <div class="card delivery-card h-100">
                     <div class="card-body p-4">
 
                         <div class="d-flex justify-content-between align-items-start mb-4">
-                            <div class="delivery-icon"
-                                 style="background: #e8f0ff; color: #3867d6;">
+                            <div class="delivery-icon assigned-icon">
                                 <i class="fa-solid fa-boxes-stacked"></i>
                             </div>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-secondary"></i>
+
+                            <span class="card-number">01</span>
                         </div>
 
                         <h5 class="fw-bold mb-2">Assigned Orders</h5>
-                        <p class="text-secondary small mb-4">
+
+                        <p class="text-secondary small mb-4 card-description">
                             Check the orders assigned to you and review their details.
                         </p>
 
-                        <span class="text-primary fw-semibold small">
+                        <div class="card-action text-primary">
                             View Assigned Orders
                             <i class="fa-solid fa-arrow-right ms-2"></i>
-                        </span>
+                        </div>
 
                     </div>
                 </div>
@@ -103,26 +102,27 @@
         <div class="col-md-6 col-xl-4">
             <a href="/delivery/orders/assign/out-for-delivery"
                class="text-decoration-none text-dark">
-                <div class="card delivery-card h-100 border rounded-4">
+                <div class="card delivery-card h-100">
                     <div class="card-body p-4">
 
                         <div class="d-flex justify-content-between align-items-start mb-4">
-                            <div class="delivery-icon"
-                                 style="background: #fff2df; color: #d98200;">
+                            <div class="delivery-icon active-icon">
                                 <i class="fa-solid fa-truck-fast"></i>
                             </div>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-secondary"></i>
+
+                            <span class="card-number">02</span>
                         </div>
 
                         <h5 class="fw-bold mb-2">Out for Delivery</h5>
-                        <p class="text-secondary small mb-4">
+
+                        <p class="text-secondary small mb-4 card-description">
                             Access your delivery list and update orders when they are on the way.
                         </p>
 
-                        <span class="text-warning fw-semibold small">
+                        <div class="card-action active-action">
                             Manage Deliveries
                             <i class="fa-solid fa-arrow-right ms-2"></i>
-                        </span>
+                        </div>
 
                     </div>
                 </div>
@@ -133,26 +133,27 @@
         <div class="col-md-6 col-xl-4">
             <a href="/delivery/orders/assign/delivered"
                class="text-decoration-none text-dark">
-                <div class="card delivery-card h-100 border rounded-4">
+                <div class="card delivery-card h-100">
                     <div class="card-body p-4">
 
                         <div class="d-flex justify-content-between align-items-start mb-4">
-                            <div class="delivery-icon"
-                                 style="background: #e1f7e9; color: #198754;">
+                            <div class="delivery-icon completed-icon">
                                 <i class="fa-solid fa-circle-check"></i>
                             </div>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-secondary"></i>
+
+                            <span class="card-number">03</span>
                         </div>
 
                         <h5 class="fw-bold mb-2">Completed Deliveries</h5>
-                        <p class="text-secondary small mb-4">
+
+                        <p class="text-secondary small mb-4 card-description">
                             Review completed orders and keep track of your delivery work.
                         </p>
 
-                        <span class="text-success fw-semibold small">
+                        <div class="card-action text-success">
                             View Order History
                             <i class="fa-solid fa-arrow-right ms-2"></i>
-                        </span>
+                        </div>
 
                     </div>
                 </div>
@@ -163,16 +164,21 @@
 
     <!-- Workflow -->
     <div class="mt-4">
-        <h5 class="fw-bold mb-3">Delivery Workflow</h5>
+        <div class="mb-3">
+            <h5 class="fw-bold mb-1">Delivery Workflow</h5>
+            <p class="text-secondary small mb-0">
+                Follow these steps to complete your deliveries.
+            </p>
+        </div>
 
-        <div class="card border rounded-4">
+        <div class="card workflow-card">
             <div class="card-body p-3 p-md-4">
                 <div class="row g-3">
 
                     <div class="col-6 col-lg-3">
                         <div class="workflow-step">
                             <span class="workflow-number">01</span>
-                            <h6 class="fw-bold mt-3 mb-1">Assigned</h6>
+                            <h6 class="fw-bold mt-3 mb-2">Assigned</h6>
                             <p class="small text-secondary mb-0">
                                 Check the order details.
                             </p>
@@ -182,7 +188,7 @@
                     <div class="col-6 col-lg-3">
                         <div class="workflow-step">
                             <span class="workflow-number">02</span>
-                            <h6 class="fw-bold mt-3 mb-1">Prepare</h6>
+                            <h6 class="fw-bold mt-3 mb-2">Prepare</h6>
                             <p class="small text-secondary mb-0">
                                 Confirm the order is ready.
                             </p>
@@ -192,7 +198,7 @@
                     <div class="col-6 col-lg-3">
                         <div class="workflow-step">
                             <span class="workflow-number">03</span>
-                            <h6 class="fw-bold mt-3 mb-1">On the Way</h6>
+                            <h6 class="fw-bold mt-3 mb-2">On the Way</h6>
                             <p class="small text-secondary mb-0">
                                 Update the delivery status.
                             </p>
@@ -202,7 +208,7 @@
                     <div class="col-6 col-lg-3">
                         <div class="workflow-step">
                             <span class="workflow-number">04</span>
-                            <h6 class="fw-bold mt-3 mb-1">Delivered</h6>
+                            <h6 class="fw-bold mt-3 mb-2">Delivered</h6>
                             <p class="small text-secondary mb-0">
                                 Mark the order delivered.
                             </p>
@@ -217,62 +223,155 @@
 </div>
 
 <style>
-    .delivery-card {
-        transition: transform 0.25s ease, box-shadow 0.25s ease,
-                    border-color 0.25s ease;
-        background: #fff;
+    .delivery-dashboard {
+        color: #24352b;
     }
 
-    .delivery-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 28px rgba(24, 60, 40, 0.10) !important;
-        border-color: #198754 !important;
+    .dashboard-title {
+        letter-spacing: -0.7px;
+    }
+
+    .dashboard-button {
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.12);
+    }
+
+    /* Main banner */
+    .dashboard-banner {
+        background: linear-gradient(115deg, #123b2a, #198754);
+        box-shadow: 0 8px 24px rgba(18, 59, 42, 0.12);
+    }
+
+    .banner-content {
+        z-index: 1;
+    }
+
+    .banner-title {
+        font-size: clamp(1.8rem, 4vw, 2.7rem);
+        letter-spacing: -1px;
+    }
+
+    .banner-description {
+        max-width: 500px;
+        color: #e1f4e8;
+        line-height: 1.8;
+    }
+
+    .banner-icon {
+        font-size: clamp(5rem, 12vw, 9rem);
+        color: rgba(255, 255, 255, 0.2);
+        line-height: 1;
+    }
+
+    /* Management cards: no hover effects */
+    .delivery-card {
+        height: 100%;
+        background: #fff;
+        border: 1px solid #e2e8e3;
+        border-radius: 16px;
+        box-shadow: 0 4px 14px rgba(24, 60, 40, 0.045);
     }
 
     .delivery-icon {
-        width: 54px;
-        height: 54px;
-        border-radius: 14px;
+        width: 56px;
+        height: 56px;
+        border-radius: 15px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 1.35rem;
     }
 
+    .assigned-icon {
+        background: #e8f0ff;
+        color: #3867d6;
+    }
+
+    .active-icon {
+        background: #fff2df;
+        color: #d98200;
+    }
+
+    .completed-icon {
+        background: #e1f7e9;
+        color: #198754;
+    }
+
+    .card-number {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #9aa79e;
+        background: #f5f8f5;
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+
+    .card-description {
+        line-height: 1.7;
+        min-height: 48px;
+    }
+
+    .card-action {
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+
+    .active-action {
+        color: #b87500;
+    }
+
+    /* Workflow */
+    .workflow-card {
+        border: 1px solid #e2e8e3;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 4px 14px rgba(24, 60, 40, 0.035);
+    }
+
     .workflow-step {
         height: 100%;
         padding: 18px;
+        background: #f9fbf9;
         border: 1px solid #edf0ed;
-        border-radius: 14px;
-        transition: background 0.2s ease, border-color 0.2s ease;
-    }
-
-    .workflow-step:hover {
-        background: #f4faf6;
-        border-color: #b9dfc7;
+        border-radius: 13px;
     }
 
     .workflow-number {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
         background: #e3f4e9;
         color: #198754;
         font-weight: 700;
         font-size: 0.9rem;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        .delivery-card,
-        .workflow-step {
-            transition: none;
+    /* Keep interactions static: no hover animations or color changes */
+    .delivery-card,
+    .workflow-step,
+    .delivery-dashboard a,
+    .delivery-dashboard .btn {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    @media (max-width: 575.98px) {
+        .dashboard-banner {
+            padding: 24px !important;
         }
 
-        .delivery-card:hover {
-            transform: none;
+        .dashboard-title {
+            font-size: 1.65rem;
+        }
+
+        .card-description {
+            min-height: 0;
+        }
+
+        .workflow-step {
+            padding: 14px;
         }
     }
 </style>

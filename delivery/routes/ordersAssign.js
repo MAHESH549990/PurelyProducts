@@ -84,49 +84,48 @@ router.get("/assign/:id", requireDeliveryPartner, async (req, res) => {
 
         if (!order) {
             req.flash("error", "Order not found or not assigned to you.");
-            return res.redirect("/delivery/assign");
+            return res.redirect("/delivery/orders/assign");
         }
 
         res.render("routes/assignProductDetails.ejs", { order });
     } catch (err) {
         console.error("Order Details Error:", err);
         req.flash("error", "Unable to load order details.");
-        res.redirect("/delivery/assign");
+        res.redirect("/delivery/orders/assign");
     }
 });
 
-// PATCH: Start delivery
-router.patch(
-    "/assign/:id/out-for-delivery",
-    requireDeliveryPartner,
-    async (req, res) => {
-        try {
-            const order = await Order.findOne({
-                _id: req.params.id,
-                deliveryPartner: req.user._id,
-                status: "assigned"
-            });
 
-            if (!order) {
-                req.flash(
-                    "error",
-                    "Order not found, not assigned to you, or already processed."
-                );
-                return res.redirect("/delivery/assign");
-            }
+// POST: Confirm assigned order and start delivery
+router.post("/:id/confirm", requireDeliveryPartner, async (req, res) => {
+    try {
+        const order = await Order.findOne({
+            _id: req.params.id,
+            deliveryPartner: req.user._id,
+            status: "assigned"
+        });
 
-            order.status = "out_for_delivery";
-            await order.save();
-
-            req.flash("success", "Order is now out for delivery!");
-            res.redirect("/delivery/assign/out-for-delivery");
-        } catch (err) {
-            console.error("Start Delivery Error:", err);
-            req.flash("error", "Unable to update order status.");
-            res.redirect("/delivery/assign");
+        if (!order) {
+            console.log("Order not found for delivery partner:", req.params.id);
+            req.flash("error", "Order not found or not assigned to you.");
+            return res.redirect("/delivery/orders/assign");
         }
+
+        order.status = "out_for_delivery";
+        await order.save();
+
+        console.log("Updated order status:", order.status);
+        console.log("Assigned delivery partner:", order.deliveryPartner);
+
+        req.flash("success", "Delivery has started!");
+
+        return res.redirect("/delivery/orders/assign/out-for-delivery");
+    } catch (err) {
+        console.error("Confirm Order Error:", err);
+        req.flash("error", "Unable to confirm this order.");
+        return res.redirect("/delivery/orders/assign");
     }
-);
+});
 
 // PATCH: Mark order as delivered
 router.patch(
@@ -145,20 +144,22 @@ router.patch(
                     "error",
                     "Order not found, not assigned to you, or not out for delivery."
                 );
-                return res.redirect("/delivery/assign/out-for-delivery");
+                return res.redirect("/delivery/orders/assign/out-for-delivery");
             }
 
             order.status = "delivered";
             await order.save();
 
             req.flash("success", "Order delivered successfully!");
-            res.redirect("/delivery/assign/delivered");
+            res.redirect("/delivery/orders/assign/delivered");
         } catch (err) {
             console.error("Complete Delivery Error:", err);
             req.flash("error", "Unable to mark order as delivered.");
-            res.redirect("/delivery/assign/out-for-delivery");
+            res.redirect("/delivery/orders/assign/out-for-delivery");
         }
     }
 );
+
+
 
 module.exports = router;

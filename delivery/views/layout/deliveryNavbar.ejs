@@ -1,35 +1,55 @@
+
 <nav class="navbar navbar-expand-md bg-body-light sticky-top">
-  <div class="container-fluid">
-   <a class="navbar-brand" href="/users/dashboard">
-    <i class="fa-brands fa-shopware" id="logo"></i>
-    <span id="web-name">PurelyProducts</span>
-   </a>
-        <!-- Toggler Button -->
-    <button class="navbar-toggler" type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
+    <div class="container-fluid">
 
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <a class="navbar-brand" href="/users/dashboard">
+            <i class="fa-brands fa-shopware" id="logo"></i>
+            <span id="web-name">PurelyProducts</span>
+        </a>
 
-    <div class="collapse navbar-collapse navbar-collapse-element bg-white" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/delivery"><i class="fa-solid fa-house"></i> Dashboard</a>
-        <a class="nav-link" href="/delivery"><i class="fa-solid fa-box-open"></i> My Orders</a>
-        <a class="nav-link" href="/delivery"><i class="fa-solid fa-file-lines"></i>History</a>
-        <a class="nav-link" href="#"><i class="fa-solid fa-user"></i> Profile</a>
-        <a class="nav-link" href="/users/login"><i class="fa-solid fa-user-lock"></i> Login</a> 
-        <a class="nav-link" href="/users"><i class="fa-solid fa-right-to-bracket"></i> Logout</a>        
-      </div>
-      <div>
-      <form class="d-flex" role="search">
-        <input class="form-control me-4" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-      </div>
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse navbar-collapse-element bg-white"
+            id="navbarNavAltMarkup">
+
+            <div class="navbar-nav">
+                <a class="nav-link" href="/delivery">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+
+                <a class="nav-link" href="/delivery/orders/assign">
+                    <i class="fa-solid fa-box-open"></i> My Orders
+                </a>
+
+                <a class="nav-link" href="/delivery/orders/assign/delivered">
+                    <i class="fa-solid fa-file-lines"></i> History
+                </a>
+            </div>
+
+            <!-- Account links on the left side of the remaining navbar space -->
+            <div class="navbar-nav ms-md-3">
+                <a class="nav-link" href="/delivery/person/profile">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+
+                <% if (typeof currUser !== "undefined" && currUser) { %>
+                    <a class="nav-link" href="/delivery/person/logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                <% } else { %>
+                    <a class="nav-link" href="/users/login">
+                        <i class="fa-solid fa-user-lock"></i> Login
+                    </a>
+                <% } %>
+            </div>
+
+        </div>
     </div>
-  </div>
 </nav>
