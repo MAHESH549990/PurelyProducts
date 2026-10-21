@@ -6,6 +6,7 @@ const User=require("../../models/user.js");
 const asyncWrap=require("../../utils/asyncWrap.js");
 const {isLoggedIn,isAddress}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
+const Review=require("../../models/review.js");
 const { populate } = require("../../models/user.js");
 
 //home route
@@ -77,15 +78,44 @@ router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   });
 }));
 
-
 router.get("/:id", asyncWrap(async (req, res) => {
-    const item = await Product.findById(req.params.id).populate({
-      path:"reviews",populate:{
-         path:"owner",
-         model:"User"
-      }
+    const { id } = req.params;
+
+    const item = await Product.findById(id)
+        .populate({
+            path: "reviews",
+            populate: {
+                path: "owner"
+            }
+        });
+
+    if (!item) {
+        req.flash("error", "Product not found.");
+        return res.redirect("/product");
+    }
+
+    let canReview = false;
+
+    if (req.user) {
+        const deliveredOrder = await Order.findOne({
+            customer: req.user._id,
+            status: "delivered",
+            "products.product": item._id
+        });
+
+        // Allow reviewing only if the user has not reviewed this product yet.
+        const alreadyReviewed = await Review.exists({
+            owner: req.user._id,
+            _id: { $in: item.reviews.map(review => review._id) }
+        });
+
+        canReview = Boolean(deliveredOrder) && !alreadyReviewed;
+    }
+
+    res.render("routes/productDetails.ejs", {
+        item,
+        canReview
     });
-    res.render("routes/productDetails", { item });
 }));
 
 

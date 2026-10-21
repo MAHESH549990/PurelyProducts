@@ -318,116 +318,108 @@
             Feedback from customers who have reviewed this product.
         </p>
     </section>
+    <!-- Review Popup Trigger -->
+    <% if (currUser && canReview) { %>
+    <div class="mb-4">
+        <button
+            type="button"
+            class="btn btn-shop-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#reviewModal">
+            <i class="fa-solid fa-star me-2"></i>
+            Write a review
+        </button>
+    </div>
 
-    <!-- Add Review Form -->
-    <% if (currUser) { %>
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal"
+            tabindex="-1" aria-labelledby="reviewModalLabel"
+            aria-hidden="true">
 
-        <section class="review-form-card mb-5">
-            <div class="card-body">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-                <h3 class="h5 fw-bold mb-4">
-                    Write a review
-                </h3>
-
-                <form
-                    action="/users/<%= item._id %>/reviews"
-                    method="post"
-                    class="needs-validation"
-                    novalidate
-                >
-
-                    <div class="mb-4">
-                        <label for="comment" class="form-label fw-semibold">
-                            Your comment
-                        </label>
-
-                        <textarea
-                            name="review[comment]"
-                            placeholder="Share your experience with this product..."
-                            class="form-control"
-                            id="comment"
-                            rows="4"
-                            minlength="5"
-                            required
-                        ></textarea>
-
-                        <div class="invalid-feedback">
-                            Please enter a comment with at least 5 characters.
-                        </div>
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold" id="reviewModalLabel">
+                            Review <%= item.name %>
+                        </h5>
+                        <p class="text-secondary small mb-0">
+                            How was your experience with this product?
+                        </p>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="image" class="form-label fw-semibold">
-                            Review image
-                            <span class="text-secondary fw-normal">(optional)</span>
-                        </label>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
 
+                <div class="modal-body">
+                    <form    action="/users/<%= item._id %>/reviews"
+                                method="POST"
+                                enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label for="rating" class="form-label fw-semibold">
+                                Your rating
+                            </label>
+                            <select name="review[rating]" id="rating"
+                                    class="form-select" required>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very good</option>
+                                <option value="3">3 - Good</option>
+                                <option value="2">2 - Fair</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="comment" class="form-label fw-semibold">
+                                Your review
+                            </label>
+                            <textarea name="review[comment]" id="comment"
+                                        class="form-control" rows="4"
+                                        minlength="5" required
+                                        placeholder="Share your experience..."></textarea>
+                        </div>
+
+                                                
+                        <div class="mb-3">
+                            <label for="reviewImage" class="form-label fw-semibold">
+                                Add a photo (optional)
+                            </label>
+
+                            
                         <input
-                            type="url"
-                            name="review[image][url]"
-                            placeholder="https://example.com/image.jpg"
+                            type="file"
+                            name="image"
+                            id="reviewImage"
                             class="form-control"
-                            id="image"
+                            accept="image/jpeg,image/png,image/webp"
                         >
 
-                        <div class="invalid-feedback">
-                            Please enter a valid image URL.
-                        </div>
-                    </div>
 
-                    <div class="mb-4">
-                        <label for="rating" class="form-label fw-semibold">
-                            Your rating
-                        </label>
-
-                        <div class="d-flex align-items-center gap-3">
-                            <input
-                                type="range"
-                                class="form-range review-rating-control"
-                                step="1"
-                                name="review[rating]"
-                                id="rating"
-                                min="1"
-                                max="5"
-                                value="5"
-                                required
-                            >
-
-                            <span
-                                class="badge text-bg-warning px-3 py-2"
-                                id="ratingValue"
-                            >
-                                5 / 5
-                            </span>
+                            <div class="form-text">
+                                Choose a photo from your device.
+                            </div>
                         </div>
 
-                        <div class="product-rating-stars mt-2" id="ratingStars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
 
-                    <button type="submit" class="btn btn-shop-primary">
-                        <i class="fa-solid fa-paper-plane me-2"></i>
-                        Submit review
-                    </button>
-
-                </form>
+                        <button type="submit" class="btn btn-shop-primary w-100">
+                            <i class="fa-solid fa-paper-plane me-2"></i>
+                            Submit review
+                        </button>
+          </form>
             </div>
-        </section>
-
-    <% } else { %>
-
-        <div class="alert alert-light border mb-5" role="status">
-            <i class="fa-solid fa-circle-info me-2"></i>
-            Please log in to write a review.
         </div>
+    </div>
 
+    <% } else if (currUser) { %>
+    <div class="alert alert-light border">
+        <i class="fa-solid fa-truck me-2"></i>
+        You can review this product after your order has been delivered.
+    </div>
     <% } %>
-
     <!-- Display Reviews -->
     <% if (item.reviews.length) { %>
 
