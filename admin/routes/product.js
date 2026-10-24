@@ -36,7 +36,12 @@ router.post("/new",isAdmin,validateProducts,asyncWrap(async(req,res)=>{
 
 router.get("/:id",isAdmin,asyncWrap(async(req,res)=>{
   let {id}=req.params;
-  let item=await Product.findById(id).populate("reviews");
+  let item=await Product.findById(id).populate({
+    path:"reviews",
+    populate:{
+      path:"owner"
+    }
+  });
   res.render("routes/item.ejs",{item});
 }));
 

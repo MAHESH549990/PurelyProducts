@@ -11,7 +11,6 @@ const router=express.Router();
 const mongoose=require("mongoose");
 const ExpressError=require("../utils/ExpressError.js");
 const products=require("./routes/product.js");
-const reviews=require("./routes/reviews.js");
 const users=require("./routes/users.js");
 const orders=require("./routes/orders.js");
 const delivery=require("./routes/deliveryPartner.js");
@@ -39,8 +38,6 @@ router.get("/",isAdmin,(req,res)=>{
 //products
 router.use("/products",products);
 
-//reviews
-router.use("/products/:id/reviews",reviews);
 //users
 router.use("/users",users);
 
