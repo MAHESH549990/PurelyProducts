@@ -19,14 +19,27 @@ module.exports.validateReviews=(req,res,next)=>{
     }
     next();
 }
-module.exports.isReviewOwner=async(req,res,next)=>{
-  let review=await Review.findById();
-  if(!review.owner.equals(res.locals.currUser._id)){
-    req.flash("error","Your are not the owner of this review");
-    res.redirect("/product/")
-  }
-  next();
-}
+
+
+
+module.exports.isReviewOwner = async (req, res, next) => {
+    const { reviewId } = req.params;
+
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+        req.flash("error", "Review not found or already deleted.");
+        return res.redirect("/product");
+    }
+
+    if (!review.owner.equals(res.locals.currUser._id)) {
+        req.flash("error", "You are not the owner of this review.");
+        return res.redirect("/product");
+    }
+
+    next();
+};
+
 
 
 module.exports.isAddress=(req,res,next)=>{
