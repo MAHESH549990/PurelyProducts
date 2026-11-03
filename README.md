@@ -1,153 +1,163 @@
 # 🛒 PurelyProducts
 
-**PurelyProducts** is a full-stack e-commerce web application built with a React frontend and a Node.js, Express, and MongoDB backend. It allows users to browse products, manage their shopping cart, place orders, and share product reviews. Separate Admin and Delivery modules manage products, orders, and deliveries.
+PurelyProducts is a full-stack e-commerce application with a React and Vite frontend and a Node.js, Express, and MongoDB backend. The Express application keeps the MVC routes and models for customer, administrator, and delivery workflows, while React provides the shared storefront and role-based interfaces.
 
-## 🌐 Project Links
+## Project links
 
-- **Live Demo:** [PurelyProducts](https://purelyproducts.onrender.com)
-- **GitHub Repository:** [MAHESH549990/PurelyProducts](https://github.com/MAHESH549990/PurelyProducts)
+- **Live demo:** [purelyproducts.onrender.com](https://purelyproducts.onrender.com)
+- **GitHub:** [MAHESH549990/PurelyProducts](https://github.com/MAHESH549990/PurelyProducts)
 
-## ✨ Features
+## Features
 
-### 👤 User Module
+### Customer storefront
 
-- User registration and login
-- Browse and view product details
-- Add and remove products from the shopping cart
-- Manage cart quantities
-- Place orders
-- View product reviews and ratings
-- Submit product reviews with optional images
-- Manage user profile and delivery address
-- View order information
+- Register, sign in, and manage a profile with saved delivery addresses.
+- Browse the product catalogue, view product details, and read ratings and reviews.
+- Add products to the cart, update quantities, and remove items.
+- Place orders using the built-in demo payment flow.
+- Review delivered products, optionally attach an image, and delete your own reviews.
+- Pay a ₹35 delivery charge when the product subtotal is below ₹299.
 
-### 🛠️ Admin Module
+### Administrator
 
-- Admin dashboard
-- Add, update, and delete products
-- Manage customer orders
-- Confirm and process orders
-- Manage delivery partner requests
+- View an order and sales operations dashboard.
+- Add, edit, and remove products, and manage available stock.
+- Review customers and order details.
+- Confirm orders and assign them to approved delivery partners.
+- Manage delivery partner applications and view administrator profile details.
+- View an earnings graph and a fixed ₹30 benefit for each assigned order.
 
-### 🚚 Delivery Module
+### Delivery partner
 
-- Separate delivery partner module
-- View assigned orders
-- Manage order delivery status
-- Track orders through different delivery stages
+- View assigned orders and customer, item, and delivery address details.
+- Move orders through delivery and mark them as delivered.
+- View delivery history, profile information, earnings totals, and a six-month graph.
+- Earn a fixed ₹40 per delivered order, regardless of how many items the order contains.
 
-### 🔐 Authentication and Security
+### Inventory and order earnings
 
-- User authentication using Passport.js
-- Session-based authentication
-- Role-based access for customers, admins, and delivery partners
-- Protected routes for authorized actions
+- Stock is tracked per product, checked when customers add items to the cart, and reduced when checkout completes.
+- Administrators can update quantities from the Inventory page and see low-stock and out-of-stock counts.
+- Admin benefit is counted when an order is assigned. Delivery earnings are counted when an order is marked delivered.
 
-## 🛠️ Tech Stack
+### Payment note
 
-| Technology      | Purpose                   |
-| --------------- | ------------------------- |
-| React           | Customer, admin, and delivery interfaces |
-| Vite            | Frontend development/build|
-| CSS3            | Responsive styling        |
-| Node.js         | JavaScript runtime        |
-| Express.js      | Backend framework         |
-| MongoDB         | Database                  |
-| Mongoose        | Database modeling         |
-| Passport.js     | Authentication            |
-| Express Session | Session management        |
-| Cloudinary      | Review image storage      |
+Checkout uses a simulated card form for demonstration. It does not connect to a payment provider or charge a real card. Completing the demo payment creates the order from the customer's server-side cart.
 
-## 📁 Project Structure
+## Technology
+
+| Technology | Use |
+| --- | --- |
+| React 19, Vite | Customer, admin, and delivery interfaces |
+| CSS | Responsive page styling |
+| Node.js, Express 5 | Server and HTTP routes |
+| MongoDB, Mongoose | Database and models |
+| Passport.js, Express Session | Login, sessions, and role-based access |
+| Joi | Request data validation |
+| Cloudinary, Multer | Product and review image uploads |
+
+## Project structure
 
 ```text
 PurelyProducts/
-├── admin/              # Admin routes and functionality
-├── user/               # User routes and functionality
-├── delivery/           # Delivery partner functionality
-├── frontend/           # React customer, admin, and delivery interfaces
-├── models/             # Mongoose database models
-├── frontend/           # React application and Vite configuration
-├── public/              # Static assets, CSS, and JavaScript
-├── utils/               # Utility functions
-├── middleware.js        # Upload middleware
-├── cloudConfig.js       # Cloudinary configuration
-├── index.js             # Application entry point
-├── package.json         # Dependencies and scripts
-├── .gitignore           # Git ignored files
-└── README.md             # Project documentation
+├── admin/
+│   ├── init/              # Product seed data and initializer
+│   └── routes/            # Admin routes, including inventory
+├── delivery/              # Delivery partner routes and workflows
+├── frontend/
+│   ├── src/               # React pages, components, and styles
+│   └── vite.config.mjs    # Vite dev server and production build
+├── models/                # Mongoose models
+├── public/                # Static files and built React app in public/app
+├── user/                  # Customer routes and workflows
+├── utils/                 # Rendering and earnings helpers
+├── cloudConfig.js         # Cloudinary configuration
+├── index.js               # Express entry point
+├── schema.js              # Joi validation schemas
+├── upload.js              # Multer upload configuration
+├── package.json
+└── README.md
 ```
 
-## ⚙️ Installation and Setup
+## Setup
 
-### 1. Clone the Repository
+### Requirements
+
+- Node.js and npm
+- A MongoDB database, such as MongoDB Atlas
+- Cloudinary credentials for image uploads
+
+### Install
 
 ```bash
 git clone https://github.com/MAHESH549990/PurelyProducts.git
-```
-
-### 2. Navigate to the Project Directory
-
-```bash
 cd PurelyProducts
-```
-
-### 3. Install Dependencies
-
-```bash
 npm install
 ```
 
-### 4. Configure Environment Variables
+### Configure environment variables
 
-Create a `.env` file in the project root and add the environment variables required by your application.
-
-Example:
+Create a `.env` file in the project root. Use your own values and keep the file private:
 
 ```env
 PORT=8080
 ATLAS_URL=your_mongodb_connection_string
 SECRET=your_session_secret
 
-CLOUD_NAME=your_cloudinary_cloud_name
-CLOUD_API_KEY=your_cloudinary_api_key
-CLOUD_API_SECRET=your_cloudinary_api_secret
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+ADMIN_NAME=your_admin_username
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
 ```
 
-Use the exact variable names expected by your application's configuration files. Replace the example values with your own credentials, and **never commit your `.env` file or expose your secret keys on GitHub**.
+The Cloudinary variable names must match the names above. Set environment variables in the Render service settings for deployment. Never commit `.env` or publish real credentials.
 
-Checkout currently uses a clearly labeled demo payment flow. It does not connect to a payment provider or charge money. Completing the demo step records the order from the current server-side cart.
-
-### 5. Start the Application
+### Run the Express app
 
 ```bash
 npm start
 ```
 
-For frontend development with Vite, run `npm run dev`. For a production deployment, run `npm run build` before `npm start`; the Express server serves the generated files from `public/app`. The existing Express routes and session authentication provide JSON page data to React and continue to handle cart, order, review, address, product, admin, and delivery actions.
+Open [http://localhost:8080](http://localhost:8080).
 
-### 6. Open the Application
+### Develop the React frontend
 
-Visit the following URL in your browser:
+Run the Express server in one terminal, then run Vite in another:
 
-```text
-http://localhost:8080
+```bash
+npm run dev
 ```
 
-**Prerequisites:** Node.js, npm, a MongoDB database, and Cloudinary credentials if you want to use image uploads.
+Vite runs at [http://localhost:5173/app/](http://localhost:5173/app/) and proxies application requests to Express on port 8080.
 
-## 🎯 Project Goal
+### Build for deployment
 
-The goal of PurelyProducts is to develop a practical full-stack e-commerce application while gaining hands-on experience with backend development, database management, authentication, file uploads, CRUD operations, and role-based application architecture.
+```bash
+npm run build
+npm start
+```
 
-## 👨‍💻 Author
+Vite writes the production frontend to `public/app`, which Express serves. The Render deployment should run the build before starting the server, for example with `npm run build && npm start`.
 
-**Mahesh Bhatt**
+### Seed catalogue data
 
-BCA — Artificial Intelligence and Data Science
+The sample catalogue is in `admin/init/data.js`. To initialize it, run:
 
+```bash
+node admin/init/app.js
+```
+
+**Warning:** the initializer deletes all existing product documents before inserting the sample catalogue. Back up or otherwise preserve any product records you need before running it.
+
+## Author
+
+**Mahesh Bhatt**  
+BCA — Artificial Intelligence and Data Science  
 GitHub: [MAHESH549990](https://github.com/MAHESH549990)
 
 ---
 
-⭐ If you find this project interesting, feel free to explore the repository and check out the live demo.
+⭐ Explore the repository or try the live demo to see the customer, administrator, and delivery workflows.
