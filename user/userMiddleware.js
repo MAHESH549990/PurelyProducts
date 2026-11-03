@@ -5,6 +5,9 @@ const User=require("../models/user.js");
 
 module.exports.isLoggedIn=(req,res,next)=>{
    if(!req.isAuthenticated()){
+    if((req.get("accept")||"").toLowerCase().includes("application/json")){
+      return res.status(401).json({redirect:"/users/login",error:"You need to be logged in to continue."});
+    }
     req.flash("error","You need to be logged in to perform this action");
     return res.redirect("/users/login");
   }
@@ -32,8 +35,10 @@ module.exports.isReviewOwner = async (req, res, next) => {
         return res.redirect("/product");
     }
 
-    if (!review.owner.equals(res.locals.currUser._id)) {
-        req.flash("error", "You are not the owner of this review.");
+    const isOwner=review.owner&&review.owner.equals(req.user?._id);
+    const isAdmin=req.user?.role==="admin";
+    if (!isOwner&&!isAdmin) {
+        req.flash("error", "Only the reviewer or an administrator can delete this review.");
         return res.redirect("/product");
     }
 
@@ -43,7 +48,10 @@ module.exports.isReviewOwner = async (req, res, next) => {
 
 
 module.exports.isAddress=(req,res,next)=>{
-  if(req.user.address.length<=0){
+  if(!Array.isArray(req.user?.address)||req.user.address.length===0){
+    if((req.get("accept")||"").toLowerCase().includes("application/json")){
+      return res.status(400).json({redirect:"/users/profile/location",error:"Add a delivery address before checkout."});
+    }
     req.flash("error","You need to add address before perform this action");
     return res.redirect("/users/profile/location");
   }

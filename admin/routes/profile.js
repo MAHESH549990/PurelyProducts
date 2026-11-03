@@ -1,4 +1,5 @@
 const express=require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router=express.Router();
 const asyncWrap=require("../../utils/asyncWrap.js");
 const User=require("../../models/user.js");
@@ -43,9 +44,15 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/",isLoggedIn ,isAdmin,(req, res) => {
-    res.render("routes/adminProfile.ejs", {
-        currUser: req.user
-    });
+    const adminProfile={
+        _id:req.user._id,
+        username:req.user.username,
+        email:req.user.email,
+        role:req.user.role,
+        address:req.user.address||[],
+        loggedAt:req.user.loggedAt
+    };
+    renderPage(req,res,"routes/adminProfile.ejs",{adminProfile});
 });
 
 module.exports=router;

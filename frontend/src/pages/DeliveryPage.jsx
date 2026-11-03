@@ -1,0 +1,30 @@
+import React from 'react';
+import {id,image,money,Intro,Empty,Status} from './ui';
+
+const formatDate=value=>value?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short'}).format(new Date(value)):'Date unavailable';
+function orderAddress(order){
+ const customer=order.customer||{},address=order.deliveryAddress||customer.address?.[customer.address.length-1]||customer.address?.[0];
+ return address?[address.location,address.city,address.state].filter(Boolean).join(', '):'No delivery address saved';
+}
+function OrderAction({order,path,submit}){
+ const orderId=id(order);
+ if(order.status==='assigned')return <form action={`/delivery/orders/${orderId}/confirm`} method="post" onSubmit={submit}><button className="btn primary">Start delivery ↗</button></form>;
+ if(order.status==='out_for_delivery')return <form action={`/delivery/orders/assign/${orderId}/delivered`} method="post" onSubmit={submit}><button className="btn primary">Mark delivered ↗</button></form>;
+ return <a className="mini-action" href={`/delivery/orders/assign/${orderId}`}>View full order ↗</a>;
+}
+function DeliveryOrderCard({order,path,submit}){
+ const customer=order.customer||{},items=order.products||[];
+ return <article className="delivery-order-card"><header className="delivery-order-head"><div><small>ORDER</small><b>#{id(order).slice(-8).toUpperCase()}</b></div><div><small>PLACED</small><b>{formatDate(order.createdAt)}</b></div><div><small>STATUS</small><Status value={order.status}/></div></header><div className="delivery-order-content"><section className="delivery-customer-info"><small>CUSTOMER</small><h2>{customer.username||'Customer'}</h2>{customer.email&&<a href={`mailto:${customer.email}`}>{customer.email}</a>}<div className="delivery-customer-address"><b>Deliver to</b><p>{orderAddress(order)}</p></div></section><section className="delivery-order-products"><small>ORDER ITEMS · {items.reduce((sum,line)=>sum+(Number(line.quantity)||0),0)}</small>{items.map((line,index)=>{const product=line.product||{};return <div className="delivery-order-item" key={`${id(product)}-${index}`}><span className="delivery-item-image">{image(product)?<img src={image(product)} alt={product.name||'Product'}/>:<span>PP</span>}</span><span>{product.name||'Product'}<small>Quantity {line.quantity}</small></span><b>{money((Number(product.price)||0)*(Number(line.quantity)||0))}</b></div>})}</section></div><footer className="delivery-order-footer"><span>Order total <b>{money(order.totalAmount)}</b></span><a className="mini-action" href={`/delivery/orders/assign/${id(order)}`}>Full details</a><OrderAction order={order} path={path} submit={submit}/></footer></article>;
+}
+
+export default function DeliveryPage({data={},path='/delivery',user,submit,titleOverride}) {
+ const rows=data.orders||data.deliveries||[],order=data.order||data.item;
+ if(path.endsWith('/profile')){
+  const partner=data.deliveryPartner||{},account=partner.user||user||{},savedAddress=data.address||{},joined=partner.createdAt?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium'}).format(new Date(partner.createdAt)):'—',reviewed=partner.reviewedAt?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium'}).format(new Date(partner.reviewedAt)):'Not reviewed';
+  return <main className="section delivery-profile-page"><Intro title="Delivery partner profile" copy="Your account, contact, vehicle, and application details."/><section className="delivery-profile-card"><header className="delivery-profile-header"><span className="delivery-profile-avatar">{(account.username||'D').slice(0,1).toUpperCase()}</span><div><small>DELIVERY PARTNER ACCOUNT</small><h2>{account.username||'Delivery partner'}</h2><p>{account.email||'Email not available'}</p></div><Status value={partner.applicationStatus}/></header><div className="delivery-profile-sections"><section className="delivery-profile-section"><small>CONTACT AND SERVICE AREA</small><div className="delivery-profile-grid"><ProfileValue label="Phone number" value={partner.phone}/><ProfileValue label="Application address" value={partner.address}/><ProfileValue label="Saved account address" value={[savedAddress.location,savedAddress.city,savedAddress.state].filter(Boolean).join(', ')}/></div></section><section className="delivery-profile-section"><small>VEHICLE AND EXPERIENCE</small><div className="delivery-profile-grid"><ProfileValue label="Vehicle registration" value={partner.vehicleNumber}/><ProfileValue label="Delivery experience" value={partner.experience}/></div></section><section className="delivery-profile-section"><small>LICENCE AND APPLICATION</small><div className="delivery-profile-grid"><ProfileValue label="Licence number" value={partner.licenseNumber}/><ProfileValue label="Licence document" value={partner.licenseImage?.filename}/><ProfileValue label="Applied on" value={joined}/><ProfileValue label="Reviewed on" value={reviewed}/></div></section></div><footer className="delivery-profile-footer"><span>Your delivery account status</span><Status value={partner.applicationStatus}/><a className="btn primary" href="/delivery/orders/assign">Go to assigned orders ↗</a></footer></section></main>;
+ }
+ const title=titleOverride||(path.includes('out-for-delivery')?'Orders on the way':path.includes('delivered')?'Delivery history':path.includes('/assign/')?'Delivery details':'Assigned orders');
+ return <main className="section delivery-workspace"><div className="page-head"><div><small>PURELYPRODUCTS · DELIVERY PARTNER</small><h1>{title}</h1><p>Customer details and delivery instructions for your assigned work.</p></div></div>{order?<DeliveryOrderCard order={order} path={path} submit={submit}/>:rows.length?<div className="delivery-order-list">{rows.map(order=><DeliveryOrderCard key={id(order)} order={order} path={path} submit={submit}/>)}</div>:<Empty title="No deliveries here yet" copy="Assigned orders and delivery updates will appear here."/>}</main>;
+}
+
+function ProfileValue({label,value}){return <div className="delivery-profile-value"><small>{label}</small><b>{value||'Not provided'}</b></div>}

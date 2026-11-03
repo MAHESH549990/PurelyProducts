@@ -1,4 +1,5 @@
 const express=require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router=express.Router();
 const Product=require("../../models/products.js");
 const Order=require("../../models/orders.js");
@@ -15,14 +16,14 @@ const Delivery=require("../../models/delivery.js");
 //top products
 router.get("/top",isAdmin,async(req,res)=>{
   let products=await Product.find({rating:{$gt:4}});
-  res.render("routes/topProducts.ejs",{products});
+  renderPage(req,res,"routes/topProducts.ejs",{products});
 });
 
 //see pending orders
 router.get("/pending",isAdmin,async(req,res)=>{
-  let orders=await Order.find({status:{$in:"placed"}}).populate("customer").populate("products.product");
+  let orders=await Order.find({status:"placed"}).populate("customer").populate("products.product").sort({createdAt:-1});
   let users=await User.find();
-  res.render("routes/pendingOrders.ejs",{orders,users});
+  renderPage(req,res,"routes/pendingOrders.ejs",{orders,users});
 })
 
 // //Status of placed orders
@@ -32,19 +33,19 @@ router.patch("/confirmed/:id/accept",isAdmin,async(req,res)=>{
     
       if (!order) {
             req.flash("error", "Order not found");
-            return res.redirect("/admin/orders");
+            return res.redirect("/admin/users/orders/pending");
         }
 
         if (order.status !== "placed") {
             req.flash("error", "This order cannot be accepted");
-            return res.redirect("/admin/orders");
+            return res.redirect("/admin/users/orders/pending");
         }
 
         order.status = "confirmed";
         await order.save();
 
-    req.flash("success", "Order accepted successfully!");
-    res.redirect("/admin/users/orders/pending");
+    req.flash("success", "Order confirmed. Assign a delivery partner to continue.");
+    res.redirect("/admin/users/orders/accepted");
  });
 
 // View confirmed orders
@@ -57,7 +58,7 @@ router.get("/accepted", isAdmin, async (req, res) => {
             .populate("products.product")
             .sort({ createdAt: -1 });
 
-        res.render("routes/confirmedOrders.ejs", { orders });
+        renderPage(req,res,"routes/confirmedOrders.ejs", { orders });
     } catch (err) {
         console.error(err);
         req.flash("error", "Unable to load confirmed orders.");
@@ -69,21 +70,20 @@ router.get("/accepted", isAdmin, async (req, res) => {
 // Show approved delivery partners for a particular order
 router.get("/:id/assign-delivery", isAdmin, async (req, res) => {
     try {
-        const order = await Order.findOne({
-            _id: req.params.id,
-            status: "confirmed"
-        });
+        const order = await Order.findById(req.params.id)
+            .populate("customer","username email")
+            .populate("products.product")
+            .populate("deliveryPartner","username email");
 
         if (!order) {
-            req.flash("error", "Confirmed order not found.");
-            return res.redirect("/admin/users/orders/accepted");
+            return renderPage(req,res,"routes/error.ejs",{message:"This order could not be found.",status:404});
         }
 
         const deliveries = await Delivery.find({
             applicationStatus: "approved"
         }).populate("user", "username email");
         
-        res.render("routes/approvedDeliveryDetails.ejs", {
+        renderPage(req,res,"routes/approvedDeliveryDetails.ejs", {
             deliveries,
             order
         });
@@ -127,6 +127,8 @@ router.post("/:id/assign-delivery", isAdmin, async (req, res) => {
     // Assign delivery partner and update status
     order.deliveryPartner = delivery.user;
     order.status = "assigned";
+    order.adminProfit = 30;
+    order.assignedAt = new Date();
 
     await order.save();
 

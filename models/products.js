@@ -12,6 +12,13 @@ const productsSchema=Schema({
     required:true,
     min:1,
   },
+  stock:{
+    type:Number,
+    required:true,
+    min:0,
+    default:100,
+    validate:{validator:Number.isInteger,message:"Stock must be a whole number."}
+  },
   image:{
     // filename:{
     //   type:String,
@@ -30,6 +37,11 @@ const productsSchema=Schema({
   description:{
     type:String,
     required:true,
+  },
+  category:{
+    type:String,
+    trim:true,
+    default:"Other"
   },
   reviews:[
     {

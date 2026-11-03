@@ -450,4 +450,89 @@ const products = [
   },
 ];
 
+// Extra catalogue items. Keep this list separate from the original sample set
+// so the starter products remain easy to identify and maintain.
+const additionalProducts = [
+  ["Men's Linen Shirt", "Breathable linen blend shirt for warm days and relaxed evenings.", 1599, 4, "Fashion"],
+  ["Women's Cotton Kurta Set", "Soft cotton kurta with matching trousers for everyday comfort.", 1899, 5, "Fashion"],
+  ["Classic Straight Fit Trousers", "Versatile straight-leg trousers with a comfortable mid-rise fit.", 1799, 4, "Fashion"],
+  ["Lightweight Denim Jacket", "Easy layering jacket made from durable washed denim.", 2799, 5, "Fashion"],
+  ["Floral Summer Dress", "Light, flowing dress with a cheerful floral print.", 2199, 4, "Fashion"],
+  ["Reversible Leather Belt", "Everyday belt with a reversible buckle and clean finish.", 999, 4, "Fashion"],
+  ["Everyday Canvas Sneakers", "Lightweight lace-up sneakers for daily walks and errands.", 2299, 4, "Fashion"],
+  ["Cotton Ankle Socks Pack", "Pack of five breathable cotton ankle socks.", 499, 4, "Fashion"],
+  ["Organic Rolled Oats", "Whole-grain rolled oats for breakfast bowls and baking.", 249, 5, "Groceries"],
+  ["Cold Pressed Olive Oil", "Extra virgin olive oil for dressings, dips, and everyday cooking.", 699, 5, "Groceries"],
+  ["Authentic Garam Masala", "Aromatic spice blend that brings warmth to home-cooked meals.", 179, 4, "Groceries"],
+  ["Assam Green Tea Bags", "A box of refreshing green tea bags for a gentle daily brew.", 299, 4, "Groceries"],
+  ["Whole Wheat Pasta", "Durum wheat pasta with a hearty texture, ideal for quick meals.", 159, 4, "Groceries"],
+  ["Creamy Almond Butter", "Smooth roasted almond butter with no added palm oil.", 449, 5, "Groceries"],
+  ["Natural Jaggery Powder", "Unrefined cane jaggery powder for sweetening drinks and recipes.", 139, 4, "Groceries"],
+  ["Roasted Trail Mix", "A crunchy mix of nuts, seeds, and dried fruit for snacking.", 349, 5, "Groceries"],
+  ["Royal Gala Apples", "Crisp, naturally sweet apples selected for freshness.", 199, 4, "Premium Fruits"],
+  ["Alphonso Mango Box", "A seasonal box of fragrant, richly flavoured Alphonso mangoes.", 899, 5, "Premium Fruits"],
+  ["Nagpur Sweet Oranges", "Juicy oranges with a bright citrus flavour, packed with care.", 179, 4, "Premium Fruits"],
+  ["Fresh Hass Avocados", "Creamy ripe avocados for toast, salads, and smoothies.", 299, 4, "Premium Fruits"],
+  ["Fresh Blueberries Pack", "Plump blueberries ready for breakfast, desserts, or snacking.", 399, 5, "Premium Fruits"],
+  ["Ruby Pomegranate Pair", "Two ruby-red pomegranates with sweet, jewel-like seeds.", 229, 4, "Premium Fruits"],
+  ["Stainless Steel French Press", "A durable 600 ml coffee press for a smooth, full-bodied brew.", 1299, 5, "Home & Kitchen"],
+  ["Stoneware Dinner Set", "A modern four-piece stoneware set for everyday meals.", 2499, 4, "Home & Kitchen"],
+  ["Chef's Utility Knife", "Balanced stainless steel kitchen knife for daily food preparation.", 899, 5, "Home & Kitchen"],
+  ["Glass Pantry Jar Set", "Set of three clear airtight jars to keep pantry staples fresh.", 799, 4, "Home & Kitchen"],
+  ["Cast Iron Skillet", "Pre-seasoned skillet that heats evenly for stovetop and oven cooking.", 1899, 5, "Home & Kitchen"],
+  ["Handwoven Table Runner", "Textured cotton table runner that adds a warm finishing touch.", 699, 4, "Home & Kitchen"],
+  ["Ceramic Mug Pair", "Two comfortable stoneware mugs for tea, coffee, and cocoa.", 549, 5, "Home & Kitchen"],
+  ["Compact Desk Lamp", "Adjustable desk lamp with a soft, comfortable reading light.", 1499, 4, "Home & Kitchen"],
+  ["Daily Mineral Sunscreen SPF 50", "Lightweight broad-spectrum sunscreen for everyday protection.", 599, 4, "Beauty"],
+  ["Gentle Foaming Face Cleanser", "A mild daily cleanser that leaves skin feeling fresh and comfortable.", 399, 4, "Beauty"],
+  ["Hydrating Face Moisturizer", "Fast-absorbing moisturizer for soft, hydrated skin.", 549, 5, "Beauty"],
+  ["Nourishing Hair Oil", "A lightweight blend to help condition dry hair and scalp.", 349, 4, "Beauty"],
+  ["Vitamin C Brightening Serum", "Daily facial serum with vitamin C for a fresh-looking complexion.", 799, 5, "Beauty"],
+  ["Botanical Bath Gift Set", "A relaxing set with botanical body wash and nourishing lotion.", 999, 5, "Beauty"],
+  ["Wireless Bluetooth Earbuds", "Compact wireless earbuds with a charging case for everyday listening.", 2499, 4, "Electronics"],
+  ["Foldable Tablet Stand", "Adjustable aluminium stand for comfortable hands-free viewing.", 799, 4, "Electronics"],
+  ["Full HD USB Webcam", "Clear 1080p webcam for video calls, classes, and streaming.", 2199, 4, "Electronics"],
+  ["Dual Band Wi-Fi Router", "Reliable dual-band router for smooth browsing and streaming at home.", 3299, 5, "Electronics"],
+  ["Seven-Port USB Hub", "Compact USB hub that adds seven ports to a laptop workspace.", 1199, 4, "Electronics"],
+  ["Smart Wi-Fi Plug", "Control compatible home devices and set schedules from your phone.", 899, 4, "Electronics"],
+  ["Home Tool Kit, 32 Pieces", "A useful collection of everyday hand tools in a compact carry case.", 1599, 5, "Home Improvement"],
+  ["Warm White LED Bulbs, Pack of 4", "Energy-saving warm white bulbs for a welcoming home light.", 499, 4, "Home Improvement"],
+  ["Woven Entryway Doormat", "Hard-wearing textured doormat that helps keep entryways tidy.", 699, 4, "Home Improvement"],
+  ["Floating Wall Shelf", "Minimal wall shelf for displaying books, plants, and small decor.", 1299, 5, "Home Improvement"],
+  ["Cork Yoga Block Pair", "Two supportive cork blocks for balance, stretching, and yoga practice.", 899, 5, "Sports, Toys & Luggage"],
+  ["Badminton Racket Set", "Two lightweight rackets with shuttlecocks for casual games.", 1799, 4, "Sports, Toys & Luggage"],
+  ["Travel Packing Cubes", "Set of four lightweight organizers to keep luggage neatly packed.", 999, 5, "Sports, Toys & Luggage"],
+  ["Creative Building Blocks Set", "Colourful construction blocks for imaginative play and problem-solving.", 1499, 5, "Sports, Toys & Luggage"],
+];
+
+const catalogueImages = {
+  "Fashion": ["photo-1521572163474-6864f9cf17ab", "photo-1542272604-787c3835535d", "photo-1542291026-7eec264c27ff", "photo-1483985988355-763728e1935b"],
+  "Groceries": ["photo-1542838132-92c53300491e", "photo-1547592180-85f173990554", "photo-1606787366850-de6330128bfc"],
+  "Premium Fruits": ["photo-1610832958506-aa56368176cf", "photo-1619566636858-adf3ef46400b", "photo-1490474418585-ba9bad8fd0ea"],
+  "Home & Kitchen": ["photo-1556911220-e15b29be8c8f", "photo-1514228742587-6b1558fcca3d", "photo-1490645935967-10de6ba17061"],
+  "Beauty": ["photo-1596462502278-27bfdc403348", "photo-1608248543803-ba4f8c70ae0b"],
+  "Electronics": ["photo-1505740420928-5e560c06d30e", "photo-1523275335684-37898b6baf30", "photo-1519389950473-47ba0277781c"],
+  "Home Improvement": ["photo-1600585154340-be6161a56a0c", "photo-1616486338812-3dadae4b4ace"],
+  "Sports, Toys & Luggage": ["photo-1517836357463-d25dfeac3438", "photo-1553062407-98eeb64c6a62", "photo-1518611012118-696072aa579a"],
+};
+const imageUse = {};
+products.push(...additionalProducts.map(([name, description, price, rating, category]) => {
+  const options = catalogueImages[category];
+  const index = imageUse[category] || 0;
+  imageUse[category] = index + 1;
+  const photo = options[index % options.length];
+  return {
+    name,
+    description,
+    price,
+    stock: 50,
+    category,
+    rating,
+    image: {
+      filename: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+      url: `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=900&q=85`,
+    },
+  };
+}));
+
 module.exports = { data: products };

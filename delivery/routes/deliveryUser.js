@@ -1,4 +1,5 @@
 const express = require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router = express.Router();
 const Delivery = require("../../models/delivery.js");
 const requireDeliveryPartner = require("../requireDeliveryPartner.js");
@@ -13,16 +14,16 @@ router.get("/profile", requireDeliveryPartner,async (req, res) => {
 
         const deliveryPartner = await Delivery.findOne({
             user: req.user._id
-        });
+        }).populate("user","username email");
 
         if (!deliveryPartner) {
             req.flash("error", "Delivery partner profile not found.");
             return res.redirect("/delivery");
         }
 
-        const address = req.user.address?.[0] || {};
+        const address = req.user.address?.[req.user.address.length-1] || {};
 
-        res.render("routes/deliveryPartnerProfile.ejs", {
+        renderPage(req,res,"routes/deliveryPartnerProfile.ejs", {
             username: req.user.username,
             email: req.user.email,
             deliveryPartner,

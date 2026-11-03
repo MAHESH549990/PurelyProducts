@@ -1,0 +1,7 @@
+import React,{useState} from 'react';
+import {Field} from './ui';
+
+export default function LoginPage({submit,notice}) {
+ const [show,setShow]=useState(false);
+ return <main className="auth"><aside className="auth-art"><a href="/product" className="brand inverse"><b>p</b> purely<span>products</span></a><div><small>A BETTER KIND OF EVERYDAY</small><h1>Good things<br/>are waiting.</h1><p>Thoughtful finds for the little moments that make life feel good.</p></div><small>PURELY PICKED · MADE FOR YOU</small></aside><section className="auth-content"><a href="/product" className="back">← Back to the shop</a><div className="auth-box"><small>WELCOME BACK</small><h2>Welcome back.</h2><p>Sign in and find something good for today.</p>{notice&&<div className="form-alert">{notice}</div>}<form onSubmit={submit} action="/users/login" method="post" className="form-stack"><Field label="Username" name="username" required/><label className="field"><span>Password</span><div className="pass"><input name="password" type={show?'text':'password'} required/><button type="button" onClick={()=>setShow(!show)}>{show?'Hide':'Show'}</button></div></label><button className="btn primary">Sign in <b>↗</b></button></form><div className="auth-switch">New to PurelyProducts? <a href="/users/signup">Create an account</a></div></div><small className="auth-copy">© {new Date().getFullYear()} PurelyProducts</small></section></main>;
+}

@@ -1,12 +1,14 @@
+const renderPage=require("../utils/renderPage.js");
+
 module.exports = (req, res, next) => {
   if (!req.isAuthenticated || !req.isAuthenticated()) {
-    req.flash("error", "Please log in first.");
-    return res.redirect("/users/login");
+    res.status(401);
+    return renderPage(req,res,"routes/error.ejs",{message:"Please sign in to access delivery tools.",status:401});
   }
 
   if (req.user.role !== "delivery") {
-    req.flash("error", "Access denied. Delivery partners only.");
-    return res.redirect("/product");
+    res.status(403);
+    return renderPage(req,res,"routes/error.ejs",{message:"This account is not an approved delivery partner. Sign in with a delivery account.",status:403});
   }
 
   next();

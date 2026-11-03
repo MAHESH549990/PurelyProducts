@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "vite --config frontend/vite.config.mjs",
+    "build": "vite build --config frontend/vite.config.mjs",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,12 +14,11 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@vitejs/plugin-react": "^6.2.1",
     "cloudinary": "^2.11.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^18.0.8",
-    "ejs": "^6.0.1",
-    "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "joi": "^18.2.5",
@@ -25,6 +27,9 @@
     "multer": "^2.4.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^9.1.0"
+    "passport-local-mongoose": "^9.1.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.5"
   }
 }

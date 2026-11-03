@@ -1,0 +1,56 @@
+/* Route page refinements: clear hierarchy for operations, orders, and reviews. */
+.orders-page .intro,.delivery-workspace .page-head{margin-bottom:24px}
+.orders-page .table-shell,.delivery-workspace .table-shell,.section>.table-shell{border:1px solid #e2e9ed;border-radius:12px;box-shadow:0 14px 36px #1634480b}
+.orders-page table,.delivery-workspace table,.section>.table-shell table{min-width:740px}
+.orders-page th,.delivery-workspace th,.section>.table-shell th{background:#f2f8fa;color:#587180;font-size:9px;letter-spacing:.9px;padding:16px 18px}
+.orders-page td,.delivery-workspace td,.section>.table-shell td{padding:17px 18px;vertical-align:middle;border-top:1px solid #edf1f3}
+.order-items-line,.order-customer-line{display:block!important;margin-top:6px;color:#687984;font-size:9px;line-height:1.45}
+.order-customer-line{color:#8a969d}
+.row-title{color:#1e3442}
+.status{padding:6px 9px;border-radius:99px;font-size:9px;letter-spacing:.1px}
+.orders-page .empty{border:1px solid #e7edf0;border-radius:14px;background:linear-gradient(145deg,#f7fbfc,#eff8fa);padding:62px 20px}
+.detail{align-items:start}
+.detail-description{max-width:55ch}
+.product-reviews{margin-top:38px;padding-top:25px;border-top:1px solid #e8edf0}
+.reviews-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:16px}
+.reviews-heading small{display:block;color:#008dbd;font-size:9px;font-weight:700;letter-spacing:1.2px}
+.reviews-heading h2{margin:7px 0 0;font-size:21px;letter-spacing:-.4px}
+.reviews-heading>span{color:#74828a;font-size:10px;white-space:nowrap}
+.reviews-list{display:grid;gap:11px}
+.review-card{padding:16px 18px;border:1px solid #e6ecef;border-radius:10px;background:#fff;box-shadow:0 5px 18px #14394a08}
+.review-topline{display:flex;align-items:center;gap:9px;min-height:20px}
+.review-stars{font-size:14px;letter-spacing:2px;color:#efa92a;white-space:nowrap}
+.review-stars>span{color:#d8e0e4}
+.review-rating{font-size:9px;color:#72818a}
+.review-byline{display:flex;align-items:center;gap:10px;margin-top:10px}
+.review-byline b{font-size:11px;color:#263944}
+.review-byline time{font-size:9px;color:#89959c}
+.review-comment{margin:9px 0 0!important;color:#56666f!important;font-size:11px!important;line-height:1.7!important;white-space:pre-line}
+.review-photo{display:block;max-width:110px;max-height:110px;object-fit:cover;border-radius:7px;margin-top:12px}
+.review-empty{padding:16px 18px;border:1px dashed #ccdce3;border-radius:9px;background:#f7fbfc;color:#72818a;font-size:11px}
+.review-form{margin-top:18px;border-radius:12px}
+.review-form h3{margin:0 0 3px}
+.admin-review-section{max-width:850px;margin-top:24px}
+.admin-review-section>h2{font-size:18px;color:#243b48}
+.checkout-card{display:grid;grid-template-columns:1fr minmax(190px,280px);align-items:center;gap:24px;padding:25px;border:1px solid #e4ecef;border-radius:13px;background:#fff;box-shadow:0 12px 32px #1634480b}
+.checkout-card small{font-size:9px;color:#078bb8;font-weight:700;letter-spacing:1px}
+.checkout-card h2{margin:10px 0 6px;font-size:21px}
+.checkout-card p,.checkout-card a{font-size:11px;color:#71818a}
+.checkout-card form{width:100%}
+.access-error .error-code{font-size:12px;font-weight:800;letter-spacing:2px;color:#078bb8;text-align:center;margin:25px 0 -30px}
+.admin-review-section .reviews-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){
+ .orders-page .table-shell,.delivery-workspace .table-shell,.section>.table-shell{overflow:visible;border:0;background:transparent;box-shadow:none}
+ .orders-page table,.delivery-workspace table,.section>.table-shell table{min-width:0;border-collapse:separate;border-spacing:0 10px}
+ .orders-page thead,.delivery-workspace thead,.section>.table-shell thead{display:none}
+ .orders-page tbody tr,.delivery-workspace tbody tr,.section>.table-shell tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:13px 14px;border:1px solid #e6edf0;border-radius:11px;background:#fff;box-shadow:0 7px 20px #16344808}
+ .orders-page td,.delivery-workspace td,.section>.table-shell td{display:block;padding:4px 0;border:0;min-width:0}
+ .orders-page td:first-child,.delivery-workspace td:first-child,.section>.table-shell td:first-child{grid-column:1/-1}
+ .orders-page td:nth-child(2),.delivery-workspace td:nth-child(2),.section>.table-shell td:nth-child(2){align-self:center}
+ .orders-page td:nth-child(3),.delivery-workspace td:nth-child(3),.section>.table-shell td:nth-child(3){justify-self:end;align-self:center;font-weight:700}
+ .orders-page td:nth-child(4),.delivery-workspace td:nth-child(4),.section>.table-shell td:nth-child(4){grid-column:1/-1;padding-top:6px}
+ .orders-page td:nth-child(4) form,.delivery-workspace td:nth-child(4) form{display:inline-block}
+ .checkout-card{grid-template-columns:1fr;padding:18px}
+ .admin-review-section .reviews-list{grid-template-columns:1fr}
+ .review-card{padding:14px}
+}

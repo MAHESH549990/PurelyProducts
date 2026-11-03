@@ -1,4 +1,5 @@
 const express = require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router = express.Router();
 const requireDeliveryPartner=require("../requireDeliveryPartner.js");
 
@@ -15,7 +16,7 @@ router.get("/assign", requireDeliveryPartner, async (req, res) => {
             .populate("products.product")
             .sort({ createdAt: -1 });
 
-        res.render("routes/assignedOrders.ejs", { orders });
+        renderPage(req,res,"routes/assignedOrders.ejs", { orders });
     } catch (err) {
         console.error("Assigned Orders Error:", err);
         req.flash("error", "Unable to load assigned orders.");
@@ -37,7 +38,7 @@ router.get(
                 .populate("products.product")
                 .sort({ createdAt: -1 });
 
-            res.render("routes/outOfDeliveryOrders.ejs", { orders });
+            renderPage(req,res,"routes/outOfDeliveryOrders.ejs", { orders });
         } catch (err) {
             console.error("Out-for-Delivery Orders Error:", err);
             req.flash("error", "Unable to load delivery orders.");
@@ -60,7 +61,7 @@ router.get(
                 .populate("products.product")
                 .sort({ createdAt: -1 });
 
-            res.render("routes/deliveredOrders.ejs", { orders });
+            renderPage(req,res,"routes/deliveredOrders.ejs", { orders });
         } catch (err) {
             console.error("Delivered Orders Error:", err);
             req.flash("error", "Unable to load delivered orders.");
@@ -87,7 +88,7 @@ router.get("/assign/:id", requireDeliveryPartner, async (req, res) => {
             return res.redirect("/delivery/orders/assign");
         }
 
-        res.render("routes/assignProductDetails.ejs", { order });
+        renderPage(req,res,"routes/assignProductDetails.ejs", { order });
     } catch (err) {
         console.error("Order Details Error:", err);
         req.flash("error", "Unable to load order details.");
@@ -127,11 +128,8 @@ router.post("/:id/confirm", requireDeliveryPartner, async (req, res) => {
     }
 });
 
-// PATCH: Mark order as delivered
-router.patch(
-    "/assign/:id/out-for-delivery/delivered",
-    requireDeliveryPartner,
-    async (req, res) => {
+// Mark order as delivered (PATCH is kept for older clients; the React form uses POST).
+const markOrderDelivered=async(req,res)=>{
         try {
             const order = await Order.findOne({
                 _id: req.params.id,
@@ -148,6 +146,8 @@ router.patch(
             }
 
             order.status = "delivered";
+            order.deliveryEarnings = 40;
+            order.deliveredAt = new Date();
             await order.save();
 
             req.flash("success", "Order delivered successfully!");
@@ -157,8 +157,10 @@ router.patch(
             req.flash("error", "Unable to mark order as delivered.");
             res.redirect("/delivery/orders/assign/out-for-delivery");
         }
-    }
-);
+    };
+
+router.patch("/assign/:id/out-for-delivery/delivered",requireDeliveryPartner,markOrderDelivered);
+router.post("/assign/:id/delivered",requireDeliveryPartner,markOrderDelivered);
 
 
 

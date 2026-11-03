@@ -1,6 +1,6 @@
 # 🛒 PurelyProducts
 
-**PurelyProducts** is a full-stack e-commerce web application built using Node.js, Express.js, MongoDB, and EJS. It allows users to browse products, manage their shopping cart, place orders, and share product reviews. The application also includes separate Admin and Delivery modules for managing products, orders, and deliveries.
+**PurelyProducts** is a full-stack e-commerce web application built with a React frontend and a Node.js, Express, and MongoDB backend. It allows users to browse products, manage their shopping cart, place orders, and share product reviews. Separate Admin and Delivery modules manage products, orders, and deliveries.
 
 ## 🌐 Project Links
 
@@ -47,11 +47,9 @@
 
 | Technology      | Purpose                   |
 | --------------- | ------------------------- |
-| HTML5           | Page structure            |
-| CSS3            | Styling                   |
-| JavaScript      | Client-side functionality |
-| Bootstrap       | Responsive user interface |
-| EJS             | Dynamic page rendering    |
+| React           | Customer, admin, and delivery interfaces |
+| Vite            | Frontend development/build|
+| CSS3            | Responsive styling        |
 | Node.js         | JavaScript runtime        |
 | Express.js      | Backend framework         |
 | MongoDB         | Database                  |
@@ -67,8 +65,9 @@ PurelyProducts/
 ├── admin/              # Admin routes and functionality
 ├── user/               # User routes and functionality
 ├── delivery/           # Delivery partner functionality
+├── frontend/           # React customer, admin, and delivery interfaces
 ├── models/             # Mongoose database models
-├── views/              # EJS templates
+├── frontend/           # React application and Vite configuration
 ├── public/              # Static assets, CSS, and JavaScript
 ├── utils/               # Utility functions
 ├── middleware.js        # Upload middleware
@@ -117,11 +116,15 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 
 Use the exact variable names expected by your application's configuration files. Replace the example values with your own credentials, and **never commit your `.env` file or expose your secret keys on GitHub**.
 
+Checkout currently uses a clearly labeled demo payment flow. It does not connect to a payment provider or charge money. Completing the demo step records the order from the current server-side cart.
+
 ### 5. Start the Application
 
 ```bash
-node index.js
+npm start
 ```
+
+For frontend development with Vite, run `npm run dev`. For a production deployment, run `npm run build` before `npm start`; the Express server serves the generated files from `public/app`. The existing Express routes and session authentication provide JSON page data to React and continue to handle cart, order, review, address, product, admin, and delivery actions.
 
 ### 6. Open the Application
 

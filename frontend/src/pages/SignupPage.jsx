@@ -1,0 +1,7 @@
+import React,{useState} from 'react';
+import {Field} from './ui';
+
+export default function SignupPage({submit,notice}) {
+ const [show,setShow]=useState(false);
+ return <main className="auth"><aside className="auth-art"><a href="/product" className="brand inverse"><b>p</b> purely<span>products</span></a><div><small>A BETTER KIND OF EVERYDAY</small><h1>Make room<br/>for <i>good.</i></h1><p>Thoughtful finds for the little moments that make life feel good.</p></div><small>PURELY PICKED · MADE FOR YOU</small></aside><section className="auth-content"><a href="/product" className="back">← Back to the shop</a><div className="auth-box"><small>YOUR STORY STARTS HERE</small><h2>Create your account.</h2><p>A few details, and you are ready to discover.</p>{notice&&<div className="form-alert">{notice}</div>}<form onSubmit={submit} action="/users/signup" method="post" className="form-stack"><Field label="Email address" name="email" type="email" required/><Field label="Username" name="username" required/><label className="field"><span>Password</span><div className="pass"><input name="password" type={show?'text':'password'} minLength="8" required/><button type="button" onClick={()=>setShow(!show)}>{show?'Hide':'Show'}</button></div></label><button className="btn primary">Create account <b>↗</b></button></form><div className="auth-switch">Already have an account? <a href="/users/login">Sign in</a></div></div><small className="auth-copy">© {new Date().getFullYear()} PurelyProducts</small></section></main>;
+}

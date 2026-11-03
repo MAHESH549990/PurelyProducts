@@ -1,0 +1,8 @@
+import React from 'react';
+import {id,image,money,Intro,Empty} from './ui';
+
+export default function CartPage({data={},submit}) {
+ const items=data.cartItems?.items||[];
+ const deliveryCharge=Number(data.deliveryCharge)||0,total=Number(data.orderTotal??(Number(data.totalProductsPrice||0)+deliveryCharge));
+ return <main className="section"><Intro title="Your bag" copy="The good things you have picked out."/>{items.length?<div className="cart-layout"><div>{items.map((x,i)=><div className="cart-row" key={id(x.product)||i}><a href={`/product/${id(x.product)}`} className="cart-thumb">{image(x.product)&&<img src={image(x.product)} alt={x.product?.name||''}/>}</a><div><a href={`/product/${id(x.product)}`}>{x.product?.name}</a><small>Quantity {x.quantity}</small></div><b>{money((x.product?.price||0)*x.quantity)}</b><form action={`/product/cart/${id(x.product)}`} data-method="DELETE" onSubmit={submit}><button className="link-button">Remove</button></form></div>)}</div><aside className="summary"><small>ORDER SUMMARY</small><div><span>Items</span><b>{data.totalProducts||items.length}</b></div><div><span>Subtotal</span><b>{money(data.totalProductsPrice)}</b></div><div><span>Delivery charge</span><b>{deliveryCharge?money(deliveryCharge):'Free'}</b></div>{deliveryCharge>0&&<p className="delivery-fee-note">A ₹35 delivery charge applies to orders below ₹299.</p>}<hr/><div><b>Total</b><b>{money(total)}</b></div><a className="btn primary wide" href="/product/cart/place">Place order ↗</a></aside></div>:<Empty title="Your bag is taking a little break" copy="Find something thoughtful for your everyday." link="/product"/>}</main>;
+}

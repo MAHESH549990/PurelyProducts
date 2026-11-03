@@ -1,4 +1,5 @@
 const express = require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router=express.Router({mergeParams:true});
 const User = require("../../models/user.js");
 const passport=require("passport");
@@ -21,10 +22,10 @@ const upload = multer({
 //login,register route
 
 router.get("/signup", (req, res) => {
-  res.render("userLogin/signup.ejs");
+  renderPage(req,res,"userLogin/signup.ejs");
 });
 
-router.post("/signup",asyncWrap(async(req,res)=>{
+router.post("/signup",asyncWrap(async(req,res,next)=>{
   try{
    let {username,email,password}=req.body;
    let newUser=new User({
@@ -48,7 +49,7 @@ router.post("/signup",asyncWrap(async(req,res)=>{
 
 
 router.get("/login", (req, res) => {
-  res.render("userLogin/login.ejs");
+  renderPage(req,res,"userLogin/login.ejs");
 });
 
 router.post("/login",
@@ -83,11 +84,15 @@ router.get("/logout",(req,res,next)=>{
 
 //profile
 router.get("/profile/location",(req,res)=>{
-  res.render("routes/userAddress.ejs");
+  renderPage(req,res,"routes/userAddress.ejs");
 });
 
 router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
     let {state,city,location}=req.body;
+    if(!String(state||"").trim()||!String(city||"").trim()||!String(location||"").trim()){
+      req.flash("error","Enter your state, city, and street address.");
+      return res.redirect("/users/profile/location");
+    }
     let id=req.user._id;
     let Useraddress=await User.findById(id);
     Useraddress.address.push({
@@ -95,7 +100,7 @@ router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
       city:city,
       location:location
     });
-    Useraddress.save();
+    await Useraddress.save();
     req.flash("success","Address added successfully");
     res.redirect("/users/profile");
 }));
@@ -104,22 +109,32 @@ router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
 router.get("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let us=await User.findById(req.user._id);
-  let userAddressArrays=us.address;
-  let user=userAddressArrays.id(id);
-  res.render("routes/updateAddress.ejs",{user,id});
+  let user=us?.address?.id(id);
+  if(!user){
+    req.flash("error","That saved address could not be found.");
+    return res.redirect("/users/profile");
+  }
+  renderPage(req,res,"routes/updateAddress.ejs",{user,id});
 }));
 
 router.put("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let {state,city,location}=req.body;
   let us=await User.findById(req.user._id);
-  let userAddressArrays=us.address;
-  let address=userAddressArrays.id(id);
-  address.state=state;
-  address.city=city;
-  address.location=location;
-  us.save();
-  req.flash("success","Address updated successfully")
+  let address=us?.address?.id(id);
+  if(!address){
+    req.flash("error","That saved address could not be found.");
+    return res.redirect("/users/profile");
+  }
+  if(!String(state||"").trim()||!String(city||"").trim()||!String(location||"").trim()){
+    req.flash("error","Enter your state, city, and street address.");
+    return res.redirect(`/users/profile/${id}/update`);
+  }
+  address.state=String(state).trim();
+  address.city=String(city).trim();
+  address.location=String(location).trim();
+  await us.save();
+  req.flash("success","Address updated successfully.");
   res.redirect("/users/profile");
 }));
 
@@ -141,21 +156,21 @@ router.get("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
   let id=req.user._id;
   let address=await User.findById(id);
   let Useraddress=address.address;
-  res.render("routes/profile.ejs",{user,Useraddress});
+  renderPage(req,res,"routes/profile.ejs",{user,Useraddress});
 }));
 
 
 
 router.get("/updatePassword", (req, res) => {
-  res.render("userLogin/forgetPass.ejs");
+  renderPage(req,res,"userLogin/forgetPass.ejs");
 });
 
 router.get("/dashboard", (req, res) => {
-    res.render("routes/userDashboard.ejs");
+    renderPage(req,res,"routes/userDashboard.ejs");
 });
 
 router.get("/profile/request/delivery",isAddress,isLoggedIn,(req,res)=>{
-  res.render("routes/deliveryRequest.ejs");
+  renderPage(req,res,"routes/deliveryRequest.ejs");
 });
 
 router.post(

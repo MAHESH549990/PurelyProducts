@@ -1,4 +1,5 @@
 const express=require("express");
+const renderPage=require("../../utils/renderPage.js");
 const router=express.Router();
 const Product=require("../../models/products.js");
 const Order=require("../../models/orders.js");
@@ -16,7 +17,7 @@ router.get("/applications", isAdmin, async (req, res) => {
             .populate("user", "username email")
             .sort({ createdAt: -1 });
 
-        res.render("routes/deliveryboys.ejs", {
+        renderPage(req,res,"routes/deliveryboys.ejs", {
             applications
         });
 
@@ -37,7 +38,7 @@ router.get("/requests", isAdmin, async (req, res) => {
             .populate("user", "username email")
             .sort({ createdAt: -1 });
 
-        res.render("routes/newDeliveryRequests.ejs", {
+        renderPage(req,res,"routes/newDeliveryRequests.ejs", {
             deliveries
         });
 
@@ -68,7 +69,7 @@ router.get("/approved", isAdmin, asyncWrap(async (req, res) => {
         }
     }
 
-    res.render("routes/approvedDeliveryDetails.ejs", {
+    renderPage(req,res,"routes/approvedDeliveryDetails.ejs", {
         deliveries,
         order
     });
@@ -130,7 +131,7 @@ router.get(
             return res.redirect("/admin/delivery/approved");
         }
 
-        res.render("routes/approvedDeliveryBoyDetails.ejs", {
+        renderPage(req,res,"routes/approvedDeliveryBoyDetails.ejs", {
             delivery
         });
     })

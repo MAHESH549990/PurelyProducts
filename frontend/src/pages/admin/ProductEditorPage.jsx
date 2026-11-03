@@ -1,0 +1,17 @@
+import React,{useEffect,useState} from 'react';
+import {id,image,Field} from '../ui';
+
+const categories=['Groceries','Premium Fruits','Home & Kitchen','Fashion','Electronics','Beauty','Home Improvement','Sports, Toys & Luggage','Other'];
+export default function ProductEditorPage({item,submit}) {
+ const [preview,setPreview]=useState(image(item)),[objectUrl,setObjectUrl]=useState('');
+ useEffect(()=>()=>{if(objectUrl)URL.revokeObjectURL(objectUrl)},[objectUrl]);
+ function previewFile(event){const file=event.target.files?.[0];if(!file)return;const next=URL.createObjectURL(file);setObjectUrl(old=>{if(old)URL.revokeObjectURL(old);return next});setPreview(next)}
+ return <main className="section admin-editor-page"><div className="admin-page-heading"><div><a className="admin-crumb" href="/admin/products">Products <span>/</span> {item?'Edit item':'Add item'}</a><small>PRODUCT CATALOG · ADMIN</small><h1>{item?'Update product':'Add a new product'}</h1><p>{item?'Edit the listing details and optionally replace its image.':'Add a product to your storefront catalog.'}</p></div><a className="admin-secondary" href="/admin/products">← Back to products</a></div>
+  <form className="admin-editor" action={item?`/admin/products/${id(item)}`:'/admin/products/new'} method="post" encType="multipart/form-data" data-method={item?'PUT':'POST'} onSubmit={submit}>
+   <section className="admin-editor-main"><div className="admin-card"><div className="admin-card-heading"><span className="admin-step">01</span><div><h2>Product information</h2><p>Give customers the key details they need.</p></div></div><div className="admin-form-grid"><Field label="Product name" name="name" defaultValue={item?.name} required/><Field label="Price (₹)" name="price" type="number" min="1" defaultValue={item?.price} required/><label className="field"><span>Category</span><select name="category" defaultValue={item?.category||'Other'}>{categories.map(c=><option key={c}>{c}</option>)}</select></label><Field label="Rating (1 to 5)" name="rating" type="number" min="1" max="5" defaultValue={item?.rating||5} required/><label className="field admin-full-field"><span>Description</span><textarea name="description" rows="6" defaultValue={item?.description} placeholder="Describe the product, its features, and what makes it useful." required/></label></div></div>
+    <div className="admin-form-actions"><a className="admin-secondary" href="/admin/products">Cancel</a><button className="btn primary">{item?'Save product changes':'Create product'} <b>↗</b></button></div>
+   </section>
+   <aside className="admin-editor-side"><div className="admin-card image-card"><div className="admin-card-heading"><span className="admin-step">02</span><div><h2>Product image</h2><p>{item?'Current Cloudinary image':'Upload an image to Cloudinary'}</p></div></div><label className={`image-dropzone ${preview?'has-preview':''}`}><input type="file" name="image" accept="image/*" required={!item} onChange={previewFile}/>{preview?<><img src={preview} alt={item?.name||'Selected product preview'}/><span className="image-change">Choose a different image</span></>:<span className="image-placeholder"><b>＋</b><strong>Choose product image</strong><small>JPG, PNG, WEBP · up to 8 MB</small></span>}</label><p className="image-note">The image is uploaded securely and its Cloudinary URL is saved with this product.</p></div></aside>
+  </form>
+ </main>;
+}

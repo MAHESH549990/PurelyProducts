@@ -102,7 +102,12 @@ router.delete(
 
         await Review.findByIdAndDelete(reviewId);
 
-        req.flash("success", "Review deleted successfully.");
+        const message="Review deleted successfully.";
+        req.flash("success", message);
+        if((req.get("accept")||"").toLowerCase().includes("application/json")){
+            const success=req.flash("success")[0]||message;
+            return res.json({redirect:`/product/${id}`,success});
+        }
         res.redirect(`/product/${id}`);
     })
 );

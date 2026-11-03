@@ -1,0 +1,8 @@
+import React,{useMemo,useState} from 'react';
+import {id} from '../ui';
+
+export default function CustomersPage({data={}}) {
+ const [query,setQuery]=useState('');const customers=data.users||[];
+ const filtered=useMemo(()=>customers.filter(u=>`${u.username||''} ${u.email||''}`.toLowerCase().includes(query.toLowerCase())),[customers,query]);
+ return <main className="section admin-workspace"><div className="admin-page-heading"><div><small>PURELYPRODUCTS · PEOPLE</small><h1>Customers</h1><p>Customer accounts and their saved contact details.</p></div></div><div className="admin-metrics"><article><small>REGISTERED CUSTOMERS</small><b>{customers.length}</b><span>Customer records loaded</span></article><article><small>ACCOUNT TYPE</small><b>Customer</b><span>Only customer-role accounts appear here</span></article></div><div className="admin-list-toolbar"><div><h2>Customer directory</h2><p>Select a customer to view their order history.</p></div><label className="admin-search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search name or email"/></label></div>{filtered.length?<div className="customer-grid">{filtered.map((u,i)=><article className="customer-card" key={id(u)}><span className="customer-avatar">{(u.username||'C').slice(0,1).toUpperCase()}</span><div className="customer-copy"><small>CUSTOMER {String(i+1).padStart(2,'0')}</small><h2>{u.username||'Customer'}</h2><p>{u.email||'No email provided'}</p></div><a className="customer-open" href={`/admin/users/details/${id(u)}`}>View details <b>↗</b></a></article>)}</div>:<div className="admin-empty"><b>{customers.length?'No matching customers':'No customers found'}</b><p>Customer accounts will appear here when available.</p></div>}</main>;
+}

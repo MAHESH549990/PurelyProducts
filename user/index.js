@@ -1,4 +1,5 @@
 const express = require("express");
+const renderPage = require("../utils/renderPage.js");
 const router=express.Router({mergeParams:true});
 let reviews=require("./routes/reviews.js");
 let users=require("./routes/users.js");
@@ -7,7 +8,7 @@ const orders = require("./routes/orders.js");
 
 
 router.get("/", (req, res) => {
-    res.render("userLogin/login.ejs");
+    renderPage(req, res, "userLogin/login.ejs");
 });
 
 //orders
