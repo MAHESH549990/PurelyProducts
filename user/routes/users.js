@@ -96,6 +96,7 @@ router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
     let id=req.user._id;
     let Useraddress=await User.findById(id);
     Useraddress.address.push({
+      country:"India",
       state:state,
       city:city,
       location:location
@@ -133,6 +134,7 @@ router.put("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   address.state=String(state).trim();
   address.city=String(city).trim();
   address.location=String(location).trim();
+  address.country="India";
   await us.save();
   req.flash("success","Address updated successfully.");
   res.redirect("/users/profile");

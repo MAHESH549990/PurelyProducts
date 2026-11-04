@@ -14,6 +14,10 @@ const userSchema=new Schema({
     },
     address:[
         {
+         country:{
+            type:String,
+            default:"India"
+         },
          state:{
             type:String
          },
