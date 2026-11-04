@@ -27,7 +27,7 @@ router.get("/pending",isAdmin,async(req,res)=>{
 })
 
 // //Status of placed orders
-router.patch("/confirmed/:id/accept",isAdmin,async(req,res)=>{
+router.patch("/confirmed/:id/accept",isAdmin,asyncWrap(async(req,res)=>{
     let {id}=req.params;
     let order=await Order.findById(id);
     
@@ -44,27 +44,22 @@ router.patch("/confirmed/:id/accept",isAdmin,async(req,res)=>{
         order.status = "confirmed";
         await order.save();
 
-    req.flash("success", "Order confirmed. Assign a delivery partner to continue.");
+    const success="Order confirmed. Assign a delivery partner to continue.";
+    req.flash("success",success);
+    if((req.get("accept")||"").toLowerCase().includes("application/json")){
+      return res.json({redirect:"/admin/users/orders/accepted",success});
+    }
     res.redirect("/admin/users/orders/accepted");
- });
+ }));
 
 // View confirmed orders
-router.get("/accepted", isAdmin, async (req, res) => {
-    try {
-        const orders = await Order.find({
-            status: "confirmed"
-        })
-            .populate("customer")
-            .populate("products.product")
-            .sort({ createdAt: -1 });
-
-        renderPage(req,res,"routes/confirmedOrders.ejs", { orders });
-    } catch (err) {
-        console.error(err);
-        req.flash("error", "Unable to load confirmed orders.");
-        res.redirect("/admin");
-    }
-});
+router.get("/accepted", isAdmin, asyncWrap(async (req, res) => {
+    const orders = await Order.find({status:"confirmed"})
+        .populate("customer","username email")
+        .populate("products.product")
+        .sort({createdAt:-1});
+    renderPage(req,res,"routes/confirmedOrders.ejs",{orders});
+}));
 
 
 // Show approved delivery partners for a particular order

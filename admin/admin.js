@@ -7,6 +7,7 @@ const users=require("./routes/users.js");
 const delivery=require("./routes/deliveryPartner.js");
 const profile=require("./routes/profile.js");
 const inventory=require("./routes/inventory.js");
+const adminOrders=require("./routes/orders.js");
 const Order=require("../models/orders.js");
 const Product=require("../models/products.js");
 const asyncWrap=require("../utils/asyncWrap.js");
@@ -23,6 +24,9 @@ router.get("/",isAdmin,asyncWrap(async(req,res)=>{
 //products
 router.use("/products",products);
 router.use("/inventory",inventory);
+// Keep admin order pages available through the admin router as a fallback as
+// well as the app-level mount used for the current React route structure.
+router.use("/users/orders",adminOrders);
 
 //users
 router.use("/users",users);
