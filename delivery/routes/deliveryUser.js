@@ -16,24 +16,27 @@ router.get("/profile", requireDeliveryPartner,async (req, res) => {
             user: req.user._id
         }).populate("user","username email");
 
-        if (!deliveryPartner) {
-            req.flash("error", "Delivery partner profile not found.");
-            return res.redirect("/delivery");
-        }
-
         const address = req.user.address?.[req.user.address.length-1] || {};
 
         renderPage(req,res,"routes/deliveryPartnerProfile.ejs", {
             username: req.user.username,
             email: req.user.email,
-            deliveryPartner,
-            address
+            deliveryPartner: deliveryPartner || {user:req.user},
+            address,
+            mapToken:process.env.MAP_TOKEN||""
         });
 
     } catch (err) {
         console.error("Delivery profile error:", err);
-        req.flash("error", "Unable to load delivery partner profile.");
-        return res.redirect("/delivery");
+        req.flash("error", "Some delivery profile information could not be loaded.");
+        const address = req.user?.address?.[req.user.address.length-1] || {};
+        return renderPage(req,res,"routes/deliveryPartnerProfile.ejs",{
+            username:req.user?.username,
+            email:req.user?.email,
+            deliveryPartner:{user:req.user},
+            address,
+            mapToken:process.env.MAP_TOKEN||""
+        });
     }
 });
 

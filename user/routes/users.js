@@ -156,7 +156,7 @@ router.get("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
   let id=req.user._id;
   let address=await User.findById(id);
   let Useraddress=address.address;
-  renderPage(req,res,"routes/profile.ejs",{user,Useraddress});
+  renderPage(req,res,"routes/profile.ejs",{user,Useraddress,mapToken:process.env.MAP_TOKEN||""});
 }));
 
 

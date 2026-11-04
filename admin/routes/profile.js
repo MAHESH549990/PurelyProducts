@@ -52,7 +52,7 @@ router.get("/",isLoggedIn ,isAdmin,(req, res) => {
         address:req.user.address||[],
         loggedAt:req.user.loggedAt
     };
-    renderPage(req,res,"routes/adminProfile.ejs",{adminProfile});
+    renderPage(req,res,"routes/adminProfile.ejs",{adminProfile,mapToken:process.env.MAP_TOKEN||""});
 });
 
 module.exports=router;

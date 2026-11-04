@@ -319,3 +319,29 @@
 .detail-review-form>button{justify-self:start;border-radius:8px;background:#078bb8}
 @media(max-width:760px){.detail-modern{display:grid;grid-template-columns:1fr;gap:0;margin:0 auto;padding:20px 18px 55px}.detail-info{padding-top:25px!important}.detail-photo-modern{aspect-ratio:1/1;max-height:560px;border-radius:17px}.detail-photo-modern img{padding:12px}.detail-photo-modern .detail-image-tag{left:12px;top:12px}.detail-info h1{font-size:32px}.detail-price-row{margin:19px 0 13px}.detail-price-row .detail-price{font-size:27px}.detail-reviews{margin-top:42px;padding-top:24px}.detail-reviews .reviews-list{grid-template-columns:1fr}.detail-review-form{margin-top:18px;padding:18px;grid-template-columns:1fr}.detail-review-form>div:first-child,.detail-review-form>button{grid-column:auto}}
 @media(max-width:420px){.detail-modern{padding-inline:13px}.detail-visual>.back{margin:0 0 13px;font-size:10px}.detail-photo-modern{aspect-ratio:.95/1}.detail-info h1{font-size:28px}.detail-purchase-card{padding:13px}.buy-form-modern{grid-template-columns:82px minmax(0,1fr);gap:9px}.buy-form-modern .btn{padding:10px;font-size:10px}.detail-promises{gap:8px 12px;font-size:8px}.detail-reviews .reviews-heading h2{font-size:22px}}
+.profile-location-map{max-width:1000px;margin:24px auto 0}
+.location-map-card{overflow:hidden;border:1px solid #dce8ec;border-radius:20px;background:#fff;box-shadow:0 18px 48px #173a4b0d}
+.location-map-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 24px}
+.location-map-header small{color:#0785ad;font-size:9px;font-weight:800;letter-spacing:1.1px}
+.location-map-header h2{margin:6px 0;color:#203b48;font-size:19px}
+.location-map-header p{margin:0;color:#71838b;font-size:11px;line-height:1.6}
+.location-map-symbol{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;border-radius:14px;background:#eaf7fb;color:#0785ad;font-size:25px}
+.location-map-canvas{position:relative;display:grid;place-items:center;min-height:210px;background:radial-gradient(ellipse at 50% 35%,#f4f9fa,#eaf2f3 72%,#e2ecee)}
+.interactive-location-map{position:absolute;inset:0;width:100%;height:100%;min-height:310px;overflow:hidden}
+.interactive-location-map .mapboxgl-canvas{outline:0}
+.interactive-location-map .mapboxgl-ctrl-group{overflow:hidden;border:1px solid #dce8ec;border-radius:11px;box-shadow:0 4px 14px #173a4b20}
+.interactive-location-map .mapboxgl-ctrl button{width:34px;height:34px}
+.interactive-location-map .mapboxgl-ctrl-attrib{border-radius:7px 0 0;background:#ffffffd9;font-size:9px}
+.location-map-canvas.has-map:after{position:absolute;inset:0;border:1px solid #123b4b0a;content:"";pointer-events:none}
+.location-map-error{position:absolute;z-index:2;left:12px;bottom:12px;max-width:calc(100% - 24px);padding:8px 11px;border:1px solid #f0dfca;border-radius:9px;background:#fffaf3eF;color:#805d37;font-size:9px}
+.location-map-message{display:grid;justify-items:center;gap:8px;padding:30px;text-align:center}
+.location-map-message>span{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;color:#0785ad;font-size:20px;box-shadow:0 3px 12px #173a4b15}
+.location-map-message b{color:#35515b;font-size:12px}
+.location-map-message small{color:#788b91;font-size:10px}
+.location-map-caption{position:absolute;right:12px;bottom:12px;padding:7px 10px;border:1px solid #ffffffa8;border-radius:20px;background:#ffffffd9;color:#35515b;font-size:9px;backdrop-filter:blur(8px)}
+.location-map-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 20px;border-top:1px solid #e9eff1}
+.location-map-footer>span{display:flex;align-items:center;gap:8px;color:#70838b;font-size:10px}
+.location-map-footer>span i{width:7px;height:7px;border-radius:50%;background:#36a46c}
+.location-map-footer>a{padding:9px 12px;border-radius:9px;background:#078bb8;color:#fff;font-size:10px;font-weight:700}
+.location-map-footer>a:hover{background:#08799f}
+@media(max-width:600px){.profile-location-map{margin-top:17px}.location-map-card{border-radius:15px}.location-map-header{padding:16px}.location-map-header h2{font-size:17px}.location-map-canvas{min-height:250px}.interactive-location-map{min-height:250px}.location-map-footer{padding:11px 14px}.location-map-footer>span{font-size:8px}.interactive-location-map .mapboxgl-ctrl button{width:30px;height:30px}}
