@@ -453,13 +453,13 @@ const products = [
 // Extra catalogue items. Keep this list separate from the original sample set
 // so the starter products remain easy to identify and maintain.
 const additionalProducts = [
-  ["Men's Linen Shirt", "Breathable linen blend shirt for warm days and relaxed evenings.", 1599, 4, "Fashion"],
-  ["Women's Cotton Kurta Set", "Soft cotton kurta with matching trousers for everyday comfort.", 1899, 5, "Fashion"],
+  ["Handwoven Cotton Scarf", "A soft handwoven scarf that adds a light layer and a subtle accent.", 899, 5, "Fashion"],
+  ["Pleated Midi Skirt", "A comfortable pleated midi skirt with an easy, versatile silhouette.", 1699, 4, "Fashion"],
   ["Classic Straight Fit Trousers", "Versatile straight-leg trousers with a comfortable mid-rise fit.", 1799, 4, "Fashion"],
   ["Lightweight Denim Jacket", "Easy layering jacket made from durable washed denim.", 2799, 5, "Fashion"],
   ["Floral Summer Dress", "Light, flowing dress with a cheerful floral print.", 2199, 4, "Fashion"],
   ["Reversible Leather Belt", "Everyday belt with a reversible buckle and clean finish.", 999, 4, "Fashion"],
-  ["Everyday Canvas Sneakers", "Lightweight lace-up sneakers for daily walks and errands.", 2299, 4, "Fashion"],
+  ["Compact Crossbody Bag", "A lightweight crossbody bag with practical compartments for daily essentials.", 1899, 5, "Fashion"],
   ["Cotton Ankle Socks Pack", "Pack of five breathable cotton ankle socks.", 499, 4, "Fashion"],
   ["Organic Rolled Oats", "Whole-grain rolled oats for breakfast bowls and baking.", 249, 5, "Groceries"],
   ["Cold Pressed Olive Oil", "Extra virgin olive oil for dressings, dips, and everyday cooking.", 699, 5, "Groceries"],
@@ -489,7 +489,7 @@ const additionalProducts = [
   ["Nourishing Hair Oil", "A lightweight blend to help condition dry hair and scalp.", 349, 4, "Beauty"],
   ["Vitamin C Brightening Serum", "Daily facial serum with vitamin C for a fresh-looking complexion.", 799, 5, "Beauty"],
   ["Botanical Bath Gift Set", "A relaxing set with botanical body wash and nourishing lotion.", 999, 5, "Beauty"],
-  ["Wireless Bluetooth Earbuds", "Compact wireless earbuds with a charging case for everyday listening.", 2499, 4, "Electronics"],
+  ["Portable Mini Projector", "A compact projector for movie nights, presentations, and shared viewing.", 7999, 4, "Electronics"],
   ["Foldable Tablet Stand", "Adjustable aluminium stand for comfortable hands-free viewing.", 799, 4, "Electronics"],
   ["Full HD USB Webcam", "Clear 1080p webcam for video calls, classes, and streaming.", 2199, 4, "Electronics"],
   ["Dual Band Wi-Fi Router", "Reliable dual-band router for smooth browsing and streaming at home.", 3299, 5, "Electronics"],
@@ -506,14 +506,14 @@ const additionalProducts = [
 ];
 
 const catalogueImages = {
-  "Fashion": ["photo-1521572163474-6864f9cf17ab", "photo-1542272604-787c3835535d", "photo-1542291026-7eec264c27ff", "photo-1483985988355-763728e1935b"],
-  "Groceries": ["photo-1542838132-92c53300491e", "photo-1547592180-85f173990554", "photo-1606787366850-de6330128bfc"],
-  "Premium Fruits": ["photo-1610832958506-aa56368176cf", "photo-1619566636858-adf3ef46400b", "photo-1490474418585-ba9bad8fd0ea"],
-  "Home & Kitchen": ["photo-1556911220-e15b29be8c8f", "photo-1514228742587-6b1558fcca3d", "photo-1490645935967-10de6ba17061"],
-  "Beauty": ["photo-1596462502278-27bfdc403348", "photo-1608248543803-ba4f8c70ae0b"],
-  "Electronics": ["photo-1505740420928-5e560c06d30e", "photo-1523275335684-37898b6baf30", "photo-1519389950473-47ba0277781c"],
-  "Home Improvement": ["photo-1600585154340-be6161a56a0c", "photo-1616486338812-3dadae4b4ace"],
-  "Sports, Toys & Luggage": ["photo-1517836357463-d25dfeac3438", "photo-1553062407-98eeb64c6a62", "photo-1518611012118-696072aa579a"],
+  "Fashion": ["photo-1490481651871-ab68de25d43d", "photo-1529139574466-a303027c1d8b", "photo-1483985988355-763728e1935b", "photo-1539109136881-3be0616acf4b", "photo-1591047139829-d91aecb6caea", "photo-1551488831-00ddcb6c6bd3", "photo-1544441893-675973e31985", "photo-1523381210434-271e8be1f52b"],
+  "Groceries": ["photo-1542838132-92c53300491e", "photo-1547592180-85f173990554", "photo-1606787366850-de6330128bfc", "photo-1540189549336-e6e99c3679fe", "photo-1512621776951-a57141f2eefd", "photo-1490645935967-10de6ba17061", "photo-1498837167922-ddd27525d352", "photo-1509440159596-0249088772ff"],
+  "Premium Fruits": ["photo-1610832958506-aa56368176cf", "photo-1619566636858-adf3ef46400b", "photo-1490474418585-ba9bad8fd0ea", "photo-1571771894821-ce9b6c11b08e", "photo-1568702846914-96b305d2aaeb", "photo-1519996529931-28324d6a630e"],
+  "Home & Kitchen": ["photo-1556911220-e15b29be8c8f", "photo-1514228742587-6b1558fcca3d", "photo-1556912172-45b7abe8b7e1", "photo-1556911220-bff31c812dba", "photo-1494438639946-1ebd1d20bf85", "photo-1507473885765-e6ed057f782c", "photo-1600210492486-724fe5c67fb0", "photo-1600607687939-ce8a6c25118c"],
+  "Beauty": ["photo-1596462502278-27bfdc403348", "photo-1608248543803-ba4f8c70ae0b", "photo-1547887538-e3a2f32cb1cc", "photo-1523293182086-7651a899d37f", "photo-1595425970377-c9703cf48b6d", "photo-1601049541289-9b1b7bbbfe19"],
+  "Electronics": ["photo-1523275335684-37898b6baf30", "photo-1519389950473-47ba0277781c", "photo-1593642632823-8f785ba67e45", "photo-1593359677879-a4bb92f829d1", "photo-1605236453806-6ff36851218e", "photo-1511707171634-5f897ff02aa9"],
+  "Home Improvement": ["photo-1504148455328-c376907d081c", "photo-1581244277943-fe4a9c777189", "photo-1523413651479-597eb2da0ad6", "photo-1600585154340-be6161a56a0c"],
+  "Sports, Toys & Luggage": ["photo-1517836357463-d25dfeac3438", "photo-1534438327276-14e5300c3a48", "photo-1553062407-98eeb64c6a62", "photo-1571019613454-1cb2f99b2d8b"],
 };
 const imageUse = {};
 products.push(...additionalProducts.map(([name, description, price, rating, category]) => {
