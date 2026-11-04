@@ -54,9 +54,10 @@ router.patch("/confirmed/:id/accept",isAdmin,asyncWrap(async(req,res)=>{
 
 // View confirmed orders
 router.get("/accepted", isAdmin, asyncWrap(async (req, res) => {
-    const orders = await Order.find({status:"confirmed"})
+    const orders = await Order.find({status:{$in:["confirmed","assigned"]}})
         .populate("customer","username email")
         .populate("products.product")
+        .populate("deliveryPartner","username email")
         .sort({createdAt:-1});
     renderPage(req,res,"routes/confirmedOrders.ejs",{orders});
 }));

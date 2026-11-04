@@ -4,13 +4,23 @@ const router = express.Router();
 const requireDeliveryPartner=require("../requireDeliveryPartner.js");
 
 const Order = require("../../models/orders.js");
+const Delivery = require("../../models/delivery.js");
+
+// Orders created by older versions may reference the delivery profile ID,
+// while current assignments reference the linked User ID. Match both so a
+// partner can still see every order assigned to their account.
+async function partnerOrderIds(userId) {
+    const delivery = await Delivery.findOne({ user: userId }).select("_id").lean();
+    return delivery ? [userId, delivery._id] : [userId];
+}
 
 // GET: Assigned orders
 router.get("/assign", requireDeliveryPartner, async (req, res) => {
     try {
+        const partnerIds = await partnerOrderIds(req.user._id);
         const orders = await Order.find({
             status: "assigned",
-            deliveryPartner: req.user._id
+            deliveryPartner: { $in: partnerIds }
         })
             .populate("customer")
             .populate("products.product")
@@ -30,9 +40,10 @@ router.get(
     requireDeliveryPartner,
     async (req, res) => {
         try {
+            const partnerIds = await partnerOrderIds(req.user._id);
             const orders = await Order.find({
                 status: "out_for_delivery",
-                deliveryPartner: req.user._id
+                deliveryPartner: { $in: partnerIds }
             })
                 .populate("customer")
                 .populate("products.product")
@@ -53,9 +64,10 @@ router.get(
     requireDeliveryPartner,
     async (req, res) => {
         try {
+            const partnerIds = await partnerOrderIds(req.user._id);
             const orders = await Order.find({
                 status: "delivered",
-                deliveryPartner: req.user._id
+                deliveryPartner: { $in: partnerIds }
             })
                 .populate("customer")
                 .populate("products.product")
@@ -73,9 +85,10 @@ router.get(
 // GET: Details of a delivery partner's own order
 router.get("/assign/:id", requireDeliveryPartner, async (req, res) => {
     try {
+        const partnerIds = await partnerOrderIds(req.user._id);
         const order = await Order.findOne({
             _id: req.params.id,
-            deliveryPartner: req.user._id,
+            deliveryPartner: { $in: partnerIds },
             status: {
                 $in: ["assigned", "out_for_delivery", "delivered"]
             }
@@ -100,9 +113,10 @@ router.get("/assign/:id", requireDeliveryPartner, async (req, res) => {
 // POST: Confirm assigned order and start delivery
 router.post("/:id/confirm", requireDeliveryPartner, async (req, res) => {
     try {
+        const partnerIds = await partnerOrderIds(req.user._id);
         const order = await Order.findOne({
             _id: req.params.id,
-            deliveryPartner: req.user._id,
+            deliveryPartner: { $in: partnerIds },
             status: "assigned"
         });
 
@@ -131,9 +145,10 @@ router.post("/:id/confirm", requireDeliveryPartner, async (req, res) => {
 // Mark order as delivered (PATCH is kept for older clients; the React form uses POST).
 const markOrderDelivered=async(req,res)=>{
         try {
+            const partnerIds = await partnerOrderIds(req.user._id);
             const order = await Order.findOne({
                 _id: req.params.id,
-                deliveryPartner: req.user._id,
+                deliveryPartner: { $in: partnerIds },
                 status: "out_for_delivery"
             });
 
