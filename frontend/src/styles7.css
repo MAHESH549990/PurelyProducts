@@ -359,3 +359,9 @@
 .indian-address-form .field select:disabled{background:#f4f7f8;color:#9aa7ac}
 .indian-address-form .field textarea{resize:vertical;line-height:1.6}
 .indian-address-form>button{justify-self:start;min-width:180px;border-radius:9px;background:#078bb8}
+
+/* Keep product cards calm and give each catalog row room to breathe. */
+.products{row-gap:28px}
+.product{transition:border-color .16s ease,box-shadow .16s ease}
+.product:hover{transform:none;box-shadow:0 3px 10px #102b3a0d;border-color:#dfe8ec}
+@media(max-width:600px){.products{row-gap:18px;column-gap:10px}}
