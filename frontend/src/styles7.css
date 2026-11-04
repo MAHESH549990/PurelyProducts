@@ -269,3 +269,53 @@
 .admin-address-list article>span{color:#0785ad;font-size:10px;font-weight:800}
 .admin-address-list p,.admin-no-address{margin:0;color:#687d85;font-size:11px;line-height:1.6}
 @media(max-width:700px){.admin-profile-header{align-items:flex-start;flex-wrap:wrap;padding:20px}.admin-profile-avatar{width:54px;height:54px;border-radius:16px}.admin-profile-header>div{width:calc(100% - 75px);flex:1}.admin-profile-header h2{font-size:18px}.admin-profile-access{margin-left:70px}.admin-profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));padding:5px 12px}.admin-profile-facts article{padding:15px 9px}.admin-profile-addresses{padding:20px}}
+.detail-modern{max-width:1320px;margin:0 auto;padding:38px 42px 88px;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);column-gap:clamp(34px,5vw,76px);row-gap:0;align-items:start}
+.detail-modern>section{min-width:0;padding:0}
+.detail-visual>.back{display:inline-flex;margin:3px 0 19px;color:#647984;font-size:11px}
+.detail-visual>.back:hover{color:#0785ad}
+.detail-photo-modern{position:relative;height:auto;aspect-ratio:1/1.04;max-height:680px;overflow:hidden;border:1px solid #e8eff1;border-radius:22px;background:radial-gradient(ellipse at 50% 42%,#fff 0,#f7fafb 67%,#eff5f6 100%);box-shadow:0 18px 46px #173a4b0b}
+.detail-photo-modern img{width:100%;height:100%;padding:18px;object-fit:contain;transition:transform .45s ease}
+.detail-photo-modern:hover img{transform:scale(1.025)}
+.detail-photo-modern .detail-image-tag{position:absolute;left:18px;top:18px;display:inline-flex;align-items:center;min-height:30px;padding:7px 11px;border:1px solid #e4edef;border-radius:30px;background:#ffffffde;color:#3e6979;font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;backdrop-filter:blur(8px)}
+.detail-info{padding-top:36px!important}
+.detail-eyebrow{color:#0785ad;font-size:9px;font-weight:800;letter-spacing:1.4px}
+.detail-info h1{margin:11px 0 12px;color:#203b48;font:600 clamp(30px,3.4vw,44px)/1.12 Manrope,sans-serif;letter-spacing:-1.5px}
+.detail-rating{display:inline-flex;align-items:center;gap:7px;color:#73848c;font-size:11px}
+.detail-rating>span:first-child{color:#e0a928;font-size:16px}
+.detail-rating b{color:#2a4652;font-size:11px}
+.detail-rating i{font-style:normal;color:#b0bcc0}
+.detail-rating:hover{text-decoration:underline;text-underline-offset:3px}
+.detail-price-row{display:flex;align-items:baseline;gap:12px;margin:25px 0 14px;padding-bottom:20px;border-bottom:1px solid #e8eef0}
+.detail-price-row .detail-price{color:#163c4b;font:700 30px Manrope,sans-serif;letter-spacing:-.7px}
+.detail-price-row>span{color:#829198;font-size:10px}
+.detail-info .detail-description{max-width:58ch;margin:0;color:#657a82;font-size:13px;line-height:1.85}
+.detail-stock-pill{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:9px 12px;border:1px solid #d9eee2;border-radius:30px;background:#f1faf4;color:#347451;font-size:10px;font-weight:700}
+.detail-stock-pill>span{width:7px;height:7px;border-radius:50%;background:#39a46d;box-shadow:0 0 0 3px #39a46d20}
+.detail-stock-pill.is-sold-out{border-color:#f2dede;background:#fff5f5;color:#a54848}
+.detail-stock-pill.is-sold-out>span{background:#cc5454;box-shadow:0 0 0 3px #cc545420}
+.detail-purchase-card{margin-top:20px;padding:18px;border:1px solid #e1eaed;border-radius:16px;background:#fff;box-shadow:0 12px 32px #15394a09}
+.buy-form-modern{display:grid;grid-template-columns:104px minmax(0,1fr);align-items:end;gap:12px;margin:0}
+.buy-form-modern .field{max-width:none;gap:7px;color:#74858b;font-size:8px;font-weight:800;letter-spacing:.8px}
+.buy-form-modern .field input{min-height:48px;border-color:#dfe8eb;border-radius:9px;color:#294651;font-size:13px}
+.buy-form-modern .btn{min-height:48px;border-radius:9px;font-size:11px}
+.buy-form-modern .btn.primary{background:#078bb8}
+.buy-form-modern .btn.primary:hover{background:#08799f}
+.buy-form-modern .btn b{color:#bdefff}
+.detail-purchase-note{display:flex;align-items:center;gap:7px;margin-top:13px;color:#829198;font-size:9px}
+.detail-purchase-note span{display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#eaf7ef;color:#328356;font-size:10px;font-weight:800}
+.detail-promises{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:17px;color:#75878e;font-size:9px}
+.detail-promises b{margin-right:5px;color:#078bb8}
+.detail-reviews{grid-column:1/-1;margin-top:64px;padding-top:30px;border-top:1px solid #e4ecef}
+.detail-reviews .reviews-heading{align-items:end;margin-bottom:20px}
+.detail-reviews .reviews-heading h2{color:#203b48;font-size:26px}
+.detail-reviews .reviews-heading p{margin:8px 0 0;color:#788a91;font-size:11px}
+.detail-reviews .reviews-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.detail-reviews .review-card{min-width:0;border-color:#e4ecef;border-radius:14px;box-shadow:0 8px 24px #15394a07}
+.detail-review-form{grid-column:1/-1;width:100%;max-width:820px;margin:24px auto 0;padding:24px;border-color:#e2ebee;border-radius:16px;grid-template-columns:1fr 1fr;gap:16px}
+.detail-review-form>div:first-child,.detail-review-form>button{grid-column:1/-1}
+.detail-review-form>div:first-child small{color:#0785ad;font-size:9px;font-weight:800;letter-spacing:1px}
+.detail-review-form h3{margin:7px 0;color:#203b48;font-size:20px}
+.detail-review-form>div:first-child p{margin:0;color:#75878e;font-size:11px}
+.detail-review-form>button{justify-self:start;border-radius:8px;background:#078bb8}
+@media(max-width:760px){.detail-modern{display:grid;grid-template-columns:1fr;gap:0;margin:0 auto;padding:20px 18px 55px}.detail-info{padding-top:25px!important}.detail-photo-modern{aspect-ratio:1/1;max-height:560px;border-radius:17px}.detail-photo-modern img{padding:12px}.detail-photo-modern .detail-image-tag{left:12px;top:12px}.detail-info h1{font-size:32px}.detail-price-row{margin:19px 0 13px}.detail-price-row .detail-price{font-size:27px}.detail-reviews{margin-top:42px;padding-top:24px}.detail-reviews .reviews-list{grid-template-columns:1fr}.detail-review-form{margin-top:18px;padding:18px;grid-template-columns:1fr}.detail-review-form>div:first-child,.detail-review-form>button{grid-column:auto}}
+@media(max-width:420px){.detail-modern{padding-inline:13px}.detail-visual>.back{margin:0 0 13px;font-size:10px}.detail-photo-modern{aspect-ratio:.95/1}.detail-info h1{font-size:28px}.detail-purchase-card{padding:13px}.buy-form-modern{grid-template-columns:82px minmax(0,1fr);gap:9px}.buy-form-modern .btn{padding:10px;font-size:10px}.detail-promises{gap:8px 12px;font-size:8px}.detail-reviews .reviews-heading h2{font-size:22px}}
