@@ -31,6 +31,7 @@ import DeliveryRequestsPage from './admin/DeliveryRequestsPage';
 import AssignDeliveryPage from './admin/AssignDeliveryPage';
 import ApprovedPartnerDetailsPage from './admin/ApprovedPartnerDetailsPage';
 import DeliveryPartnerDetailsPage from './admin/DeliveryPartnerDetailsPage';
+import AdminEarningsPage from './admin/AdminEarningsPage';
 import AdminProfilePage from './admin/AdminProfilePage';
 import DeliveryDashboardPage from './delivery/DeliveryDashboardPage';
 import AssignedOrdersPage from './delivery/AssignedOrdersPage';
@@ -38,6 +39,7 @@ import OutForDeliveryPage from './delivery/OutForDeliveryPage';
 import DeliveredOrdersPage from './delivery/DeliveredOrdersPage';
 import AssignedOrderDetailsPage from './delivery/AssignedOrderDetailsPage';
 import DeliveryProfilePage from './delivery/DeliveryProfilePage';
+import DeliveryEarningsPage from './delivery/DeliveryEarningsPage';
 
 // Each old server-rendered view has an explicit React page entry. Shared layouts
 // keep navigation and forms consistent while route modules remain independently editable.
@@ -75,7 +77,9 @@ export const pageRegistry = {
  'routes/approvedDeliveryDetails.ejs':AssignDeliveryPage,
  'routes/approvedDeliveryBoyDetails.ejs':DeliveryPartnerDetailsPage,
  'routes/adminProfile.ejs':AdminProfilePage,
+ 'routes/adminEarnings.ejs':AdminEarningsPage,
  'routes/deliveryDashboard.ejs':DeliveryDashboardPage,
+ 'routes/deliveryEarnings.ejs':DeliveryEarningsPage,
  'routes/assignedOrders.ejs':AssignedOrdersPage,
  'routes/outOfDeliveryOrders.ejs':OutForDeliveryPage,
  'routes/deliveredOrders.ejs':DeliveredOrdersPage,

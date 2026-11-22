@@ -139,3 +139,43 @@
 .customer-order-row>strong{color:#34515c;font-size:10px;white-space:nowrap}
 @media(max-width:900px){.customer-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.customer-directory-stats,.customer-detail-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.customer-detail-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.customer-directory-toolbar{align-items:stretch;flex-direction:column}.customer-directory-grid{grid-template-columns:1fr}.customer-search{width:auto}.customer-detail-hero,.customer-history,.customer-spending-chart{padding:15px}.customer-detail-hero>header{flex-wrap:wrap}.customer-detail-hero>header .status{margin-left:auto}.customer-detail-location{grid-template-columns:1fr}.customer-chart-bars{gap:5px}.customer-chart-month>b{font-size:8px}.customer-order-row{grid-template-columns:minmax(0,1fr) auto;gap:7px 10px}.customer-order-row>strong{justify-self:end}.customer-order-row>.status{justify-self:end}}
+
+.delivery-earnings-page{max-width:1160px}
+.delivery-earnings-heading{display:flex;align-items:end;justify-content:space-between;gap:18px}
+.delivery-earnings-heading .intro{margin-bottom:10px}
+.delivery-earnings-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.delivery-earnings-summary article{display:grid;gap:7px;padding:17px;border:1px solid #e1e9ed;border-radius:14px;background:linear-gradient(145deg,#fff,#f8fbfc);box-shadow:0 8px 24px #173a4b08}
+.delivery-earnings-summary small{color:#71858e;font-size:9px;font-weight:800;letter-spacing:.75px}
+.delivery-earnings-summary b{color:#087fa8;font-size:23px}
+.delivery-earnings-summary span{color:#7b8b91;font-size:9px}
+.delivery-earnings-chart,.delivery-earnings-breakdown,.delivery-earnings-history{margin:14px 0;padding:20px;border:1px solid #e1e9ed;border-radius:15px;background:#fff;box-shadow:0 10px 28px #173a4b08}
+.delivery-earnings-chart>header,.delivery-earnings-breakdown>header,.delivery-earnings-history>header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}
+.delivery-earnings-chart>header small,.delivery-earnings-breakdown>header small,.delivery-earnings-history>header small{color:#078bb8;font-size:9px;font-weight:800;letter-spacing:1px}
+.delivery-earnings-chart h2,.delivery-earnings-breakdown h2,.delivery-earnings-history h2{margin:5px 0;color:#203b48;font-size:19px}
+.delivery-earnings-chart>header p{margin:0;color:#7b8b91;font-size:10px}
+.delivery-earnings-total{display:grid;gap:3px;color:#087fa8;font-size:19px;font-weight:800;text-align:right}
+.delivery-earnings-total small{color:#7b8b91!important;font-size:9px!important;font-weight:500!important;letter-spacing:0!important}
+.delivery-earnings-bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;min-height:235px;padding:14px 10px 0;border-top:1px solid #edf1f3}
+.delivery-earnings-month{display:grid;grid-template-rows:1fr auto auto auto;justify-items:center;gap:7px;min-width:0}
+.delivery-earnings-track{display:flex;align-items:end;width:min(60px,80%);height:100%;min-height:130px;overflow:hidden;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,#f7fafb,#edf4f5)}
+.delivery-earnings-track span{width:100%;min-height:4px;border-radius:9px 9px 0 0;background:linear-gradient(180deg,#14a3c8,#087fa8)}
+.delivery-earnings-month>b{color:#244654;font-size:10px;white-space:nowrap}
+.delivery-earnings-month>small{color:#75878e;font-size:10px}
+.delivery-earnings-month>em{color:#98a4a8;font-size:8px;font-style:normal}
+.delivery-earnings-breakdown>header>span,.delivery-earnings-history>header>span{color:#71838b;font-size:10px}
+.delivery-earnings-table-head,.delivery-earnings-table-row{display:grid;grid-template-columns:minmax(0,1fr) 180px 150px;align-items:center;gap:12px;padding:12px 8px;border-top:1px solid #edf1f3}
+.delivery-earnings-table-head{color:#829197;font-size:9px;text-transform:uppercase;letter-spacing:.5px}
+.delivery-earnings-table-row>b{color:#36515c;font-size:10px}
+.delivery-earnings-table-row>span{color:#60757e;font-size:10px}
+.delivery-earnings-table-row>strong{color:#087fa8;font-size:11px;text-align:right}
+.delivery-earnings-order-list{display:grid}
+.delivery-earnings-order{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1.5fr) auto auto auto;align-items:center;gap:15px;padding:14px 0;border-top:1px solid #edf1f3}
+.delivery-earnings-order-main,.delivery-earnings-order-items,.delivery-earnings-order-total,.delivery-earnings-order-pay{display:grid;gap:4px;min-width:0}
+.delivery-earnings-order small{color:#829197;font-size:8px;font-weight:800;letter-spacing:.45px}
+.delivery-earnings-order b{color:#35515c;font-size:10px}
+.delivery-earnings-order-main>span,.delivery-earnings-order-items>b{overflow:hidden;color:#788991;font-size:9px;font-weight:500;text-overflow:ellipsis;white-space:nowrap}
+.delivery-earnings-order-main .delivery-earnings-address{color:#0785ad}
+.delivery-earnings-order-total>b{white-space:nowrap}
+.delivery-earnings-order-pay>b{color:#0785ad;white-space:nowrap}
+@media(max-width:900px){.delivery-earnings-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.delivery-earnings-order{grid-template-columns:minmax(0,1fr) auto;gap:9px 12px}.delivery-earnings-order-items{grid-column:1/-1;grid-row:2}.delivery-earnings-order-total{grid-column:1;grid-row:3}.delivery-earnings-order .status{grid-column:2;grid-row:3;justify-self:end}.delivery-earnings-order-pay{grid-column:2;grid-row:1;justify-self:end}}
+@media(max-width:600px){.delivery-earnings-heading{align-items:stretch;flex-direction:column;gap:0}.delivery-earnings-heading>.admin-secondary{align-self:flex-start}.delivery-earnings-chart,.delivery-earnings-breakdown,.delivery-earnings-history{padding:15px}.delivery-earnings-bars{gap:5px;padding-inline:2px}.delivery-earnings-month>b{font-size:8px}.delivery-earnings-month>small{font-size:9px}.delivery-earnings-table-head,.delivery-earnings-table-row{grid-template-columns:minmax(0,1fr) 90px 90px;gap:6px;padding-inline:3px}.delivery-earnings-table-head{font-size:7px}.delivery-earnings-table-row>b,.delivery-earnings-table-row>span,.delivery-earnings-table-row>strong{font-size:9px}}

@@ -15,6 +15,14 @@ const {buildEarningsMetrics}=require("../utils/earningsMetrics.js");
 const { isAdmin } = require("./adminmiddlerware.js");
 
 
+router.get("/earnings",isAdmin,asyncWrap(async(req,res)=>{
+  const orders=await Order.find({$or:[{assignedAt:{$exists:true}},{status:{$in:["assigned","out_for_delivery","delivered"]}}]})
+    .populate("customer","username email")
+    .populate("deliveryPartner","username email")
+    .populate("products.product","name price")
+    .sort({assignedAt:-1,createdAt:-1});
+  renderPage(req,res,"routes/adminEarnings.ejs",{earnings:buildEarningsMetrics(orders,"admin"),orders});
+}));
 router.get("/",isAdmin,asyncWrap(async(req,res)=>{
   const orders=await Order.find({$or:[{assignedAt:{$exists:true}},{status:{$in:["assigned","out_for_delivery","delivered"]}}]}).select("status adminProfit assignedAt createdAt").lean();
   const [inventoryCount,lowStockCount]=await Promise.all([Product.countDocuments(),Product.countDocuments({stock:{$gt:0,$lte:5}})]);
