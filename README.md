@@ -1,4 +1,4 @@
-# PurelyProducts
+# PurelyProducts.
 
 A full-stack e-commerce application with a React storefront and role-based tools for customers, administrators, and delivery partners. The backend uses Node.js, Express, MongoDB, and Mongoose in an MVC-style structure.
 
