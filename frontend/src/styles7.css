@@ -397,22 +397,20 @@
 @media(max-width:600px){.shop-assistant{right:12px;bottom:12px}.shop-chat-launcher{min-height:52px;padding:7px 11px;border-radius:16px}.shop-chat-panel{right:-2px;bottom:62px;height:min(570px,calc(100dvh - 88px));min-height:360px;border-radius:17px}.shop-chat-header{padding:13px}.shop-chat-messages{padding:14px 11px 9px}}
 
 /* Per-customer product recommendations */
-.recommendation-section{padding-top:34px;padding-bottom:30px}
+.recommendation-section{box-sizing:border-box;width:100%;max-width:1240px;margin-inline:auto;overflow:hidden;padding:32px 25px 30px}
 .recommendation-section .section-head{margin-bottom:18px}
 .recommendation-section .section-head h2{margin:5px 0 0;font-size:25px;letter-spacing:-.7px}
 .recommendation-section .section-head small{color:#078bb8;font-size:8px;font-weight:800;letter-spacing:1px}
 .recommendation-section .section-head>span{font-size:9px;color:#7d8d94}
-.recommendation-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.recommendation-card{overflow:hidden;border:1px solid #e4ecef;border-radius:12px;background:#fff;transition:box-shadow .16s,border-color .16s}
-.recommendation-card:hover{border-color:#cce5ed;box-shadow:0 7px 20px #163b4a0b}
-.recommendation-image{display:grid;place-items:center;height:150px;background:#f5f8f8}
-.recommendation-image img{width:100%;height:100%;padding:10px;object-fit:contain}
-.recommendation-image>span{color:#7b9299;font-size:8px;font-weight:800;letter-spacing:1px}
-.recommendation-info{display:grid;gap:7px;padding:12px}
-.recommendation-info>small{overflow:hidden;color:#0786ad;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
-.recommendation-name{min-height:2.5em;color:#294651;font-size:11px;font-weight:700;line-height:1.35}
-.recommendation-info>div{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px;border-top:1px solid #edf1f3}
-.recommendation-info>div>b{color:#294651;font-size:11px}
-.recommendation-info>div>a{color:#0785ad;font-size:8px;font-weight:700}
-@media(max-width:850px){.recommendation-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.recommendation-section{padding-top:25px;padding-bottom:20px}.recommendation-section .section-head{align-items:flex-start;flex-direction:column;gap:6px}.recommendation-section .section-head h2{font-size:20px}.recommendation-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.recommendation-image{height:125px}.recommendation-info{padding:9px}.recommendation-name{font-size:10px}}
+.recommendation-grid{width:100%;min-width:0;gap:16px}
+.recommendation-product{min-width:0;border-top:2px solid #078bb8}
+.recommendation-product .product-image{height:228px;background:#f5f8f8}
+.recommendation-product .product-image img{padding:14px;object-fit:contain}
+.recommendation-product .product-image>.recommendation-tag{right:9px;left:9px;top:9px;width:max-content;max-width:calc(100% - 18px);overflow:hidden;border:1px solid #d5eaf0;border-radius:20px;background:#fffffff2;color:#087fa8;font-size:7px;font-weight:700;letter-spacing:.2px;text-overflow:ellipsis;white-space:nowrap}
+.recommendation-product .product-row{min-width:0;min-height:62px;padding:11px 9px 8px}
+.recommendation-product .product-row>div{min-width:0}
+.recommendation-product .product-row>div>small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recommendation-product .product-row>div>a{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.recommendation-product .product-price{margin:0 9px;padding-bottom:9px}
+.recommendation-explore{color:#0785ad;font-size:8px;font-weight:700;white-space:nowrap}
+@media(max-width:600px){.recommendation-section{padding:24px 13px 22px}.recommendation-section .section-head{align-items:flex-start;flex-direction:column;gap:6px}.recommendation-section .section-head h2{font-size:20px}.recommendation-grid{gap:10px}.recommendation-product .product-image{height:185px}.recommendation-product .product-row{padding:8px 7px 5px}.recommendation-product .product-price{margin:0 7px;padding-bottom:8px}.recommendation-product .product-image>.recommendation-tag{font-size:6px}}
