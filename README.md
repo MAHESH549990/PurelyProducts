@@ -1,6 +1,6 @@
 # PurelyProducts.
 
-A full-stack e-commerce application with a React storefront and role-based tools for customers, administrators, and delivery partners. The backend uses Node.js, Express, MongoDB, and Mongoose in an MVC-style structure.
+PurelyProducts is a full-stack e-commerce platform built to serve customers, administrators, and delivery partners through tailored, role-based experiences. The React storefront provides a smooth shopping journey, while the Node.js and Express backend uses MongoDB and Mongoose in a clear MVC architecture to support reliable product, order, and user management.
 
 ## Project links
 
