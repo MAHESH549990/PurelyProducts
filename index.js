@@ -75,6 +75,7 @@ const deliveryOrderRoutes = require("./delivery/routes/ordersAssign.js");
 const deliveryRoutes=require("./delivery/delivery.js");
 const products=require("./user/routes/porduct.js");
 const shopAssistantRoutes=require("./user/routes/shopAssistant.js");
+const recommendationRoutes=require("./user/routes/recommendations.js");
 
 // Small read-only API used by the React storefront.
 app.get("/api/products", async (req, res, next) => {
@@ -89,6 +90,7 @@ app.get("/api/notices", (req, res) => {
   res.json({ success: req.flash("success"), error: req.flash("error") });
 });
 app.use("/api/chat",shopAssistantRoutes);
+app.use("/api/recommendations",recommendationRoutes);
 
 const reactEntry = path.join(__dirname, "public", "app", "index.html");
 const serveReact = (req, res, next) => {

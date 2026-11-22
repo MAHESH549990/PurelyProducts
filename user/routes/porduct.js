@@ -203,6 +203,7 @@ router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
 
      await cart.save();
    }
+   await User.updateOne({_id:req.user._id},{$push:{cartHistory:{$each:[{product:id,addedAt:new Date()}],$position:0,$slice:40}}}).catch(error=>console.error("Unable to update cart activity:",error.message));
    req.flash("success","Item added to cart");
    res.redirect("/product");
 }));

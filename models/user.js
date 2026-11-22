@@ -32,7 +32,15 @@ const userSchema=new Schema({
      loggedAt:{
       type:Date,
       default:Date.now
-     }
+    },
+    searchHistory:[{
+      query:{type:String,trim:true,maxlength:80},
+      searchedAt:{type:Date,default:Date.now}
+    }],
+    cartHistory:[{
+      product:{type:Schema.Types.ObjectId,ref:"Product"},
+      addedAt:{type:Date,default:Date.now}
+    }]
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -18,6 +18,7 @@ PurelyProducts is a full-stack e-commerce application with a React and Vite fron
 - Review delivered products, optionally attach an image, and delete your own reviews.
 - Pay a ₹35 delivery charge when the product subtotal is below ₹299.
 - Use the Hindi and English shopping assistant to check live stock and get product, cart, and checkout guidance.
+- See personalized product recommendations informed by recent searches, cart additions, and placed orders.
 
 ### Administrator
 
