@@ -64,16 +64,16 @@ The earnings values are fixed project rules: ₹30 for each order assigned by an
 
 ## Technology
 
-| Area | Technology |
-| --- | --- |
-| Frontend | React, Vite, CSS |
-| Backend | Node.js, Express 5 |
-| Database | MongoDB, Mongoose |
-| Authentication and sessions | Passport.js, Express Session |
-| Validation | Joi |
-| Image uploads | Multer, Cloudinary |
-| Optional assistant generation | Gemini API |
-| Optional interactive maps | Mapbox |
+| Area                          | Technology                   |
+| ----------------------------- | ---------------------------- |
+| Frontend                      | React, Vite, CSS             |
+| Backend                       | Node.js, Express 5           |
+| Database                      | MongoDB, Mongoose            |
+| Authentication and sessions   | Passport.js, Express Session |
+| Validation                    | Joi                          |
+| Image uploads                 | Multer, Cloudinary           |
+| Optional assistant generation | Gemini API                   |
+| Optional interactive maps     | Mapbox                       |
 
 ## Project structure
 
@@ -191,6 +191,6 @@ Administrators can create and edit products, upload or replace images, and save 
 ## Author
 
 **Mahesh Bhatt**
-BCA — Artificial Intelligence and Data Science
 GitHub: [MAHESH549990](https://github.com/MAHESH549990)
-Portfolio: [portfolio-mahesh-bhatt.onrender.com](https://portfolio-mahesh-bhatt.onrender.com/)
+
+**Rohit Singh**
