@@ -78,16 +78,19 @@ The earnings values are fixed project rules: ₹30 for each order assigned by an
 ## Project structure
 
     PurelyProducts/
-    ├── admin/       Admin dashboard, product, inventory, and order routes
-    ├── delivery/    Delivery partner routes and workflows
-    ├── frontend/   React source and Vite configuration
-    ├── models/     Mongoose models
-    ├── public/     Static assets and production React build
-    ├── user/       Customer, product, order, review, and API routes
-    ├── utils/      Shared helpers
-    ├── index.js    Express entry point and route mounting
-    ├── schema.js   Joi validation schemas
-    └── upload.js   Multer upload configuration
+    ├── admin/        Admin dashboard, product, inventory, and order routes
+    ├── delivery/     Delivery partner routes and workflows
+    ├── frontend/     React source and Vite configuration
+    ├── models/       Mongoose models
+    ├── public/       Static assets and production React build
+    ├── user/         Customer, product, order, review, and API routes
+    ├── utils/        Shared helpers
+    ├── index.js      Express entry point and route mounting
+    ├── schema.js     Joi validation schemas
+    └── upload.js     Multer upload configuration
+
+The React page modules and their registry are documented in
+[frontend/src/pages/README.md](frontend/src/pages/README.md).
 
 ## Run locally
 
@@ -188,7 +191,7 @@ Administrators can create and edit products, upload or replace images, and save 
 - Missing map: verify MAP_TOKEN and that the saved address includes location information.
 - Missing AI-generated chat replies: check GEMINI_API_KEY and provider quota; built-in bilingual help does not require Gemini.
 
-## Author
+## Contributors
 
 **Mahesh Bhatt**
 GitHub: [MAHESH549990](https://github.com/MAHESH549990)
@@ -197,5 +200,3 @@ GitHub: [MAHESH549990](https://github.com/MAHESH549990)
 GitHub: [ROHITSINGH](https://github.com/rsr200600)
 
 **Bhawesh Panda**
-Github:
-Name:
