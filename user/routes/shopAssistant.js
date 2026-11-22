@@ -5,7 +5,7 @@ const router=express.Router();
 const requestCounts=new Map();
 const WINDOW_MS=60*60*1000;
 const MAX_REQUESTS=30;
-const stopWords=new Set(["is","it","the","a","an","this","that","for","of","in","on","to","and","or","do","does","i","me","my","you","your","how","what","where","can","please","product","available","availability","stock","hai","hain","kya","ka","ki","ke","ye","yah","woh","wo","mujhe","chahiye","batao","btao","dikhao","karo","kaise","karu","kare","mein","me","ko","aur","se","par","milega","milta","milti"]);
+const stopWords=new Set(["is","it","the","a","an","this","that","for","of","in","on","to","and","or","do","does","i","me","my","you","your","how","what","where","can","please","product","available","availability","stock","hello","hi","hey","there","help","thanks","thank","you","are","hai","hain","kya","ka","ki","ke","ye","yah","woh","wo","mujhe","chahiye","batao","btao","dikhao","karo","kaise","karu","kare","mein","me","ko","aur","se","par","milega","milta","milti"]);
 const synonyms={
  grocery:["grocery","groceries","kirana"],
  fashion:["fashion","clothes","clothing","kapde","dress","shirt","wear"],
@@ -39,12 +39,27 @@ function productSummary(products,lang){
 }
 function fallbackAnswer(message,products,lang){
  const text=message.toLowerCase();
+ const greeting=/\b(hi|hello|hey|namaste|namaskar|good morning|good afternoon|good evening)\b|नमस्ते|नमस्कार|हेलो|हाय/u.test(text);
+ const thanks=/\b(thanks|thank you|thankyou|thx)\b|धन्यवाद|शुक्रिया/u.test(text);
+ const identity=/\b(who are you|what are you|your name|what can you do)\b|आप कौन|तुम कौन|आप क्या कर/u.test(text);
+ const payment=/payment|pay|card|पेमेंट|भुगतान|पैसे/u.test(text);
+ const deliveryFee=/delivery charge|delivery fee|shipping|डिलीवरी चार्ज|डिलीवरी फीस|शिपिंग/u.test(text);
+ const deliveryStatus=/delivery status|track.*order|where.*order|my order|डिलीवरी.*स्टेटस|ऑर्डर.*कहाँ|ऑर्डर.*कहां|ऑर्डर.*ट्रैक/u.test(text);
+ const availability=/available|availability|in stock|stock|उपलब्ध|स्टॉक|मिलेगा|मिलेगी/u.test(text);
  const shoppingHelp=/cart|checkout|buy|purchase|order|bag|कार्ट|खरीद|चेक.?आउट|ऑर्डर|आदेश|जोड़/u.test(text);
  if(products.length)return productSummary(products,lang)+(shoppingHelp?(lang==="hi"?"\n\nखरीदने के लिए: प्रोडक्ट खोलें और “Add to bag” दबाएँ। फिर Cart से पता चुनकर “Place order” करें।":"\n\nTo buy, open a product and choose “Add to bag.” Then open Cart, select your address, and choose “Place order.”"):"");
+ if(greeting)return lang==="hi"?"नमस्ते! 😊 मैं PurelyProducts का शॉपिंग सहायक हूँ। मैं प्रोडक्ट का लाइव स्टॉक देख सकता हूँ और कार्ट या checkout में मदद कर सकता हूँ। आप क्या जानना चाहेंगे?":"Hi there! 😊 I’m the PurelyProducts shopping helper. I can check live product stock and help with your cart or checkout. What would you like to know?";
+ if(thanks)return lang==="hi"?"आपका स्वागत है! 😊 प्रोडक्ट या खरीदारी से जुड़ा कोई और सवाल हो तो पूछें।":"You’re welcome! 😊 Feel free to ask me another product or shopping question.";
+ if(identity)return lang==="hi"?"मैं PurelyProducts का शॉपिंग सहायक हूँ। मैं कैटलॉग में प्रोडक्ट और स्टॉक देख सकता हूँ और खरीदारी के चरण समझा सकता हूँ।":"I’m the PurelyProducts shopping helper. I can look up products and stock in the catalogue and explain how to shop.";
+ if(payment)return lang==="hi"?"Checkout पर अभी demo payment form है। यह केवल प्रदर्शन के लिए है और असली कार्ड से पैसे नहीं काटता। ऑर्डर पूरा करने के लिए कार्डधारक का नाम दर्ज करें।":"Checkout currently uses a demo payment form. It is for demonstration only and does not charge a real card. Enter a cardholder name to complete the demo order.";
+ if(deliveryFee)return lang==="hi"?"₹299 से कम product subtotal पर ₹35 delivery charge लगता है। ₹299 या उससे अधिक पर delivery free है।":"A ₹35 delivery charge applies when the product subtotal is below ₹299. Delivery is free at ₹299 or above.";
+ if(deliveryStatus)return lang==="hi"?"अपने ऑर्डर और delivery updates देखने के लिए साइन इन करके Profile के Orders पेज पर जाएँ। ऑर्डर की स्थिति वहीं दिखाई देती है।":"Sign in and open Orders from your profile to see your order status and delivery updates.";
+ if(availability)return lang==="hi"?"किस प्रोडक्ट की उपलब्धता जाननी है? उसका नाम या कैटेगरी लिखें, मैं लाइव स्टॉक देखूँगा।":"Which product should I check? Send its name or category and I’ll look up live stock.";
  if(shoppingHelp)return lang==="hi"
   ?"खरीदने के लिए: प्रोडक्ट खोलें और “Add to bag” दबाएँ। फिर “Cart” में जाएँ, पता चुनें और “Place order” दबाकर चेकआउट पूरा करें। कार्ट और ऑर्डर के लिए साइन इन करना ज़रूरी है।"
   :"To buy: open a product and choose “Add to bag.” Then open Cart, choose your address, and select “Place order” to continue checkout. Sign in to use your cart and place an order.";
- return lang==="hi"?"मैं उपलब्धता और स्टॉक देखने के लिए प्रोडक्ट का नाम या कैटेगरी पूछ सकता हूँ। खरीदने के लिए प्रोडक्ट खोलें, “Add to bag” चुनें, फिर Cart से checkout करें।":"Ask me about a product name or category and I’ll check its live stock. To buy, open the product, select “Add to bag,” then check out from Cart.";
+ if(lang==="hi")return "मैं सामान्य बातचीत कर सकता हूँ और PurelyProducts की खरीदारी में मदद कर सकता हूँ। प्रोडक्ट, स्टॉक, कार्ट, checkout, payment या delivery के बारे में पूछें।";
+ return "I can chat and help you shop on PurelyProducts. Ask me about products, stock, cart, checkout, payment, or delivery.";
 }
 function rateLimit(req,res,next){
  const now=Date.now(),key=req.ip||req.socket.remoteAddress||"unknown",entry=requestCounts.get(key);
@@ -70,8 +85,9 @@ router.post("/",rateLimit,async(req,res)=>{
    const prompt=[
     "You are PurelyProducts' concise and friendly shopping assistant.",
     "Answer in "+languageName+".",
-    "Use only the catalog facts below for product names, price, and availability. Never claim a product is in stock unless stock is greater than zero. If no catalog match exists, say so and ask what name or category to search.",
+    "Use only the catalog facts below for product names, price, and availability. Never claim a product is in stock unless stock is greater than zero. Only say no product match was found if the customer actually asked about a product and none matched. Respond naturally to greetings, thanks, and general conversation.",
     "Explain how to open a product, add it to the bag, open the cart, choose an address, and place an order. Adding to cart and checkout require signing in. Never claim you completed an action or placed an order.",
+    "Checkout uses a simulated demo payment and does not charge real cards. A ₹35 delivery charge applies below a ₹299 product subtotal; delivery is free at ₹299 or above. Do not invent return policies or delivery dates.",
     "Do not ask for passwords, card numbers, addresses, or other private information. Keep the response concise.",
     "Catalog matches from the live database: "+JSON.stringify(catalog),
     "Customer question: "+message
