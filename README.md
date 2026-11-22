@@ -17,6 +17,7 @@ PurelyProducts is a full-stack e-commerce application with a React and Vite fron
 - Place orders using the built-in demo payment flow.
 - Review delivered products, optionally attach an image, and delete your own reviews.
 - Pay a ₹35 delivery charge when the product subtotal is below ₹299.
+- Use the Hindi and English shopping assistant to check live stock and get product, cart, and checkout guidance.
 
 ### Administrator
 
@@ -103,6 +104,7 @@ Create a `.env` file in the project root. Use your own values and keep the file 
 PORT=8080
 ATLAS_URL=your_mongodb_connection_string
 SECRET=your_session_secret
+GEMINI_API_KEY=your_google_ai_studio_api_key
 
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
@@ -114,6 +116,8 @@ ADMIN_PASSWORD=your_admin_password
 ```
 
 The Cloudinary variable names must match the names above. Set environment variables in the Render service settings for deployment. Never commit `.env` or publish real credentials.
+
+The shopping assistant checks product names and stock directly in MongoDB. To enable its AI-generated Hindi and English replies, create a Gemini API key in Google AI Studio (https://aistudio.google.com/app/apikey) and set GEMINI_API_KEY in your local environment file and Render environment settings. Gemini currently offers a limited free tier; quotas and model availability can change. If no key is set or the API is temporarily unavailable, the assistant still answers common product availability and shopping-flow questions using built-in bilingual responses.
 
 ### Run the Express app
 
