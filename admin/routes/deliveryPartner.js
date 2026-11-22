@@ -9,6 +9,7 @@ const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 const Delivery = require("../../models/delivery.js");
+const {buildEarningsMetrics}=require("../../utils/earningsMetrics.js");
 
 // View delivery applications
 router.get("/applications", isAdmin, async (req, res) => {
@@ -58,6 +59,22 @@ router.get("/approved", isAdmin, asyncWrap(async (req, res) => {
         .populate("user", "username email")
         .sort({ createdAt: -1 });
 
+    const partnerIds = deliveries.flatMap(delivery => [delivery._id, delivery.user?._id].filter(Boolean));
+    const partnerOrders = partnerIds.length
+        ? await Order.find({ deliveryPartner: { $in: partnerIds } }).select("deliveryPartner status deliveryEarnings deliveredAt createdAt").lean()
+        : [];
+    const partnerStats = {};
+    for (const delivery of deliveries) {
+        const ids = new Set([String(delivery._id), String(delivery.user?._id)].filter(Boolean));
+        const ownOrders = partnerOrders.filter(item => ids.has(String(item.deliveryPartner)));
+        const earnings = buildEarningsMetrics(ownOrders, "delivery");
+        partnerStats[String(delivery._id)] = {
+            ...earnings,
+            totalOrders: ownOrders.length,
+            deliveredOrders: earnings.totalOrders,
+            activeOrders: ownOrders.filter(item => ["assigned", "out_for_delivery"].includes(item.status)).length
+        };
+    }
     let order = null;
 
     if (req.query.orderId) {
@@ -71,7 +88,8 @@ router.get("/approved", isAdmin, asyncWrap(async (req, res) => {
 
     renderPage(req,res,"routes/approvedDeliveryDetails.ejs", {
         deliveries,
-        order
+        order,
+        partnerStats
     });
 }));
 
@@ -124,15 +142,37 @@ router.get(
         const delivery = await Delivery.findOne({
             _id: req.params.id,
             applicationStatus: "approved"
-        }).populate("user", "username email");
+        }).populate("user", "username email address");
 
         if (!delivery) {
             req.flash("error", "Approved delivery partner not found.");
             return res.redirect("/admin/delivery/approved");
         }
 
+        const partnerIds = [delivery._id, delivery.user?._id].filter(Boolean);
+        const [partnerOrders, recentOrders] = await Promise.all([
+            Order.find({ deliveryPartner: { $in: partnerIds } })
+                .select("status deliveryEarnings deliveredAt createdAt")
+                .lean(),
+            Order.find({ deliveryPartner: { $in: partnerIds } })
+                .populate("customer", "username email")
+                .populate("products.product", "name price image")
+                .sort({ createdAt: -1 })
+                .limit(20)
+        ]);
+        const earnings = buildEarningsMetrics(partnerOrders, "delivery");
+        const metrics = {
+            ...earnings,
+            totalOrders: partnerOrders.length,
+            deliveredOrders: earnings.totalOrders,
+            activeOrders: partnerOrders.filter(order => ["assigned", "out_for_delivery"].includes(order.status)).length
+        };
+
         renderPage(req,res,"routes/approvedDeliveryBoyDetails.ejs", {
-            delivery
+            delivery,
+            orders: recentOrders,
+            metrics,
+            mapToken: process.env.MAP_TOKEN || ""
         });
     })
 );

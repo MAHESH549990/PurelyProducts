@@ -1,10 +1,11 @@
 import React from 'react';
 import AdminPage from '../AdminPage';
 import {id,image,money,Intro,Empty,Status} from '../ui';
+import DeliveryPartnersPage from './DeliveryPartnersPage';
 
 export default function AssignDeliveryPage(props){
  const {data={},submit}=props,order=data.order,partners=data.deliveries||[];
- if(!order)return <AdminPage {...props} titleOverride="Approved delivery partners"/>;
+ if(!order)return <DeliveryPartnersPage {...props}/>;
  const products=order.products||[],canAssign=order.status==='confirmed';
  return <main className="section admin-workspace assign-delivery-page">
   <a className="order-back-link" href="/admin/users/orders/accepted">← Back to confirmed orders</a>

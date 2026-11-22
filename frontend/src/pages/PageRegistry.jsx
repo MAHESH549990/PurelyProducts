@@ -30,6 +30,7 @@ import DeliveryApplicationsPage from './admin/DeliveryApplicationsPage';
 import DeliveryRequestsPage from './admin/DeliveryRequestsPage';
 import AssignDeliveryPage from './admin/AssignDeliveryPage';
 import ApprovedPartnerDetailsPage from './admin/ApprovedPartnerDetailsPage';
+import DeliveryPartnerDetailsPage from './admin/DeliveryPartnerDetailsPage';
 import AdminProfilePage from './admin/AdminProfilePage';
 import DeliveryDashboardPage from './delivery/DeliveryDashboardPage';
 import AssignedOrdersPage from './delivery/AssignedOrdersPage';
@@ -72,7 +73,7 @@ export const pageRegistry = {
  'routes/deliveryboys.ejs':DeliveryApplicationsPage,
  'routes/newDeliveryRequests.ejs':DeliveryRequestsPage,
  'routes/approvedDeliveryDetails.ejs':AssignDeliveryPage,
- 'routes/approvedDeliveryBoyDetails.ejs':ApprovedPartnerDetailsPage,
+ 'routes/approvedDeliveryBoyDetails.ejs':DeliveryPartnerDetailsPage,
  'routes/adminProfile.ejs':AdminProfilePage,
  'routes/deliveryDashboard.ejs':DeliveryDashboardPage,
  'routes/assignedOrders.ejs':AssignedOrdersPage,
