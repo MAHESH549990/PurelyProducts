@@ -28,6 +28,7 @@ function RowActions({row:r,path,submit}) {
  if(r.status==='assigned'&&path.startsWith('/delivery'))return <form action={`/delivery/orders/${rid}/confirm`} method="post" onSubmit={submit}><button className="mini-action">Start delivery</button></form>;
  if(r.status==='out_for_delivery'&&path.startsWith('/delivery'))return <form action={`/delivery/orders/assign/${rid}/out-for-delivery/delivered`} data-method="PATCH" onSubmit={submit}><button className="mini-action">Mark delivered</button></form>;
  if(r.status==='confirmed'&&path.startsWith('/admin'))return <a className="mini-action" href={`/admin/users/orders/${rid}/assign-delivery`}>Assign partner</a>;
+ if(r.status==='assigned'&&path.startsWith('/admin'))return <a className="mini-action" href={`/admin/users/orders/${rid}/assign-delivery`}>View assignment</a>;
  if(r.licenseImage?.url)return <a className="mini-action" href={`/admin/delivery/${rid}/license`}>View licence</a>;
  return <a className="mini-action" href={r.name?`/admin/products/${rid}`:path.startsWith('/delivery')?`/delivery/orders/assign/${rid}`:`/admin/users/details/${rid}`}>View</a>;
 }
