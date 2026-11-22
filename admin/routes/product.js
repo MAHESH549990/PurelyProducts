@@ -92,7 +92,7 @@ router.put("/:id",isAdmin,productUpload.single("image"),storeProductImage,valida
     {new:true,runValidators: true},
    );
    req.flash("success","Product updated successfully");
-   res.redirect(`/admin/products/${id}`);
+   res.redirect(`/admin/products/${id}/update`);
 }));
 
 

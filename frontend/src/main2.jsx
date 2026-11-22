@@ -12,11 +12,56 @@ import ShopAssistant from './components/ShopAssistant';
 const productCategories=['Groceries','Premium Fruits','Home & Kitchen','Fashion','Electronics','Beauty','Home Improvement','Sports, Toys & Luggage'];
 function App(){
  const [path,setPath]=useState(location.pathname+location.search),[page,setPage]=useState(null),[loading,setLoading]=useState(true),[notice,setNotice]=useState(''),[selectedCategory,setSelectedCategory]=useState('All');const skipNextLoad=useRef(false);
- async function load(to=path){setLoading(true);setNotice('');try{let target=to==='/'?'/product':to;let r=await fetch(target,{headers:{Accept:'application/json'},credentials:'same-origin'});if(r.redirected){const u=new URL(r.url),dest=u.pathname+u.search;if(dest!==target){history.replaceState({},'',dest);setPath(dest);return}}let type=r.headers.get('content-type')||'';if(type.includes('application/json')){let d=await r.json();if(d.redirect){go(d.redirect);return}setPage(d);setNotice(d.data?.error?.[0]||d.data?.success?.[0]||'')}else if(target==='/product'){let d=await fetch('/api/products').then(x=>x.json());setPage({view:'routes/home.ejs',data:{allProducts:d.products||[]}})}else setPage({view:'routes/error.ejs',data:{message:'This page could not be loaded.'}})}catch{setPage({view:'routes/error.ejs',data:{message:'Could not load this page. Please try again.'}})}finally{setLoading(false)}}
+ async function load(to=path){setLoading(true);setNotice('');try{let target=to==='/'?'/product':to;let r=await fetch(target,{headers:{Accept:'application/json'},credentials:'same-origin',cache:'no-store'});if(r.redirected){const u=new URL(r.url),dest=u.pathname+u.search;if(dest!==target){history.replaceState({},'',dest);setPath(dest);return}}let type=r.headers.get('content-type')||'';if(type.includes('application/json')){let d=await r.json();if(d.redirect){go(d.redirect);return}setPage(d);setNotice(d.data?.error?.[0]||d.data?.success?.[0]||'')}else if(target==='/product'){let d=await fetch('/api/products').then(x=>x.json());setPage({view:'routes/home.ejs',data:{allProducts:d.products||[]}})}else setPage({view:'routes/error.ejs',data:{message:'This page could not be loaded.'}})}catch{setPage({view:'routes/error.ejs',data:{message:'Could not load this page. Please try again.'}})}finally{setLoading(false)}}
  useEffect(()=>{if(skipNextLoad.current){skipNextLoad.current=false;return}load(path)},[path]);
  useEffect(()=>{const pop=()=>setPath(location.pathname+location.search);const click=e=>{const a=e.target.closest('a');if(!a||a.target||a.origin!==location.origin||a.pathname.startsWith('/app/')||a.pathname.endsWith('/license'))return;e.preventDefault();go(a.pathname+a.search+a.hash)};addEventListener('popstate',pop);document.addEventListener('click',click);return()=>{removeEventListener('popstate',pop);document.removeEventListener('click',click)}},[]);
  function go(to){const [p,h]=to.split('#');history.pushState({},'',p||'/');setPath(p||'/');scrollTo({top:0,behavior:'smooth'});if(h)setTimeout(()=>document.getElementById(h)?.scrollIntoView({behavior:'smooth'}),120)}
- async function submit(e){e.preventDefault();const f=e.currentTarget,hasFile=[...f.elements].some(x=>x.type==='file'&&x.files?.length),method=(f.dataset.method||f.method||'post').toUpperCase(),body=hasFile?new FormData(f):new URLSearchParams(new FormData(f));try{const r=await fetch(f.action||path,{method,body,credentials:'same-origin',headers:{Accept:'application/json'}});const ct=r.headers.get('content-type')||'';if(r.redirected){const u=new URL(r.url);if(u.origin!==location.origin){location.assign(r.url);return}const dest=u.pathname+u.search;if(ct.includes('application/json')){const d=await r.json();if(d.redirect){go(d.redirect);setNotice(d.success||d.data?.success?.[0]||'');return}if(dest!==path){skipNextLoad.current=true;history.pushState({},'',dest);setPath(dest)}if(d.view){setPage(d);setNotice(d.data?.error?.[0]||d.data?.success?.[0]||'');return}}if(dest===path)await load(dest);else go(dest);return}if(ct.includes('application/json')){const d=await r.json();if(d.redirect){go(d.redirect);setNotice(d.success||d.data?.success?.[0]||'');return}if(d.view){setPage(d);setNotice(d.data?.error?.[0]||d.data?.success?.[0]||'');return}}if(!r.ok)setNotice(await r.text());else await load(path)}catch{setNotice('That action could not be completed. Please try again.')}}
+ async function submit(e){
+  e.preventDefault();
+  const form=e.currentTarget;
+  const hasFile=[...form.elements].some(element=>element.type==='file'&&element.files?.length);
+  const method=(form.dataset.method||form.method||'post').toUpperCase();
+  const body=hasFile?new FormData(form):new URLSearchParams(new FormData(form));
+  try{
+   const response=await fetch(form.action||path,{method,body,credentials:'same-origin',headers:{Accept:'application/json'}});
+   const contentType=response.headers.get('content-type')||'';
+   if(response.redirected){
+    const targetUrl=new URL(response.url);
+    if(targetUrl.origin!==location.origin){location.assign(response.url);return}
+    const destination=targetUrl.pathname+targetUrl.search;
+    const redirectedPage=contentType.includes('application/json')?await response.json():null;
+    if(destination!==path){
+     skipNextLoad.current=true;
+     history.pushState({},'',destination);
+     setPath(destination);
+    }
+    await load(destination);
+    const flash=redirectedPage?.data?.success?.[0]||redirectedPage?.data?.error?.[0];
+    if(flash)setNotice(flash);
+    return;
+   }
+   if(contentType.includes('application/json')){
+    const result=await response.json();
+    if(result.redirect){
+     const destination=result.redirect;
+     const flash=result.success||result.data?.success?.[0]||result.data?.error?.[0]||'';
+     if(destination===path)await load(destination);
+     else go(destination);
+     if(flash)setNotice(flash);
+     return;
+    }
+    if(result.view){
+     setPage(result);
+     setNotice(result.data?.error?.[0]||result.data?.success?.[0]||'');
+     return;
+    }
+   }
+   if(!response.ok)setNotice(await response.text());
+   else await load(path);
+  }catch{
+   setNotice('That action could not be completed. Please try again.');
+  }
+ }
  const data=page?.data||{},view=page?.view||'',user=data.currUser,auth=/userLogin\/(login|signup|forgetPass)/.test(view)||/\/users\/(login|signup|updatePassword)/.test(path);
  if(auth){const AuthPage=pageRegistry[view];return AuthPage?<AuthPage submit={submit} notice={notice}/>:null;}
  return <div className="app-shell"><Header user={user} path={path} onCategory={setSelectedCategory} selectedCategory={selectedCategory}/>{notice&&<div className="toast">{notice}<button onClick={()=>setNotice('')}>×</button></div>}<div className="app-content">{loading?<div className="loading">Loading your page…</div>:<Screen data={data} view={view} path={path} user={user} submit={submit} selectedCategory={selectedCategory} onCategory={setSelectedCategory}/>}</div><Footer/>{user?.role!=='admin'&&user?.role!=='delivery'&&<ShopAssistant/>}</div>

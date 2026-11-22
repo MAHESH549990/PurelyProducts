@@ -10,7 +10,7 @@ const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 
 router.get("/details",isAdmin,async(req,res)=>{
-  let users=await User.find({role:{$in:"customer"}});
+  let users=await User.find({role:"customer"});
   renderPage(req,res,"routes/users.ejs",{users});
 });
 
@@ -20,7 +20,8 @@ router.get("/details/:id",isAdmin,async(req,res)=>{
   let orders=await Order.find({customer:id}).populate("products.product");
   renderPage(req,res,"routes/usersDetails.ejs",{
     orders,
-    users
+    users,
+    customer:users
   });
 });
 
