@@ -96,7 +96,7 @@ router.get("/cart/place",isLoggedIn,isAddress,asyncWrap(async(req,res)=>{
   if(!totals.validItems.length){
     if((req.get("accept")||"").toLowerCase().includes("application/json")) return res.status(400).json({redirect:"/product/cart",error:"Your cart is empty. Add a product before checkout."});
     req.flash("error","Your cart is empty. Add a product before checkout.");
-    return res.redirect("/product/cart");
+    return res.redirect(303,"/product/cart");
   }
   const checkoutItems=totals.validItems.map(entry=>({
     quantity:entry.quantity,
@@ -216,7 +216,7 @@ router.delete("/cart/:id", isLoggedIn, asyncWrap(async (req, res) => {
     let cart=await Cart.findOne({user:req.user._id});
     await Cart.findByIdAndUpdate(cart._id,{$pull:{items:{product:id}}});
     req.flash("success","Product deleted form cart");
-    res.redirect("/product/cart");
+    res.redirect(303,"/product/cart");
 }));
 
 module.exports=router;

@@ -65,7 +65,7 @@ router.post("/new",isAdmin,productUpload.single("image"),storeProductImage,valid
   let data=new Product(req.body);
   await data.save();
   req.flash("success","Product created successfully");
-  res.redirect("/admin/products");
+  res.redirect(303,"/admin/products");
 }));
 
 router.get("/:id",isAdmin,asyncWrap(async(req,res)=>{
@@ -92,7 +92,7 @@ router.put("/:id",isAdmin,productUpload.single("image"),storeProductImage,valida
     {new:true,runValidators: true},
    );
    req.flash("success","Product updated successfully");
-   res.redirect(`/admin/products/${id}/update`);
+   res.redirect(303,`/admin/products/${id}/update`);
 }));
 
 
@@ -100,7 +100,7 @@ router.delete("/:id",isAdmin,asyncWrap(async(req,res)=>{
   let {id}=req.params;
   await Product.findByIdAndDelete(id);
   req.flash("success","Product deleted successfully");
-  res.redirect("/admin/products");
+  res.redirect(303,"/admin/products");
 }));
 
 module.exports=router;

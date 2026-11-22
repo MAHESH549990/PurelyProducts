@@ -319,7 +319,7 @@
 .detail-review-form>button{justify-self:start;border-radius:8px;background:#078bb8}
 @media(max-width:760px){.detail-modern{display:grid;grid-template-columns:1fr;gap:0;margin:0 auto;padding:20px 18px 55px}.detail-info{padding-top:25px!important}.detail-photo-modern{aspect-ratio:1/1;max-height:560px;border-radius:17px}.detail-photo-modern img{padding:12px}.detail-photo-modern .detail-image-tag{left:12px;top:12px}.detail-info h1{font-size:32px}.detail-price-row{margin:19px 0 13px}.detail-price-row .detail-price{font-size:27px}.detail-reviews{margin-top:42px;padding-top:24px}.detail-reviews .reviews-list{grid-template-columns:1fr}.detail-review-form{margin-top:18px;padding:18px;grid-template-columns:1fr}.detail-review-form>div:first-child,.detail-review-form>button{grid-column:auto}}
 @media(max-width:420px){.detail-modern{padding-inline:13px}.detail-visual>.back{margin:0 0 13px;font-size:10px}.detail-photo-modern{aspect-ratio:.95/1}.detail-info h1{font-size:28px}.detail-purchase-card{padding:13px}.buy-form-modern{grid-template-columns:82px minmax(0,1fr);gap:9px}.buy-form-modern .btn{padding:10px;font-size:10px}.detail-promises{gap:8px 12px;font-size:8px}.detail-reviews .reviews-heading h2{font-size:22px}}
-.profile-location-map{max-width:1000px;margin:24px auto 0}
+.profile-location-map{width:100%;max-width:980px;margin:24px 0 0}
 .location-map-card{overflow:hidden;border:1px solid #dce8ec;border-radius:20px;background:#fff;box-shadow:0 18px 48px #173a4b0d}
 .location-map-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 24px}
 .location-map-header small{color:#0785ad;font-size:9px;font-weight:800;letter-spacing:1.1px}
