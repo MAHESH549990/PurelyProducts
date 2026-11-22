@@ -32,7 +32,7 @@ router.get("/", asyncWrap(async (req, res) => {
 router.post("/cart/place", isLoggedIn,isAddress,(req,res)=>res.redirect(303,"/product/cart/place"));
 
 router.post("/cart/payment-session",isLoggedIn,isAddress,asyncWrap(async(req,res)=>{
-  const cart=await Cart.findOne({user:req.user._id}).populate("items.product");
+  const cart=await Cart.findOne({user:req.user._id}).populate({path:"items.product",select:"name price stock +costPrice"});
   const totals=summarizeCart(cart);
   if(!totals.validItems.length) return res.status(400).json({error:"Your cart is empty. Add a product before checkout."});
   const demoSessionId=crypto.randomUUID();
@@ -40,7 +40,7 @@ router.post("/cart/payment-session",isLoggedIn,isAddress,asyncWrap(async(req,res
     sessionId:demoSessionId,
     userId:String(req.user._id),
     expiresAt:Date.now()+20*60*1000,
-    products:totals.validItems.map(entry=>({product:String(entry.product._id),quantity:Number(entry.quantity)})),
+    products:totals.validItems.map(entry=>({product:String(entry.product._id),quantity:Number(entry.quantity),unitPriceAtPurchase:Number(entry.product.price),unitCostAtPurchase:entry.product.costPrice===undefined||entry.product.costPrice===null?null:Number(entry.product.costPrice)})),
     totalProductsPrice:totals.totalProductsPrice,
     deliveryCharge:totals.deliveryCharge,
     orderTotal:totals.orderTotal

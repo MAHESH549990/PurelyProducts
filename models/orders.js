@@ -18,7 +18,10 @@ const ordersSchema=new Schema({
           type:Schema.Types.ObjectId,
           ref:"Product"
         },
-        quantity:Number
+        quantity:Number,
+        // Checkout snapshots used for delivered-order profit reporting.
+        unitPriceAtPurchase:{type:Number,select:false},
+        unitCostAtPurchase:{type:Number,select:false}
       }
     ],
 

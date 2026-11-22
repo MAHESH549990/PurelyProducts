@@ -179,3 +179,23 @@
 .delivery-earnings-order-pay>b{color:#0785ad;white-space:nowrap}
 @media(max-width:900px){.delivery-earnings-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.delivery-earnings-order{grid-template-columns:minmax(0,1fr) auto;gap:9px 12px}.delivery-earnings-order-items{grid-column:1/-1;grid-row:2}.delivery-earnings-order-total{grid-column:1;grid-row:3}.delivery-earnings-order .status{grid-column:2;grid-row:3;justify-self:end}.delivery-earnings-order-pay{grid-column:2;grid-row:1;justify-self:end}}
 @media(max-width:600px){.delivery-earnings-heading{align-items:stretch;flex-direction:column;gap:0}.delivery-earnings-heading>.admin-secondary{align-self:flex-start}.delivery-earnings-chart,.delivery-earnings-breakdown,.delivery-earnings-history{padding:15px}.delivery-earnings-bars{gap:5px;padding-inline:2px}.delivery-earnings-month>b{font-size:8px}.delivery-earnings-month>small{font-size:9px}.delivery-earnings-table-head,.delivery-earnings-table-row{grid-template-columns:minmax(0,1fr) 90px 90px;gap:6px;padding-inline:3px}.delivery-earnings-table-head{font-size:7px}.delivery-earnings-table-row>b,.delivery-earnings-table-row>span,.delivery-earnings-table-row>strong{font-size:9px}}
+
+.admin-profit-note,.admin-profit-missing{display:grid;gap:6px;margin:12px 0;padding:15px 17px;border:1px solid #cce6ed;border-radius:13px;background:#f0fafc;color:#36515c;font-size:11px;line-height:1.55}
+.admin-profit-note b,.admin-profit-missing b{color:#087fa8;font-size:12px}
+.admin-profit-note small{color:#71858e;font-size:10px}
+.admin-profit-missing{display:block;border-color:#f0ddb6;background:#fffaf0;color:#796443}
+.admin-profit-missing b{margin-right:4px;color:#98651c}
+.admin-profit-summary article:first-child b{color:#147a53}
+.delivery-earnings-track span.is-negative{background:linear-gradient(180deg,#f28a78,#cf4c3d)}
+.delivery-earnings-month>b.is-negative-text,.is-negative-text{color:#c84d40!important}
+.admin-profit-table{overflow-x:auto}
+.admin-profit-table-head,.admin-profit-table-row{display:grid;grid-template-columns:130px 70px repeat(4,minmax(110px,1fr)) 110px;align-items:center;gap:10px;min-width:870px;padding:12px 8px;border-top:1px solid #edf1f3}
+.admin-profit-table-head{color:#829197;font-size:9px;text-transform:uppercase;letter-spacing:.35px}
+.admin-profit-table-row>b,.admin-profit-table-row>span,.admin-profit-table-row>strong{color:#526b74;font-size:10px;white-space:nowrap}
+.admin-profit-table-row>strong{color:#147a53;text-align:right}
+.admin-profit-order{grid-template-columns:minmax(130px,.9fr) minmax(160px,1.2fr) minmax(180px,1.1fr) auto auto}
+.admin-profit-order-costs{display:grid;gap:3px}
+.admin-profit-order-costs span{display:flex;justify-content:space-between;gap:9px;color:#829197;font-size:9px;white-space:nowrap}
+.admin-profit-order-costs b{color:#526b74;font-size:9px}
+.admin-profit-order .delivery-earnings-order-pay b{color:#147a53}
+@media(max-width:900px){.admin-profit-order{grid-template-columns:minmax(0,1fr) auto}.admin-profit-order .delivery-earnings-order-items{grid-column:1/-1;grid-row:2}.admin-profit-order-costs{grid-column:1;grid-row:3}.admin-profit-order .status{grid-column:2;grid-row:3}.admin-profit-order .delivery-earnings-order-pay{grid-column:2;grid-row:1}}

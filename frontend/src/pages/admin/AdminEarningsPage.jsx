@@ -1,40 +1,45 @@
 import React from 'react';
 import {id,money,Intro,Empty,Status} from '../ui';
 
-const dateLabel=value=>value?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short'}).format(new Date(value)):'Date unavailable';
+const dateLabel=value=>value?new Intl.DateTimeFormat('en-IN',{dateStyle:'medium'}).format(new Date(value)):'Date unavailable';
+function profitOf(order){
+ const lines=order.products||[];
+ if(!lines.length||order.status!=='delivered')return null;
+ let revenue=0,cost=0;
+ for(const line of lines){if(line.unitPriceAtPurchase==null||line.unitCostAtPurchase==null)return null;const q=Number(line.quantity),p=Number(line.unitPriceAtPurchase),c=Number(line.unitCostAtPurchase);if(!Number.isFinite(q)||q<=0||!Number.isFinite(p)||!Number.isFinite(c))return null;revenue+=p*q;cost+=c*q;}
+ return {revenue,cost,fees:Number(order.deliveryCharge)||0,payout:Number(order.deliveryEarnings)>0?Number(order.deliveryEarnings):40,profit:revenue-cost+(Number(order.deliveryCharge)||0)-(Number(order.deliveryEarnings)>0?Number(order.deliveryEarnings):40)};
+}
 
 export default function AdminEarningsPage({data={}}){
- const metrics=data.earnings||{},orders=data.orders||[],months=metrics.months||[];
- const maxAmount=Math.max(1,...months.map(month=>Number(month.amount)||0));
- const current=months[months.length-1]||{amount:0,orders:0};
+ const metrics=data.earnings||{},allOrders=data.orders||[],months=metrics.months||[];
+ const orders=allOrders.filter(order=>profitOf(order)!==null).sort((a,b)=>new Date(b.deliveredAt||b.createdAt)-new Date(a.deliveredAt||a.createdAt));
+ const current=months[months.length-1]||{amount:0,orders:0},maxAmount=Math.max(1,...months.map(month=>Math.abs(Number(month.amount)||0)));
  return <main className="section delivery-earnings-page admin-earnings-page">
-  <div className="delivery-earnings-heading"><Intro title="Admin earnings" copy="Track the fixed benefit from orders assigned to delivery partners."/></div>
-  <section className="delivery-earnings-summary">
-   <article><small>TOTAL BENEFIT</small><b>{money(metrics.totalEarnings)}</b><span>Across qualifying orders</span></article>
-   <article><small>ORDERS ASSIGNED</small><b>{metrics.totalOrders||0}</b><span>Each order counts once</span></article>
-   <article><small>THIS MONTH</small><b>{money(current.amount)}</b><span>{current.orders||0} qualifying orders</span></article>
-   <article><small>BENEFIT PER ORDER</small><b>{money(metrics.rate||30)}</b><span>Recorded at assignment</span></article>
+  <div className="delivery-earnings-heading"><Intro title="Order profit" copy="A transparent estimate from delivered orders and costs recorded at checkout."/><a className="admin-secondary" href="/admin/products">Manage product costs ↗</a></div>
+  <div className="admin-profit-note"><b>How this is calculated</b><span>Product revenue − recorded product cost + delivery fee collected − delivery partner payout (₹40 per order).</span><small>Taxes, payment fees, returns and other operating costs are not included. This is an estimate from tracked costs, not accounting profit.</small></div>
+  <section className="delivery-earnings-summary admin-profit-summary">
+   <article><small>ESTIMATED PROFIT</small><b>{money(metrics.totalProfit??metrics.totalEarnings)}</b><span>{metrics.totalOrders||0} delivered orders with cost data</span></article>
+   <article><small>PRODUCT REVENUE</small><b>{money(metrics.revenue)}</b><span>Snapshot selling prices × quantities</span></article>
+   <article><small>PRODUCT COST</small><b>{money(metrics.productCost)}</b><span>Admin recorded purchase costs</span></article>
+   <article><small>DELIVERY NET</small><b>{money((Number(metrics.deliveryFees)||0)-(Number(metrics.deliveryPayout)||0))}</b><span>{money(metrics.deliveryFees)} collected · {money(metrics.deliveryPayout)} partner payout</span></article>
   </section>
+  {metrics.missingCostOrders>0&&<div className="admin-profit-missing"><b>{metrics.missingCostOrders} delivered {metrics.missingCostOrders===1?'order is':'orders are'} missing cost history.</b> They’re excluded from profit because their product costs were not saved at checkout. New orders capture costs automatically after you enter a purchase cost for each product.</div>}
   <section className="delivery-earnings-chart">
-   <header><div><small>MONTHLY ADMIN BENEFIT</small><h2>Last six months</h2><p>Calculated from assigned, in-progress, and delivered orders.</p></div><span className="delivery-earnings-total">{money(metrics.totalEarnings)}<small>all-time benefit</small></span></header>
-   {months.length?<div className="delivery-earnings-bars">{months.map(month=><div className="delivery-earnings-month" key={month.key}><div className="delivery-earnings-track"><span style={{height:((Number(month.amount)||0)/maxAmount*100)+'%'}}/></div><b>{money(month.amount)}</b><small>{month.label}</small><em>{month.orders||0} orders</em></div>)}</div>:<Empty title="No assigned orders yet" copy="Admin benefit will appear when an order is assigned to a delivery partner."/>}
+   <header><div><small>MONTHLY ESTIMATED PROFIT</small><h2>Last six months</h2><p>Only delivered orders with complete cost snapshots are counted.</p></div><span className="delivery-earnings-total">{money(metrics.totalProfit??metrics.totalEarnings)}<small>tracked profit</small></span></header>
+   {months.length?<div className="delivery-earnings-bars">{months.map(month=>{const amount=Number(month.amount)||0;return <div className="delivery-earnings-month" key={month.key}><div className="delivery-earnings-track"><span className={amount<0?'is-negative':''} style={{height:(Math.abs(amount)/maxAmount*100)+'%'}}/></div><b className={amount<0?'is-negative-text':''}>{money(amount)}</b><small>{month.label}</small><em>{month.orders||0} orders</em></div>})}</div>:<Empty title="No delivered orders yet" copy="Tracked profit appears after a delivered order has product cost snapshots."/>}
   </section>
-  <section className="delivery-earnings-breakdown">
-   <header><div><small>MONTH-BY-MONTH</small><h2>Benefit breakdown</h2></div><span>Fixed benefit: {money(metrics.rate||30)} per order</span></header>
-   <div className="delivery-earnings-table"><div className="delivery-earnings-table-head"><b>Month</b><b>Qualifying orders</b><b>Benefit</b></div>{months.slice().reverse().map(month=><div className="delivery-earnings-table-row" key={month.key}><b>{month.label} {month.key.slice(0,4)}</b><span>{month.orders||0}</span><strong>{money(month.amount)}</strong></div>)}</div>
+  <section className="delivery-earnings-breakdown admin-profit-breakdown">
+   <header><div><small>MONTH-BY-MONTH</small><h2>Profit breakdown</h2></div><span>Tracked costs only</span></header>
+   <div className="admin-profit-table"><div className="admin-profit-table-head"><b>Month</b><b>Orders</b><b>Revenue</b><b>Product cost</b><b>Delivery fees</b><b>Partner payout</b><b>Profit</b></div>{months.slice().reverse().map(month=><div className="admin-profit-table-row" key={month.key}><b>{month.label} {month.key.slice(0,4)}</b><span>{month.orders||0}</span><span>{money(month.revenue)}</span><span>{money(month.productCost)}</span><span>{money(month.deliveryFees)}</span><span>{money(month.deliveryPayout)}</span><strong className={(Number(month.amount)||0)<0?'is-negative-text':''}>{money(month.amount)}</strong></div>)}</div>
   </section>
   <section className="delivery-earnings-history">
-   <header><div><small>ORDER ASSIGNMENTS</small><h2>Benefit by order</h2></div><span>{orders.length} qualifying orders</span></header>
-   {orders.length?<div className="delivery-earnings-order-list">{orders.map(order=>{
-    const lines=order.products||[];
-    return <article className="delivery-earnings-order admin-benefit-order" key={id(order)}>
-     <div className="delivery-earnings-order-main"><small>ORDER #{id(order).slice(-8).toUpperCase()}</small><b>{order.customer?.username||'Customer'}</b><span>{dateLabel(order.assignedAt||order.createdAt)}</span></div>
-     <div className="delivery-earnings-order-items"><small>DELIVERY PARTNER · {order.deliveryPartner?.username||'Assigned partner'}</small><b>{lines.map(line=>(line.product?.name||'Product')+' × '+line.quantity).join(' · ')||'Order items unavailable'}</b></div>
-     <div className="delivery-earnings-order-total"><small>ORDER VALUE</small><b>{money(order.totalAmount)}</b></div>
-     <Status value={order.status}/>
-     <div className="delivery-earnings-order-pay"><small>ADMIN BENEFIT</small><b>{money(order.adminProfit||metrics.rate||30)}</b></div>
-    </article>;
-   })}</div>:<Empty title="No qualifying orders yet" copy="Orders with a delivery partner assignment will appear here." link="/admin/users/orders/accepted"/>}
+   <header><div><small>DELIVERED ORDERS</small><h2>Profit by order</h2></div><span>{orders.length} orders with complete cost data</span></header>
+   {orders.length?<div className="delivery-earnings-order-list">{orders.map(order=>{const lines=order.products||[],profit=profitOf(order);return <article className="delivery-earnings-order admin-profit-order" key={id(order)}>
+     <div className="delivery-earnings-order-main"><small>ORDER #{id(order).slice(-8).toUpperCase()}</small><b>{order.customer?.username||'Customer'}</b><span>{dateLabel(order.deliveredAt||order.createdAt)}</span></div>
+     <div className="delivery-earnings-order-items"><small>ITEMS</small><b>{lines.map(line=>(line.product?.name||'Product')+' × '+line.quantity).join(' · ')}</b></div>
+     <div className="admin-profit-order-costs"><span>Revenue <b>{money(profit.revenue)}</b></span><span>Product cost <b>{money(profit.cost)}</b></span><span>Delivery fee <b>{money(profit.fees)}</b></span><span>Partner payout <b>{money(profit.payout)}</b></span></div>
+     <Status value={order.status}/><div className="delivery-earnings-order-pay"><small>EST. PROFIT</small><b className={profit.profit<0?'is-negative-text':''}>{money(profit.profit)}</b></div>
+    </article>})}</div>:<Empty title="No cost-complete delivered orders" copy="Once an order with recorded product costs is delivered, its profit breakdown will appear here." link="/admin/users/orders/accepted"/>}
   </section>
  </main>;
 }

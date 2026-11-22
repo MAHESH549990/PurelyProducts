@@ -12,6 +12,8 @@ const productsSchema=Schema({
     required:true,
     min:1,
   },
+  // Internal purchase cost; hidden from customer-facing product queries.
+  costPrice:{type:Number,min:0,select:false},
   stock:{
     type:Number,
     required:true,

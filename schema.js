@@ -3,6 +3,7 @@ module.exports.productSchema=joi.object({
   name:joi.string().required(),
   description:joi.string().required(),
   price:joi.number().required().min(0),
+  costPrice:joi.number().required().min(0),
   stock:joi.number().integer().min(0).default(100),
   image:joi.object({
      url:joi.string().required()

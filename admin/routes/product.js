@@ -52,7 +52,7 @@ const validateProducts=(req,res,next)=>{
 
 
 router.get("/",isAdmin,asyncWrap(async(req,res)=>{
-  let products=await Product.find({});
+  let products=await Product.find({}).select("+costPrice");
   let totalProducts=await Product.countDocuments();
   renderPage(req,res,"routes/products.ejs",{products,totalProducts});
 }));
@@ -70,7 +70,7 @@ router.post("/new",isAdmin,productUpload.single("image"),storeProductImage,valid
 
 router.get("/:id",isAdmin,asyncWrap(async(req,res)=>{
   let {id}=req.params;
-  let item=await Product.findById(id).populate({
+  let item=await Product.findById(id).select("+costPrice").populate({
     path:"reviews",
     populate:{
       path:"owner"
@@ -81,7 +81,7 @@ router.get("/:id",isAdmin,asyncWrap(async(req,res)=>{
 
 router.get("/:id/update",isAdmin,asyncWrap(async(req,res)=>{
   let {id}=req.params;
-  let item=await Product.findById(id);
+  let item=await Product.findById(id).select("+costPrice");
   renderPage(req,res,"routes/UpdateProduct.ejs",{item});
 }));
 
