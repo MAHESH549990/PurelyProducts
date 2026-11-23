@@ -234,6 +234,11 @@ router.get(
             return res.redirect("/admin/delivery/approved");
         }
 
+        // Cloudinary raw asset IDs include their file extension. Older uploads
+        // used anonymous stream IDs without it, so restore it from the saved MIME/filename.
+        const knownExtension=path.extname(publicId).toLowerCase();
+        if(!knownExtension)publicId=`${publicId}.${format}`;
+
         const signedUrl=cloudinary.utils.private_download_url(publicId,format,{
             resource_type:"raw",
             type:"authenticated",

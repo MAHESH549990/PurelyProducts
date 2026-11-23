@@ -11,6 +11,7 @@ const {isLoggedIn, isAddress}=require("../userMiddleware.js");
 const multer = require("multer");
 const cloudinary = require("../../cloudConfig.js");
 const { Readable } = require("stream");
+const crypto=require("node:crypto");
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -218,6 +219,15 @@ router.post(
                 return res.redirect("/users/profile/request/delivery");
             }
 
+            const licenseFormatByMime={
+                "application/pdf":"pdf",
+                "image/jpeg":"jpg",
+                "image/png":"png",
+                "image/webp":"webp"
+            };
+            const licenseFormat=licenseFormatByMime[req.file.mimetype];
+            const licensePublicId=`${Date.now()}-${crypto.randomBytes(8).toString("hex")}.${licenseFormat}`;
+
             const {
                 phone,
                 experience,
@@ -231,6 +241,7 @@ router.post(
                 const stream = cloudinary.uploader.upload_stream(
                     {
                         folder: "purelyproducts/delivery-licenses",
+                        public_id:licensePublicId,
                         resource_type: "raw",
                         type: "authenticated"
                     },
@@ -257,7 +268,7 @@ router.post(
                     url: result.secure_url,
                     filename: req.file.originalname,
                     publicId: result.public_id,
-                    format: result.format || req.file.originalname.split(".").pop().toLowerCase(),
+                    format: licenseFormat,
                     contentType: req.file.mimetype
                 },
                 applicationStatus: "pending"
