@@ -256,7 +256,9 @@ router.post(
                 licenseImage: {
                     url: result.secure_url,
                     filename: req.file.originalname,
-                    publicId: result.public_id
+                    publicId: result.public_id,
+                    format: result.format || req.file.originalname.split(".").pop().toLowerCase(),
+                    contentType: req.file.mimetype
                 },
                 applicationStatus: "pending"
             });

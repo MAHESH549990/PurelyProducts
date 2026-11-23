@@ -11,13 +11,17 @@ const products = [
   },
   {
     name: "Men's Blue Jeans",
-    description: "Slim-fit denim jeans with stretch fabric.",
-    price: 1499,
+    description: "Blue jeans for men with perfect quality ",
+    price: 599,
+    costPrice: 500,
+    stock: 99,
     image: {
       filename:"Men'sBlueJeans",
-      url:"https://rukminim3.flixcart.com/image/824/972/xif0q/shopsy-jean/1/p/s/-original-imahn6yhmhrfqwhy.jpeg?q=60&crop=false",
+      url:"https://res.cloudinary.com/dmgwe6go/image/upload/v1795363343/PurelyProducts/products/hkkseq7u4j5wepi6g4we.jpg",
     },
-    rating: 4,
+    rating: 5,
+    category: "Fashion",
+    reviews: [],
   },
   {
     name: "Women's Kurti",
@@ -534,5 +538,19 @@ products.push(...additionalProducts.map(([name, description, price, rating, cate
     },
   };
 }));
+
+// Seed products without a supplied purchase cost get a varied, stable estimate.
+// Keeping this deterministic prevents every database re-initialization from
+// changing the cost history used by the admin profit report.
+function seedCostPrice(product){
+  let hash=0;
+  for(const character of product.name)hash=(hash*31+character.charCodeAt(0))>>>0;
+  const costRatio=0.55+(hash%2600)/10000; // 55% to 80.99% of the selling price
+  return Math.round(Number(product.price)*costRatio);
+}
+
+for(const product of products){
+  if(!Number.isFinite(Number(product.costPrice)))product.costPrice=seedCostPrice(product);
+}
 
 module.exports = { data: products };

@@ -9,6 +9,8 @@ const {productSchema}=require("../../schema.js");
 const User=require("../../models/user.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 const Delivery = require("../../models/delivery.js");
+const cloudinary=require("../../cloudConfig.js");
+const path=require("node:path");
 const {buildEarningsMetrics}=require("../../utils/earningsMetrics.js");
 
 // View delivery applications
@@ -211,10 +213,33 @@ router.get(
             return res.redirect("/admin/delivery/approved");
         }
 
-        // Redirect to the stored URL for now.
-        // Note: authenticated Cloudinary raw files may not open
-        // directly without a signed URL or server-side delivery.
-        return res.redirect(delivery.licenseImage.url);
+        const license=delivery.licenseImage;
+        const format=(license.format||path.extname(license.filename||"").slice(1)).toLowerCase();
+        const allowedFormats=new Set(["pdf","jpg","jpeg","png","webp"]);
+        if(!allowedFormats.has(format)){
+            req.flash("error","This licence file format is not supported.");
+            return res.redirect("/admin/delivery/approved");
+        }
+
+        let publicId=license.publicId;
+        if(!publicId&&license.url){
+            try{
+                const assetUrl=new URL(license.url);
+                const match=assetUrl.pathname.match(/\/raw\/authenticated\/(?:v\d+\/)?(.+)$/);
+                if(assetUrl.hostname==="res.cloudinary.com"&&match)publicId=decodeURIComponent(match[1]);
+            }catch{}
+        }
+        if(!publicId){
+            req.flash("error","The stored licence file reference is unavailable.");
+            return res.redirect("/admin/delivery/approved");
+        }
+
+        const signedUrl=cloudinary.utils.private_download_url(publicId,format,{
+            resource_type:"raw",
+            type:"authenticated",
+            expires_at:Math.floor(Date.now()/1000)+5*60
+        });
+        return res.redirect(signedUrl);
     })
 );
 

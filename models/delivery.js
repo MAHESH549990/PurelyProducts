@@ -60,7 +60,10 @@ const deliverySchema = new Schema(
       filename: {
         type: String,
         required: true
-      }
+      },
+      publicId:{type:String},
+      format:{type:String,lowercase:true,trim:true},
+      contentType:{type:String,trim:true}
     },
 
     // Admin approval workflow
