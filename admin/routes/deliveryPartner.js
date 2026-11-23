@@ -11,6 +11,13 @@ const { isAdmin } = require("../adminmiddlerware.js");
 const Delivery = require("../../models/delivery.js");
 const cloudinary=require("../../cloudConfig.js");
 const path=require("node:path");
+
+function normalizeRawPublicId(value){
+    return String(value||"")
+        .replace(/^s--[^/]+--\//,"")
+        .replace(/^v\d+\//,"")
+        .trim();
+}
 const {buildEarningsMetrics}=require("../../utils/earningsMetrics.js");
 
 // View delivery applications
@@ -221,12 +228,12 @@ router.get(
             return res.redirect("/admin/delivery/approved");
         }
 
-        let publicId=license.publicId;
+        let publicId=normalizeRawPublicId(license.publicId);
         if(!publicId&&license.url){
             try{
                 const assetUrl=new URL(license.url);
-                const match=assetUrl.pathname.match(/\/raw\/authenticated\/(?:v\d+\/)?(.+)$/);
-                if(assetUrl.hostname==="res.cloudinary.com"&&match)publicId=decodeURIComponent(match[1]);
+                const match=assetUrl.pathname.match(/\/raw\/authenticated\/(.+)$/);
+                if(assetUrl.hostname==="res.cloudinary.com"&&match)publicId=normalizeRawPublicId(decodeURIComponent(match[1]));
             }catch{}
         }
         if(!publicId){
@@ -234,17 +241,27 @@ router.get(
             return res.redirect("/admin/delivery/approved");
         }
 
-        // Cloudinary raw asset IDs include their file extension. Older uploads
-        // used anonymous stream IDs without it, so restore it from the saved MIME/filename.
-        const knownExtension=path.extname(publicId).toLowerCase();
-        if(!knownExtension)publicId=`${publicId}.${format}`;
-
         const signedUrl=cloudinary.utils.private_download_url(publicId,format,{
             resource_type:"raw",
             type:"authenticated",
             expires_at:Math.floor(Date.now()/1000)+5*60
         });
-        return res.redirect(signedUrl);
+        const fileResponse=await fetch(signedUrl);
+        if(!fileResponse.ok){
+            console.error("Cloudinary licence download failed:",fileResponse.status);
+            throw new ExpressError(502,"Unable to retrieve the licence document from storage.");
+        }
+
+        const contentTypes={pdf:"application/pdf",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp"};
+        const contentType=license.contentType||contentTypes[format]||"application/octet-stream";
+        const filename=path.basename(license.filename||`delivery-licence.${format}`).replace(/[^a-zA-Z0-9._-]/g,"_");
+        res.set({
+            "Content-Type":contentType,
+            "Content-Disposition":`inline; filename="${filename}"`,
+            "Cache-Control":"private, no-store",
+            "X-Content-Type-Options":"nosniff"
+        });
+        return res.send(Buffer.from(await fileResponse.arrayBuffer()));
     })
 );
 

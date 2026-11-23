@@ -240,6 +240,7 @@ Customers submit an application with contact and vehicle details. Admin reviews 
 ## 🔐 Security and known limits
 
 - Protected routes enforce the user's role on the server.
+- Login and flash sessions are stored in MongoDB, use a rolling 14-day cookie lifetime, and require a stable `SECRET` (or `SESSION_SECRET`) set in both local and Render environments.
 - Customer order access and review deletion are scoped to ownership.
 - Checkout totals and stock are calculated or checked by the backend.
 - Payment is simulated; no real card is charged.

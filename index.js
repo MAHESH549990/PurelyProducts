@@ -5,7 +5,8 @@ const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
 const flash=require("connect-flash");
-const sessioin=require("express-session");
+const session=require("express-session");
+const {MongoStore}=require("connect-mongo");
 const passport=require("passport");
 const mongoose=require("mongoose");
 // The local Windows DNS resolver on this machine refuses SRV queries used by
@@ -24,17 +25,30 @@ require("dotenv").config();
 const app = express();
 app.set("trust proxy", 1);
 
+const sessionSecret=process.env.SECRET||process.env.SESSION_SECRET;
+if(!sessionSecret){
+  throw new Error("Set SECRET (or SESSION_SECRET) in the environment before starting PurelyProducts.");
+}
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
-const sessionOptioins={
-    secret:process.env.SECRET || "mysupersecretstring",
+const sessionOptions={
+    name:"purelyproducts.sid",
+    secret:sessionSecret,
+    store:MongoStore.create({
+      mongoUrl:process.env.ATLAS_URL,
+      collectionName:"sessions",
+      ttl:14*24*60*60,
+      touchAfter:24*60*60,
+      autoRemove:"native"
+    }),
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
+    rolling:true,
     cookie:{
-        expires:Date.now()+14*24*60*60*1000,
         maxAge:14*24*60*60*1000,
         httpOnly:true,
         sameSite:"lax",
@@ -42,7 +56,7 @@ const sessionOptioins={
     }
 }
 
-app.use(sessioin(sessionOptioins));
+app.use(session(sessionOptions));
 app.use(flash());
 
 // ⭐ ROOT PUBLIC FOLDER
