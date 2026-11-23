@@ -43,15 +43,17 @@ function fallbackAnswer(message,products,lang){
  const thanks=/\b(thanks|thank you|thankyou|thx)\b|धन्यवाद|शुक्रिया/u.test(text);
  const identity=/\b(who are you|what are you|your name|what can you do)\b|आप कौन|तुम कौन|आप क्या कर/u.test(text);
  const payment=/payment|pay|card|पेमेंट|भुगतान|पैसे/u.test(text);
+ const discountQuestion=/discount|offer|deal|छूट|ऑफर|रियायत/u.test(text);
  const deliveryFee=/delivery charge|delivery fee|shipping|डिलीवरी चार्ज|डिलीवरी फीस|शिपिंग/u.test(text);
  const deliveryStatus=/delivery status|track.*order|where.*order|my order|डिलीवरी.*स्टेटस|ऑर्डर.*कहाँ|ऑर्डर.*कहां|ऑर्डर.*ट्रैक/u.test(text);
  const availability=/available|availability|in stock|stock|उपलब्ध|स्टॉक|मिलेगा|मिलेगी/u.test(text);
  const shoppingHelp=/cart|checkout|buy|purchase|order|bag|कार्ट|खरीद|चेक.?आउट|ऑर्डर|आदेश|जोड़/u.test(text);
- if(products.length)return productSummary(products,lang)+(shoppingHelp?(lang==="hi"?"\n\nखरीदने के लिए: प्रोडक्ट खोलें और “Add to bag” दबाएँ। फिर Cart से पता चुनकर “Place order” करें।":"\n\nTo buy, open a product and choose “Add to bag.” Then open Cart, select your address, and choose “Place order.”"):"");
+ if(products.length)return productSummary(products,lang)+(discountQuestion?(lang==="hi"?"\n\nएक ऑर्डर में 2 या अधिक items पर product subtotal पर 8% छूट मिलती है।":"\n\nGet 8% off the product subtotal when one order contains 2 or more items."):(shoppingHelp?(lang==="hi"?"\n\nखरीदने के लिए: प्रोडक्ट खोलें और “Add to bag” दबाएँ। फिर Cart से पता चुनकर “Place order” करें।":"\n\nTo buy, open a product and choose “Add to bag.” Then open Cart, select your address, and choose “Place order.”"):""));
  if(greeting)return lang==="hi"?"नमस्ते! 😊 मैं PurelyProducts का शॉपिंग सहायक हूँ। मैं प्रोडक्ट का लाइव स्टॉक देख सकता हूँ और कार्ट या checkout में मदद कर सकता हूँ। आप क्या जानना चाहेंगे?":"Hi there! 😊 I’m the PurelyProducts shopping helper. I can check live product stock and help with your cart or checkout. What would you like to know?";
  if(thanks)return lang==="hi"?"आपका स्वागत है! 😊 प्रोडक्ट या खरीदारी से जुड़ा कोई और सवाल हो तो पूछें।":"You’re welcome! 😊 Feel free to ask me another product or shopping question.";
  if(identity)return lang==="hi"?"मैं PurelyProducts का शॉपिंग सहायक हूँ। मैं कैटलॉग में प्रोडक्ट और स्टॉक देख सकता हूँ और खरीदारी के चरण समझा सकता हूँ।":"I’m the PurelyProducts shopping helper. I can look up products and stock in the catalogue and explain how to shop.";
  if(payment)return lang==="hi"?"Checkout पर अभी demo payment form है। यह केवल प्रदर्शन के लिए है और असली कार्ड से पैसे नहीं काटता। ऑर्डर पूरा करने के लिए कार्डधारक का नाम दर्ज करें।":"Checkout currently uses a demo payment form. It is for demonstration only and does not charge a real card. Enter a cardholder name to complete the demo order.";
+ if(discountQuestion)return lang==="hi"?"एक ऑर्डर में 2 या अधिक items पर product subtotal पर 8% छूट मिलती है।":"Get 8% off the product subtotal when one order contains 2 or more items.";
  if(deliveryFee)return lang==="hi"?"₹299 से कम product subtotal पर ₹35 delivery charge लगता है। ₹299 या उससे अधिक पर delivery free है।":"A ₹35 delivery charge applies when the product subtotal is below ₹299. Delivery is free at ₹299 or above.";
  if(deliveryStatus)return lang==="hi"?"अपने ऑर्डर और delivery updates देखने के लिए साइन इन करके Profile के Orders पेज पर जाएँ। ऑर्डर की स्थिति वहीं दिखाई देती है।":"Sign in and open Orders from your profile to see your order status and delivery updates.";
  if(availability)return lang==="hi"?"किस प्रोडक्ट की उपलब्धता जाननी है? उसका नाम या कैटेगरी लिखें, मैं लाइव स्टॉक देखूँगा।":"Which product should I check? Send its name or category and I’ll look up live stock.";
@@ -87,7 +89,7 @@ router.post("/",rateLimit,async(req,res)=>{
     "Answer in "+languageName+".",
     "Use only the catalog facts below for product names, price, and availability. Never claim a product is in stock unless stock is greater than zero. Only say no product match was found if the customer actually asked about a product and none matched. Respond naturally to greetings, thanks, and general conversation.",
     "Explain how to open a product, add it to the bag, open the cart, choose an address, and place an order. Adding to cart and checkout require signing in. Never claim you completed an action or placed an order.",
-    "Checkout uses a simulated demo payment and does not charge real cards. A ₹35 delivery charge applies below a ₹299 product subtotal; delivery is free at ₹299 or above. Do not invent return policies or delivery dates.",
+    "A single order with 2 or more item units receives 8% off the product subtotal. Checkout uses a simulated demo payment and does not charge real cards. A ₹35 delivery charge applies below a ₹299 product subtotal before discount; delivery is free at ₹299 or above. Do not invent return policies or delivery dates.",
     "Do not ask for passwords, card numbers, addresses, or other private information. Keep the response concise.",
     "Catalog matches from the live database: "+JSON.stringify(catalog),
     "Customer question: "+message

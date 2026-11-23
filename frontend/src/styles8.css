@@ -186,10 +186,11 @@
 .admin-profit-missing{display:block;border-color:#f0ddb6;background:#fffaf0;color:#796443}
 .admin-profit-missing b{margin-right:4px;color:#98651c}
 .admin-profit-summary article:first-child b{color:#147a53}
+.admin-profit-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
 .delivery-earnings-track span.is-negative{background:linear-gradient(180deg,#f28a78,#cf4c3d)}
 .delivery-earnings-month>b.is-negative-text,.is-negative-text{color:#c84d40!important}
 .admin-profit-table{overflow-x:auto}
-.admin-profit-table-head,.admin-profit-table-row{display:grid;grid-template-columns:130px 70px repeat(4,minmax(110px,1fr)) 110px;align-items:center;gap:10px;min-width:870px;padding:12px 8px;border-top:1px solid #edf1f3}
+.admin-profit-table-head,.admin-profit-table-row{display:grid;grid-template-columns:130px 60px repeat(6,minmax(105px,1fr)) 110px;align-items:center;gap:10px;min-width:1050px;padding:12px 8px;border-top:1px solid #edf1f3}
 .admin-profit-table-head{color:#829197;font-size:9px;text-transform:uppercase;letter-spacing:.35px}
 .admin-profit-table-row>b,.admin-profit-table-row>span,.admin-profit-table-row>strong{color:#526b74;font-size:10px;white-space:nowrap}
 .admin-profit-table-row>strong{color:#147a53;text-align:right}
@@ -199,3 +200,11 @@
 .admin-profit-order-costs b{color:#526b74;font-size:9px}
 .admin-profit-order .delivery-earnings-order-pay b{color:#147a53}
 @media(max-width:900px){.admin-profit-order{grid-template-columns:minmax(0,1fr) auto}.admin-profit-order .delivery-earnings-order-items{grid-column:1/-1;grid-row:2}.admin-profit-order-costs{grid-column:1;grid-row:3}.admin-profit-order .status{grid-column:2;grid-row:3}.admin-profit-order .delivery-earnings-order-pay{grid-column:2;grid-row:1}}
+@media(max-width:900px){.admin-profit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cart-discount-line{color:#167a50!important}
+.cart-discount-line b{color:#167a50!important}
+.cart-discount-hint{margin:4px 0;padding:9px 10px;border:1px solid #d4eddf;border-radius:8px;background:#f1fbf5;color:#337352;font-size:9px;line-height:1.5}
+.checkout-total-row{display:flex;justify-content:space-between;gap:12px;color:#71858e;font-size:10px}
+.checkout-total-row b{color:#354f5b}
+.checkout-total-row.checkout-discount,.checkout-total-row.checkout-discount b{color:#167a50}
+.fake-card-total>strong{margin-top:7px;padding-top:10px;border-top:1px solid #e1e9ec}

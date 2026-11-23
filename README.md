@@ -43,6 +43,7 @@
 - Complete a simulated checkout and track order status.
 - Post reviews with optional photos and remove your own reviews.
 - Get a ₹35 delivery charge when the product subtotal is below ₹299.
+- Get 8% off the product subtotal when a single order contains at least two item units; multiple units of one product count too.
 - Chat in English or Hindi and get recommendations based on shopping activity.
 
 </details>
@@ -93,23 +94,25 @@ The assistant is rate-limited. It does not place orders or read private order an
 
 ## 💸 Checkout and estimated profit
 
-Payment is simulated; the app does not connect to a payment gateway or charge a card. The server calculates checkout totals, checks stock, creates the order after the demo payment step, and updates inventory. Delivery costs ₹35 when the product subtotal is under ₹299.
+Payment is simulated; the app does not connect to a payment gateway or charge a card. The server calculates checkout totals, checks stock, creates the order after the demo payment step, and updates inventory. Delivery costs ₹35 when the pre-discount product subtotal is under ₹299. A single order with at least two item units gets 8% off its product subtotal; multiple units of one product count. The server applies the discount and saves its amount and percentage on the order.
 
 ### Admin profit report
 
 The admin report estimates profit from delivered orders that have complete checkout-time cost snapshots:
 
 ```text
-Estimated profit = product revenue - product cost + delivery fees - delivery partner payout
+Estimated profit = gross product sales - discounts - product cost + delivery fees - delivery partner payout
 ```
 
 | Report value | Source |
 | --- | --- |
-| Product revenue | Selling price saved at checkout × quantity |
+| Gross product sales | Selling price saved at checkout × quantity |
+| Discounts | Order-level discount saved at checkout |
+| Net product revenue | Gross product sales − discounts |
 | Product cost | Admin-entered purchase cost saved at checkout × quantity |
 | Delivery fees | Delivery charge collected for the order |
 | Partner payout | ₹40 per delivered order, or the saved payout if present |
-| Estimated profit | Revenue − product cost + fees − partner payout |
+| Estimated profit | Net product revenue − product cost + fees − partner payout |
 
 <details>
 <summary><strong>Notes about profit history</strong></summary>

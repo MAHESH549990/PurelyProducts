@@ -25,7 +25,7 @@ router.get("/earnings",isAdmin,asyncWrap(async(req,res)=>{
   renderPage(req,res,"routes/adminEarnings.ejs",{earnings:buildEarningsMetrics(orders,"admin"),orders});
 }));
 router.get("/",isAdmin,asyncWrap(async(req,res)=>{
-  const orders=await Order.find({$or:[{assignedAt:{$exists:true}},{status:{$in:["assigned","out_for_delivery","delivered"]}}]}).select("status deliveryCharge deliveryEarnings deliveredAt createdAt assignedAt products.quantity +products.unitPriceAtPurchase +products.unitCostAtPurchase").lean();
+  const orders=await Order.find({$or:[{assignedAt:{$exists:true}},{status:{$in:["assigned","out_for_delivery","delivered"]}}]}).select("status deliveryCharge deliveryEarnings discountAmount deliveredAt createdAt assignedAt products.quantity +products.unitPriceAtPurchase +products.unitCostAtPurchase").lean();
   const [inventoryCount,lowStockCount]=await Promise.all([Product.countDocuments(),Product.countDocuments({stock:{$gt:0,$lte:5}})]);
   renderPage(req,res,"routes/dashboard.ejs",{earnings:buildEarningsMetrics(orders,"admin"),inventoryCount,lowStockCount});
 }));

@@ -8,7 +8,7 @@ const {isLoggedIn,isAddress}=require("../userMiddleware.js");
 const Cart=require("../../models/carts.js");
 
 router.get("/ordered",isLoggedIn,asyncWrap(async(req,res)=>{
-  let orders=await Order.find({customer:req.user._id}).populate("products.product").populate("customer").sort({createdAt:-1});
+  let orders=await Order.find({customer:req.user._id}).select("+products.unitPriceAtPurchase").populate("products.product").populate("customer").sort({createdAt:-1});
   if(orders.length==0 || orders.length<=0){
      return renderPage(req,res,"routes/emptyOrders.ejs");
   }
@@ -16,7 +16,7 @@ router.get("/ordered",isLoggedIn,asyncWrap(async(req,res)=>{
 }));
 
 const renderCustomerOrderDetails=async(req,res)=>{
-  const order=await Order.findOne({_id:req.params.id,customer:req.user._id}).populate("products.product").populate("customer");
+  const order=await Order.findOne({_id:req.params.id,customer:req.user._id}).select("+products.unitPriceAtPurchase").populate("products.product").populate("customer");
   if(!order){
     req.flash("error","That order could not be found in your account.");
     return res.redirect("/orders/ordered");

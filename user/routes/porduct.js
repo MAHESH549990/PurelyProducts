@@ -13,12 +13,16 @@ const crypto=require("node:crypto");
 
 const FREE_DELIVERY_THRESHOLD=299;
 const LOW_VALUE_DELIVERY_CHARGE=35;
+const MULTI_ITEM_DISCOUNT_PERCENT=8;
+const MULTI_ITEM_DISCOUNT_MINIMUM=2;
 function summarizeCart(cartItems){
   const validItems=(cartItems?.items||[]).filter(entry=>entry.product);
   const totalProducts=validItems.reduce((sum,entry)=>sum+(Number(entry.quantity)||0),0);
   const totalProductsPrice=validItems.reduce((sum,entry)=>sum+(Number(entry.product.price)||0)*(Number(entry.quantity)||0),0);
   const deliveryCharge=totalProductsPrice<FREE_DELIVERY_THRESHOLD?LOW_VALUE_DELIVERY_CHARGE:0;
-  return {validItems,totalProducts,totalProductsPrice,deliveryCharge,orderTotal:totalProductsPrice+deliveryCharge};
+  const discountPercent=totalProducts>=MULTI_ITEM_DISCOUNT_MINIMUM?MULTI_ITEM_DISCOUNT_PERCENT:0;
+  const discountAmount=discountPercent?Math.round(totalProductsPrice*discountPercent/100):0;
+  return {validItems,totalProducts,totalProductsPrice,discountPercent,discountAmount,deliveryCharge,orderTotal:totalProductsPrice-discountAmount+deliveryCharge};
 }
 
 //home route
@@ -42,6 +46,8 @@ router.post("/cart/payment-session",isLoggedIn,isAddress,asyncWrap(async(req,res
     expiresAt:Date.now()+20*60*1000,
     products:totals.validItems.map(entry=>({product:String(entry.product._id),quantity:Number(entry.quantity),unitPriceAtPurchase:Number(entry.product.price),unitCostAtPurchase:entry.product.costPrice===undefined||entry.product.costPrice===null?null:Number(entry.product.costPrice)})),
     totalProductsPrice:totals.totalProductsPrice,
+    discountPercent:totals.discountPercent,
+    discountAmount:totals.discountAmount,
     deliveryCharge:totals.deliveryCharge,
     orderTotal:totals.orderTotal
   };
@@ -72,7 +78,7 @@ router.post("/cart/payment/complete",isLoggedIn,asyncWrap(async(req,res)=>{
       if(!updated)throw Object.assign(new Error("A product in your cart no longer has enough stock. Your cart has been kept."),{status:409});
       reserved.push({product:line.product,quantity});
     }
-    placed=await Order.create({customer:req.user._id,products:pending.products,totalAmount:pending.orderTotal,deliveryCharge:pending.deliveryCharge,deliveryAddress,paymentProvider:"demo",paymentId,paymentOrderId:demoSessionId,paymentStatus:"paid"});
+    placed=await Order.create({customer:req.user._id,products:pending.products,totalAmount:pending.orderTotal,discountPercent:pending.discountPercent,discountAmount:pending.discountAmount,deliveryCharge:pending.deliveryCharge,deliveryAddress,paymentProvider:"demo",paymentId,paymentOrderId:demoSessionId,paymentStatus:"paid"});
   }catch(error){
     await Promise.all(reserved.map(line=>Product.updateOne({_id:line.product},{$inc:{stock:line.quantity}}).catch(()=>null)));
     if(error.status===409)return res.status(409).json({error:error.message});
@@ -111,6 +117,8 @@ router.get("/cart/place",isLoggedIn,isAddress,asyncWrap(async(req,res)=>{
     cartItems:{items:checkoutItems},
     totalProducts:totals.totalProducts,
     totalProductsPrice:totals.totalProductsPrice,
+    discountPercent:totals.discountPercent,
+    discountAmount:totals.discountAmount,
     deliveryCharge:totals.deliveryCharge,
     orderTotal:totals.orderTotal
   });
@@ -129,6 +137,8 @@ router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
     cartItems,
     totalProducts:totals.totalProducts,
     totalProductsPrice:totals.totalProductsPrice,
+    discountPercent:totals.discountPercent,
+    discountAmount:totals.discountAmount,
     deliveryCharge:totals.deliveryCharge,
     orderTotal:totals.orderTotal
   });
