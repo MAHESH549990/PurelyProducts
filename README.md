@@ -1,202 +1,284 @@
-# PurelyProducts.
+<div align="center">
 
-A full-stack e-commerce application with a React storefront and role-based tools for customers, administrators, and delivery partners. The backend uses Node.js, Express, MongoDB, and Mongoose in an MVC-style structure.
+# PurelyProducts 🛍️
 
-## Project links
+### A full-stack marketplace for thoughtful everyday shopping
 
-- Live demo: [purelyproducts.onrender.com](https://purelyproducts.onrender.com)
-- GitHub: [MAHESH549990/PurelyProducts](https://github.com/MAHESH549990/PurelyProducts)
+[![Live Demo](https://img.shields.io/badge/Live-demo-0797c5?style=for-the-badge&logo=render&logoColor=white)](https://purelyproducts.onrender.com)
+[![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-43853d?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-47a248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![GitHub](https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/MAHESH549990/PurelyProducts)
 
-## Main features
+**React storefront · Express and MongoDB backend · Customer, admin, and delivery workflows**
 
-### Customer
+</div>
 
-- Sign up, log in, manage profile, and save delivery addresses.
-- Browse products, view details and reviews, and manage cart items.
-- Checkout with a simulated payment flow and track orders.
-- Submit product reviews with optional photos; delete your own reviews.
+---
+
+## 🧭 Explore the README
+
+<details open>
+<summary><strong>Click to jump to a section</strong></summary>
+
+- [What you can do](#-what-you-can-do)
+- [How the smart features work](#-how-the-smart-features-work)
+- [Checkout and estimated profit](#-checkout-and-estimated-profit)
+- [Technology and project map](#-technology-and-project-map)
+- [Run it locally](#-run-it-locally)
+- [Main workflows](#-main-workflows)
+- [Security and known limits](#-security-and-known-limits)
+- [Troubleshooting](#-troubleshooting)
+- [Contributors](#-contributors)
+
+</details>
+
+## ✨ What you can do
+
+<details open>
+<summary><strong>🛒 Customer storefront</strong></summary>
+
+- Create an account, sign in, update a profile, and save delivery addresses.
+- Browse products, inspect product details and reviews, and manage a cart.
+- Complete a simulated checkout and track order status.
+- Post reviews with optional photos and remove your own reviews.
 - Get a ₹35 delivery charge when the product subtotal is below ₹299.
-- Use the English/Hindi shopping assistant and personalized recommendations.
+- Chat in English or Hindi and get recommendations based on shopping activity.
 
-### Administrator
+</details>
 
-- Manage products, product images, and inventory.
-- View customer details and order information.
-- Confirm orders and assign them to approved delivery partners.
-- Review delivery partner applications.
-- View order metrics and a graph; the app records ₹30 per assigned order.
+<details>
+<summary><strong>🧰 Admin workspace</strong></summary>
 
-### Delivery partner
+- Create and edit products, upload product photos, and manage stock.
+- Review customer and order details, confirm orders, and assign delivery partners.
+- Review delivery partner applications and browse partner details.
+- Inspect delivered-order revenue, saved product costs, delivery fees, partner payouts, and estimated profit.
+
+</details>
+
+<details>
+<summary><strong>🚚 Delivery partner workspace</strong></summary>
 
 - View assigned orders with customer, item, and address details.
-- Start delivery and mark orders delivered.
-- View delivery history, profile, and earnings graph.
-- The app records ₹40 per delivered order, regardless of item count.
+- Update delivery progress and mark orders delivered.
+- View delivery history, profile details, and a graph of earnings.
+- Project payout rule: ₹40 for each delivered order, regardless of item count.
 
-## Recommendation system
+</details>
 
-Recommendations are personalized for signed-in customers from their recent search history, cart additions, current cart, and recent non-cancelled orders.
+## 🧠 How the smart features work
 
-The backend compares those activity signals with product names and categories. Specific description matches can contribute, but are weighted lower. It returns only in-stock products with a strong enough match and excludes products already in the current cart or recent orders.
+### Personalized recommendations
 
-A new customer has no recommendations until they create activity. If the available products do not match the activity, the recommendation list stays empty instead of showing unrelated popular items.
+For a signed-in customer, the backend uses recent searches, cart additions, the current cart, and recent non-cancelled orders as interest signals. It compares those signals with product names and categories; matching descriptions can contribute with a lower weight. Recommendations are in-stock products that pass the match threshold, with products already in the cart or recent orders filtered out.
 
-Relevant endpoints:
+> A first-time customer has no activity-based recommendations yet. If products do not match the activity, the list stays empty instead of filling with unrelated items.
 
-- POST /api/recommendations/search records a meaningful search.
-- GET /api/recommendations returns matching products for the signed-in customer.
+<details>
+<summary><strong>Recommendation API</strong></summary>
 
-## Bilingual shopping assistant
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/recommendations/search` | Record a meaningful signed-in search |
+| `GET` | `/api/recommendations` | Return products matched to that customer's activity |
 
-The chat interface supports English and Hindi. It can respond to greetings, answer shopping questions, check product availability using live catalogue data, and guide customers through adding products to the cart and checkout.
+</details>
 
-When GEMINI_API_KEY is configured, the backend can use Gemini to generate conversational replies using relevant product information. Without the key, built-in bilingual responses still cover common product, cart, and checkout questions. The assistant is rate-limited and does not place orders or access private customer order/address details.
+### English and Hindi shopping assistant
 
-Endpoint: POST /api/chat.
+The assistant handles greetings and general questions, checks availability against catalogue data, and explains how to add items to the cart and check out. Built-in replies support common shopping questions in both languages. When `GEMINI_API_KEY` is configured, Gemini can provide more conversational responses using relevant product information.
 
-## Checkout, inventory, and earnings
+The assistant is rate-limited. It does not place orders or read private order and address details. Endpoint: `POST /api/chat`.
 
-Checkout uses a simulated payment form; it does not connect to a payment gateway or charge a card. The server calculates the order from the customer's cart, checks product stock, and creates the order after the simulated payment step.
+## 💸 Checkout and estimated profit
 
-The delivery charge is ₹35 when the product subtotal is below ₹299. Admin stock updates set the product's on-hand quantity. Inventory is checked and reduced when checkout completes.
+Payment is simulated; the app does not connect to a payment gateway or charge a card. The server calculates checkout totals, checks stock, creates the order after the demo payment step, and updates inventory. Delivery costs ₹35 when the product subtotal is under ₹299.
 
-The earnings values are fixed project rules: ₹30 for each order assigned by an administrator, and ₹40 for each order marked delivered by a delivery partner.
+### Admin profit report
 
-## Technology
+The admin report estimates profit from delivered orders that have complete checkout-time cost snapshots:
 
-| Area                          | Technology                   |
-| ----------------------------- | ---------------------------- |
-| Frontend                      | React, Vite, CSS             |
-| Backend                       | Node.js, Express 5           |
-| Database                      | MongoDB, Mongoose            |
-| Authentication and sessions   | Passport.js, Express Session |
-| Validation                    | Joi                          |
-| Image uploads                 | Multer, Cloudinary           |
-| Optional assistant generation | Gemini API                   |
-| Optional interactive maps     | Mapbox                       |
+```text
+Estimated profit = product revenue - product cost + delivery fees - delivery partner payout
+```
 
-## Project structure
+| Report value | Source |
+| --- | --- |
+| Product revenue | Selling price saved at checkout × quantity |
+| Product cost | Admin-entered purchase cost saved at checkout × quantity |
+| Delivery fees | Delivery charge collected for the order |
+| Partner payout | ₹40 per delivered order, or the saved payout if present |
+| Estimated profit | Revenue − product cost + fees − partner payout |
 
-    PurelyProducts/
-    ├── admin/        Admin dashboard, product, inventory, and order routes
-    ├── delivery/     Delivery partner routes and workflows
-    ├── frontend/     React source and Vite configuration
-    ├── models/       Mongoose models
-    ├── public/       Static assets and production React build
-    ├── user/         Customer, product, order, review, and API routes
-    ├── utils/        Shared helpers
-    ├── index.js      Express entry point and route mounting
-    ├── schema.js     Joi validation schemas
-    └── upload.js     Multer upload configuration
+<details>
+<summary><strong>Notes about profit history</strong></summary>
 
-The React page modules and their registry are documented in
-[frontend/src/pages/README.md](frontend/src/pages/README.md).
+- Enter a purchase cost when creating or editing each product. Purchase cost is private and excluded from customer-facing product queries.
+- New checkout sessions save the selling price and purchase cost on the order, so future product edits do not change the order's snapshot.
+- Delivered orders missing cost snapshots are excluded from profit and shown as missing history. The report does not guess historical purchase costs.
+- Taxes, payment fees, returns, and other operating costs are not included. Treat the chart as an estimate from tracked costs, not accounting profit.
+- The delivery partner graph continues to show the ₹40 per delivered-order payout rule.
 
-## Run locally
+</details>
 
-Requirements: Node.js, npm, MongoDB, and Cloudinary credentials for image uploads.
+## 🧱 Technology and project map
 
-    git clone https://github.com/MAHESH549990/PurelyProducts.git
-    cd PurelyProducts
-    npm install
+| Area | Tools |
+| --- | --- |
+| Frontend | React, Vite, CSS |
+| Backend | Node.js, Express 5 |
+| Database | MongoDB, Mongoose |
+| Authentication and sessions | Passport.js, Express Session |
+| Validation and uploads | Joi, Multer, Cloudinary |
+| Optional assistant generation | Gemini API |
+| Optional interactive profile maps | Mapbox |
 
-Create a private .env file in the project root:
+```text
+PurelyProducts/
+├── admin/        Admin product, inventory, customer, and order routes
+├── delivery/     Delivery partner routes and workflows
+├── frontend/     React source and Vite configuration
+├── models/       Mongoose data models
+├── public/       Static files and production React build
+├── user/         Customer, product, order, review, and API routes
+├── utils/        Shared helpers, including earnings calculations
+├── index.js      Express entry point and route mounting
+└── schema.js     Joi validation schemas
+```
 
-    PORT=8080
-    ATLAS_URL=your_mongodb_connection_string
-    SECRET=your_session_secret
+React page modules and route mapping: [frontend/src/pages/README.md](frontend/src/pages/README.md).
 
-    CLOUDINARY_CLOUD_NAME=your_cloud_name
-    CLOUDINARY_API_KEY=your_cloudinary_api_key
-    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+## 🚀 Run it locally
 
-    GEMINI_API_KEY=your_optional_gemini_api_key
-    MAP_TOKEN=your_optional_mapbox_public_token
+<details open>
+<summary><strong>1. Install the app</strong></summary>
 
-    ADMIN_NAME=your_admin_username
-    ADMIN_EMAIL=your_admin_email
-    ADMIN_PASSWORD=your_admin_password
+You need Node.js, npm, MongoDB, and Cloudinary credentials for image uploads.
 
-Start Express:
+```bash
+git clone https://github.com/MAHESH549990/PurelyProducts.git
+cd PurelyProducts
+npm install
+```
 
-    npm start
+</details>
 
-Open http://localhost:8080.
+<details>
+<summary><strong>2. Configure environment variables</strong></summary>
 
-For frontend development, run Express in one terminal and Vite in another:
+Create a private `.env` file in the project root. Replace the example values with your own credentials; never commit this file.
 
-    npm run dev
+```dotenv
+PORT=8080
+ATLAS_URL=your_mongodb_connection_string
+SECRET=your_session_secret
 
-Build the React frontend for production:
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-    npm run build
-    npm start
+GEMINI_API_KEY=your_optional_gemini_api_key
+MAP_TOKEN=your_optional_mapbox_public_token
 
-Vite writes the production bundle to public/app. On Render, build with npm install && npm run build and start with npm start. Set environment variables in Render settings; never commit .env or publish credentials.
+ADMIN_NAME=your_admin_username
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
+```
 
-## Important configuration notes
+</details>
 
-- ATLAS_URL must contain valid MongoDB credentials and point to a reachable database.
-- Cloudinary variables are required for product and review image uploads.
-- GEMINI_API_KEY is optional; without it, the assistant uses built-in responses.
-- MAP_TOKEN is optional and enables interactive profile maps when an address has location data.
-- Use a strong SECRET in production.
-- Do not put private API keys in frontend code.
+<details>
+<summary><strong>3. Start the server or build the frontend</strong></summary>
 
-## Main workflows
+Start Express at [http://localhost:8080](http://localhost:8080):
 
-### Customer order
+```bash
+npm start
+```
 
-1. Customer browses a product and adds it to the cart.
-2. Customer chooses a saved address and reviews the server-calculated total.
-3. Customer completes the simulated payment step.
-4. The server checks stock, creates the order, and clears the cart.
-5. Admin confirms the order and assigns an approved delivery partner.
-6. The partner starts delivery and marks it delivered.
-7. Customer can view the order and submit an eligible review.
+For frontend development, run Express and Vite in separate terminals:
+
+```bash
+npm run dev
+```
+
+Create the production React bundle:
+
+```bash
+npm run build
+npm start
+```
+
+Vite writes the production bundle to `public/app`. On Render, use `npm install && npm run build` as the build command and `npm start` as the start command. Configure secrets through Render's environment settings.
+
+</details>
+
+## 🔄 Main workflows
+
+### Customer order journey
+
+```mermaid
+flowchart LR
+    A[Browse products] --> B[Add to cart]
+    B --> C[Choose saved address]
+    C --> D[Demo payment]
+    D --> E[Stock checked and order created]
+    E --> F[Admin confirms and assigns partner]
+    F --> G[Partner delivers order]
+    G --> H[Customer views order and may review]
+```
+
+### Product and inventory management
+
+Admins can create or edit product details, upload or replace Cloudinary images, enter purchase cost, and set on-hand stock. Saving stock sets the new quantity; it does not add to the previous quantity. Purchase cost and order snapshots support the estimated-profit report.
 
 ### Delivery partner application
 
-A customer submits the delivery application with contact and vehicle details. An administrator reviews it. Approved partners become available for order assignment.
+Customers submit an application with contact and vehicle details. Admin reviews the request; approved partners can receive order assignments.
 
-### Product and stock management
+## 🔐 Security and known limits
 
-Administrators can create and edit products, upload or replace images, and save stock quantities. Saving stock sets the new on-hand amount; it does not add a quantity to the previous value.
-
-## Data models
-
-- User: account, role, saved addresses, recent searches, and cart activity.
-- Product: catalogue information, category, price, stock, image, rating, and reviews.
-- Cart: customer reference and product/quantity lines.
-- Order: customer, product lines, totals, address snapshot, status, and partner assignment.
-- Delivery: partner contact, vehicle, licence image, and application status.
-- Review: product, author, rating, comment, and optional image.
-
-## Security and limitations
-
-- Protected routes verify user role on the server.
+- Protected routes enforce the user's role on the server.
 - Customer order access and review deletion are scoped to ownership.
-- Checkout totals and stock are calculated or validated by the backend.
+- Checkout totals and stock are calculated or checked by the backend.
 - Payment is simulated; no real card is charged.
 - Recommendations use weighted rules, not a trained machine-learning model.
-- Gemini responses depend on provider configuration and availability.
-- The npm test script is currently a placeholder; no automated test suite is configured.
+- Gemini replies depend on provider configuration and availability.
+- The `npm test` script is a placeholder; an automated test suite is not configured.
 
-## Troubleshooting
+## 🧯 Troubleshooting
 
-- MongoDB authentication errors: verify ATLAS_URL credentials and URL-encode special characters in the password.
-- MongoDB SRV errors: verify DNS SRV resolution and the Atlas hostname; TCP connectivity alone does not confirm SRV works.
-- Missing product images: check Cloudinary configuration, multipart form submission, and server logs.
-- Empty recommendations: use the same signed-in account, search specific products/categories, and create relevant cart or order activity.
-- Missing map: verify MAP_TOKEN and that the saved address includes location information.
-- Missing AI-generated chat replies: check GEMINI_API_KEY and provider quota; built-in bilingual help does not require Gemini.
+<details>
+<summary><strong>MongoDB authentication or SRV lookup fails</strong></summary>
 
-## Contributors
+Check `ATLAS_URL`, verify the Atlas database user's credentials, and URL-encode special characters in the password. For SRV errors, check DNS SRV resolution and the Atlas hostname; a successful TCP connection by itself does not confirm SRV resolution.
 
-**Mahesh Bhatt**
-GitHub: [MAHESH549990](https://github.com/MAHESH549990)
+</details>
 
-**Rohit Singh**
-GitHub: [ROHITSINGH](https://github.com/rsr200600)
+<details>
+<summary><strong>Images, recommendations, maps, or chat are missing</strong></summary>
 
-**Bhawesh Panda**
+- **Product/review images:** verify Cloudinary settings, multipart form submission, and server logs.
+- **Recommendations:** use the same signed-in account, search specific product names/categories, and add relevant cart or order activity.
+- **Profile map:** verify `MAP_TOKEN` and that the saved address has location data.
+- **AI-generated chat replies:** verify `GEMINI_API_KEY` and provider availability. Built-in bilingual answers do not require Gemini.
+
+</details>
+
+## 👥 Contributors
+
+| Name | Profile |
+| --- | --- |
+| Mahesh Bhatt | [@MAHESH549990](https://github.com/MAHESH549990) |
+| Rohit Singh | [@rsr200600](https://github.com/rsr200600) |
+| Bhawesh Panda | [@Bhawesh0018](https://github.com/Bhawesh0018) |
+| Shubham Bisht | [@Shubham649-tech](https://github.com/Shubham649-tech) |
+
+---
+
+<div align="center">
+
+Made with care by the PurelyProducts team · [Open the live store](https://purelyproducts.onrender.com) · [View the source](https://github.com/MAHESH549990/PurelyProducts)
+
+</div>
