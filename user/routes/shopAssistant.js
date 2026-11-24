@@ -50,7 +50,7 @@ function detectTopic(message){
  if(/\b(payment|pay|card|cash|upi|refund|charged|charge me)\b|पेमेंट|भुगतान|पैसे|रिफंड/u.test(text))return "payment";
  if(/\b(track|tracking|delivery status|order status|where is my order|my order|order update)\b|ऑर्डर.*(कहाँ|कहां|स्टेटस|ट्रैक)|डिलीवरी.*स्टेटस/u.test(text))return "orderTracking";
  if(/\b(add to cart|add to bag|cart|shopping bag|remove from cart)\b|कार्ट|बैग में जोड़|जोड़ें/u.test(text))return "cart";
- if(/\b(checkout|place an order|place order|buy|purchase|how to order|ordering process|order process|shopping process|steps to order|sop)\b|चेक.?आउट|खरीदने का तरीका|ऑर्डर कैसे|ऑर्डर करने|खरीदारी का तरीका/u.test(text))return "shoppingProcess";
+ if(/\b(checkout|place an order|place order|buy|purchase|how to order|ordering process|order process|shopping process|steps to order|sop|website process|how does .* work)\b|चेक.?आउट|खरीदने का तरीका|ऑर्डर कैसे|ऑर्डर करने|खरीदारी का तरीका|वेबसाइट.*(तरीका|प्रक्रिया)|ऑर्डर.*(प्रक्रिया|तरीका)/u.test(text))return "shoppingProcess";
  if(/\b(address|delivery address|change address|edit address|location)\b|पता|एड्रेस|लोकेशन/u.test(text))return "address";
  if(/\b(login|log in|sign in|signup|sign up|register|account|profile|password)\b|लॉग.?इन|साइन.?इन|रजिस्टर|खाता|अकाउंट|प्रोफाइल|पासवर्ड/u.test(text))return "account";
  if(/\b(review|reviews|rating|rate this|feedback)\b|रिव्यू|समीक्षा|रेटिंग|फीडबैक/u.test(text))return "reviews";
@@ -59,7 +59,7 @@ function detectTopic(message){
  if(/\b(return|returns|exchange|replacement|warranty|guarantee|cancellation policy)\b|रिटर्न|वापसी|एक्सचेंज|वारंटी|गारंटी/u.test(text))return "returns";
  if(/\b(contact|customer care|customer support|support|complaint|help desk)\b|संपर्क|कस्टमर केयर|सहायता|शिकायत/u.test(text))return "support";
  if(/\b(what do you sell|what products|show products|browse products|catalog|catalogue|all products|categories)\b|क्या बेचते|कौन से प्रोडक्ट|सभी प्रोडक्ट|कैटलॉग|कैटेगरी/u.test(text))return "catalog";
- if(/\b(cheapest|lowest price|most expensive|highest price|top rated|best rated)\b|सबसे सस्ता|कम कीमत|सबसे महंगा|सबसे अच्छी रेटिंग/u.test(text))return "catalogSort";
+ if(/\b(cheapest|lowest price|lowest priced|least expensive|most expensive|highest price|highest priced|top rated|best rated|highest rated|highest rating|top rating|best rating)\b|सबसे सस्ता|सबसे कम कीमत|कम कीमत वाला|सबसे महंगा|सबसे ज्यादा कीमत|सबसे अच्छी रेटिंग|सबसे ज्यादा रेटिंग|टॉप रेटेड/u.test(text))return "catalogSort";
  if(/\b(privacy|safe|secure|data|personal information)\b|प्राइवेसी|सुरक्षित|जानकारी|डेटा/u.test(text))return "privacy";
  return "other";
 }
@@ -86,7 +86,7 @@ function fallbackAnswer(topic,message,products,inventory,lang){
   payment:hi?"Checkout में demo payment है। यह असली भुगतान नहीं है और आपके कार्ड से पैसे नहीं काटे जाते। कृपया चैट में कार्ड नंबर या CVV साझा न करें।":"Checkout uses a demo payment; it does not charge a real card. Please don’t share card numbers or CVVs in chat.",
   orderTracking:hi?"अपने ऑर्डर की स्थिति देखने के लिए साइन इन करें और Orders पेज खोलें। यह सहायक निजी ऑर्डर विवरण नहीं देख सकता।":"Sign in and open the Orders page to see order status. This assistant cannot access private order details.",
   cart:hi?"प्रोडक्ट पेज पर “Add to bag” दबाएँ। कार्ट देखने या बदलने के लिए साइन इन करें, फिर Cart पेज खोलें।":"On a product page, choose “Add to bag.” Sign in to view or update your cart, then open Cart.",
-  shoppingProcess:hi?"ऑर्डर देने के चरण: साइन इन करें → प्रोडक्ट खोलकर Add to bag दबाएँ → Cart में पता चुनें → Place order दबाएँ → demo payment पूरा करें।":"To order: sign in → open a product and choose Add to bag → select an address in Cart → choose Place order → complete the demo payment.",
+  shoppingProcess:hi?"ऑर्डर देने का तरीका:\n1. Sign in करें या नया account बनाएँ।\n2. Shop में product खोजें; product खोलकर फोटो, कीमत, stock और विवरण देखें।\n3. Quantity चुनकर Add to bag दबाएँ।\n4. Cart में items जाँचें, delivery address चुनें और Place order दबाएँ।\n5. Demo payment पूरा करें। यह असली charge नहीं है।\n6. सफलता संदेश के बाद Orders पेज में order और delivery status देखें।":"How to place an order:\n1. Sign in or create an account.\n2. Browse or search the shop; open a product to check its photo, price, stock, and details.\n3. Choose a quantity and select Add to bag.\n4. Review the Cart, choose a delivery address, and select Place order.\n5. Complete the demo payment; it does not charge a real card.\n6. After the success message, open Orders to view the order and delivery status.",
   address:hi?"पता जोड़ने या बदलने के लिए Profile पेज खोलें। पता सेव करने के बाद checkout में उसे चुन सकते हैं।":"Open Profile to add or edit a delivery address. Once saved, you can select it during checkout.",
   account:hi?"साइन इन या नया खाता बनाने के लिए navbar में Sign in या Create account चुनें। Profile में अपनी जानकारी और पते देख सकते हैं। पासवर्ड चैट में साझा न करें।":"Use Sign in or Create account in the navbar. Your Profile contains account details and saved addresses. Never share your password in chat.",
   reviews:hi?"प्रोडक्ट की समीक्षा डिलीवर होने के बाद लिखी जा सकती है। प्रोडक्ट पेज खोलें और Customer reviews तक जाएँ।":"You can review a product after it has been delivered. Open its product page and go to Customer reviews.",
@@ -101,8 +101,20 @@ function fallbackAnswer(topic,message,products,inventory,lang){
  if(topic==="catalogSort"){
   const available=inventory.filter(product=>Number(product.stock??100)>0);
   const text=String(message).toLowerCase();
-  const sorted=/cheapest|lowest price|सबसे सस्ता|कम कीमत/.test(text)?[...available].sort((a,b)=>Number(a.price)-Number(b.price)):/expensive|highest price|सबसे महंगा/.test(text)?[...available].sort((a,b)=>Number(b.price)-Number(a.price)):[...available].sort((a,b)=>Number(b.rating||0)-Number(a.rating||0));
-  return productSummary(sorted.slice(0,5),lang);
+  const cheapest=/cheapest|lowest price|lowest priced|least expensive|सबसे सस्ता|सबसे कम कीमत|कम कीमत वाला/.test(text);
+  const highestPrice=/most expensive|highest price|highest priced|सबसे महंगा|सबसे ज्यादा कीमत/.test(text);
+  const sorted=cheapest?[...available].sort((a,b)=>Number(a.price)-Number(b.price)):
+   highestPrice?[...available].sort((a,b)=>Number(b.price)-Number(a.price)):
+   [...available].sort((a,b)=>Number(b.rating||0)-Number(a.rating||0));
+  const top=sorted.slice(0,5);
+  if(!top.length)return lang==="hi"?"अभी कैटलॉग में स्टॉक वाला कोई प्रोडक्ट नहीं मिला।":"There are no in-stock products in the catalog right now.";
+  const heading=cheapest?(lang==="hi"?"सबसे कम कीमत वाले उपलब्ध प्रोडक्ट":"Lowest-priced in-stock products"):
+   highestPrice?(lang==="hi"?"सबसे ज्यादा कीमत वाले उपलब्ध प्रोडक्ट":"Highest-priced in-stock products"):
+   (lang==="hi"?"सबसे ज्यादा रेटिंग वाले उपलब्ध प्रोडक्ट":"Top-rated in-stock products");
+  return heading+":\n"+top.map((product,index)=>{
+   const stock=Number(product.stock??100);
+   return `${index+1}. ${product.name} — ₹${product.price}${!cheapest&&!highestPrice?` · ★ ${Number(product.rating||0).toFixed(1)}`:""} · ${lang==="hi"?`स्टॉक ${stock}`:`${stock} in stock`}`;
+  }).join("\n");
  }
  if(products.length)return productSummary(products,lang);
  return hi?"मैं PurelyProducts के प्रोडक्ट और खरीदारी से जुड़े सवालों में मदद कर सकता हूँ। क्या आप किसी प्रोडक्ट, ऑर्डर देने, भुगतान, डिलीवरी या अकाउंट के बारे में पूछ रहे हैं?":"I can help with PurelyProducts products and shopping. Is your question about a product, placing an order, payment, delivery, or your account?";
@@ -135,8 +147,16 @@ router.post("/",rateLimit,async(req,res)=>{
   const topic=detectTopic(message);
   const inventory=await Product.find({}).select("name price stock category description image rating").limit(500).lean();
   const requestedProducts=isProductQuestion(topic,message,inventory);
-  let matches=requestedProducts?rankProducts(inventory,message):[];
   const text=message.toLowerCase();
+  let matches=requestedProducts?rankProducts(inventory,message):[];
+  if(topic==="catalogSort"){
+   const available=inventory.filter(product=>Number(product.stock??100)>0);
+   const cheapest=/cheapest|lowest price|lowest priced|least expensive|सबसे सस्ता|सबसे कम कीमत|कम कीमत वाला/.test(text);
+   const highestPrice=/most expensive|highest price|highest priced|सबसे महंगा|सबसे ज्यादा कीमत/.test(text);
+   matches=(cheapest?[...available].sort((a,b)=>Number(a.price)-Number(b.price)):
+    highestPrice?[...available].sort((a,b)=>Number(b.price)-Number(a.price)):
+    [...available].sort((a,b)=>Number(b.rating||0)-Number(a.rating||0))).slice(0,5);
+  }
   if(matches.length&&/cheapest|lowest price|सबसे सस्ता|कम कीमत/.test(text))matches.sort((a,b)=>Number(a.price)-Number(b.price));
   if(matches.length&&/top rated|best rated|highest rated|सबसे अच्छी रेटिंग/.test(text))matches.sort((a,b)=>Number(b.rating||0)-Number(a.rating||0));
   const products=matches.map(product=>({_id:String(product._id),name:product.name,price:product.price,stock:Number(product.stock??100),category:product.category||"Other",image:product.image?.url||""}));
@@ -161,7 +181,7 @@ router.post("/",rateLimit,async(req,res)=>{
     if(response.ok){answer=cleanResponseText(await response.json());source="gemini";}else console.error("Gemini chat API returned",response.status);
    }catch(error){console.error("Gemini chat request failed:",error.message);}
   }
-  if(!answer)answer=requestedProducts?productSummary(matches,language):fallbackAnswer(topic,message,matches,inventory,language);
+  if(!answer)answer=topic==="catalogSort"?fallbackAnswer(topic,message,matches,inventory,language):requestedProducts?productSummary(matches,language):fallbackAnswer(topic,message,matches,inventory,language);
   res.json({answer,language,products,source,aiEnabled:Boolean(apiKey)});
  }catch(error){console.error("Shop assistant error:",error);res.status(500).json({error:"I couldn’t check the catalog right now. Please try again."});}
 });

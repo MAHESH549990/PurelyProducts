@@ -162,11 +162,17 @@ router.delete("/profile/:id",isLoggedIn,asyncWrap(async(req,res)=>{
 }));
 
 router.get("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
-  let user=req.user;
-  let id=req.user._id;
-  let address=await User.findById(id);
-  let Useraddress=address.address;
-  renderPage(req,res,"routes/profile.ejs",{user,Useraddress,mapToken:process.env.MAP_TOKEN||""});
+  const user=req.user;
+  const account=await User.findById(req.user._id).select("address").lean();
+  const deliveryApplication=await Delivery.findOne({user:req.user._id})
+    .select("applicationStatus createdAt reviewedAt phone vehicleNumber experience address")
+    .lean();
+  renderPage(req,res,"routes/profile.ejs",{
+    user,
+    Useraddress:account?.address||[],
+    deliveryApplication,
+    mapToken:process.env.MAP_TOKEN||""
+  });
 }));
 
 
@@ -179,9 +185,14 @@ router.get("/dashboard", (req, res) => {
     renderPage(req,res,"routes/userDashboard.ejs");
 });
 
-router.get("/profile/request/delivery",isAddress,isLoggedIn,(req,res)=>{
+router.get("/profile/request/delivery",isAddress,isLoggedIn,asyncWrap(async(req,res)=>{
+  const existingApplication=await Delivery.exists({user:req.user._id});
+  if(existingApplication){
+    req.flash("error","You have already submitted a delivery partner application.");
+    return res.redirect("/users/profile");
+  }
   renderPage(req,res,"routes/deliveryRequest.ejs");
-});
+}));
 
 router.post(
     "/profile/request/delivery",
