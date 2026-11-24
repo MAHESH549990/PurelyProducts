@@ -43,7 +43,7 @@
 - Complete a simulated checkout and track order status.
 - Post reviews with optional photos and remove your own reviews.
 - Get a ₹35 delivery charge when the product subtotal is below ₹299.
-- Get 8% off the product subtotal when a single order contains at least two item units; multiple units of one product count too.
+- Get 5% off the product subtotal when a single order contains at least two item units; multiple units of one product count too.
 - Chat in English or Hindi and get recommendations based on shopping activity.
 
 </details>
@@ -94,7 +94,7 @@ The assistant is rate-limited. It does not place orders or read private order an
 
 ## 💸 Checkout and estimated profit
 
-Payment is simulated; the app does not connect to a payment gateway or charge a card. The server calculates checkout totals, checks stock, creates the order after the demo payment step, and updates inventory. Delivery costs ₹35 when the pre-discount product subtotal is under ₹299. A single order with at least two item units gets 8% off its product subtotal; multiple units of one product count. The server applies the discount and saves its amount and percentage on the order.
+Payment is simulated; the app does not connect to a payment gateway or charge a card. The server calculates checkout totals, checks stock, creates the order after the demo payment step, and updates inventory. Delivery costs ₹35 when the pre-discount product subtotal is under ₹299. A single order with at least two item units gets 5% off its product subtotal; multiple units of one product count. The server applies the discount and saves its amount and percentage on the order.
 
 ### Admin profit report
 
@@ -286,3 +286,11 @@ Check `ATLAS_URL`, verify the Atlas database user's credentials, and URL-encode 
 Made with care by the PurelyProducts team · [Open the live store](https://purelyproducts.onrender.com) · [View the source](https://github.com/MAHESH549990/PurelyProducts)
 
 </div>
+
+
+## Security configuration
+
+- Set a long random `SECRET` (or `SESSION_SECRET`) for sessions.
+- The one-time admin bootstrap endpoint requires an `ADMIN_SETUP_TOKEN` environment value sent as the `x-admin-setup-token` request header. Keep this token private; the endpoint returns 404 when it is missing or incorrect.
+- Account sign-in and registration are rate-limited. Express sends Helmet security headers and limits JSON/form request bodies. Mutating account, address, cart, checkout, stock, review, and delivery assignment inputs are validated on the server with Joi.
+- React forms use Bootstrap validation styles and browser constraint checks. Server-side validation remains authoritative.

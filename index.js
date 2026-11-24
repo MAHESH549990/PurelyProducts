@@ -9,6 +9,7 @@ const session=require("express-session");
 const {MongoStore}=require("connect-mongo");
 const passport=require("passport");
 const mongoose=require("mongoose");
+const helmet=require("helmet");
 // The local Windows DNS resolver on this machine refuses SRV queries used by
 // Atlas mongodb+srv URIs. Use a public resolver locally; hosted Linux keeps
 // its platform-provided resolver.
@@ -31,9 +32,37 @@ if(!sessionSecret){
 }
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(helmet({
+  contentSecurityPolicy:{
+    directives:{
+      defaultSrc:["'self'"],
+      scriptSrc:["'self'","https://api.mapbox.com"],
+      styleSrc:["'self'","'unsafe-inline'","https://fonts.googleapis.com","https://api.mapbox.com"],
+      imgSrc:["'self'","data:","blob:","https:"],
+      connectSrc:["'self'","https://api.mapbox.com","https://events.mapbox.com"],
+      fontSrc:["'self'","data:","https://fonts.gstatic.com","https://api.mapbox.com"],
+      workerSrc:["'self'","blob:"],
+      objectSrc:["'none'"],
+      frameAncestors:["'none'"],
+      baseUri:["'self'"],
+      formAction:["'self'"],
+      upgradeInsecureRequests:null
+    }
+  },
+  crossOriginEmbedderPolicy:false
+}));
+app.use(express.urlencoded({ extended: true, limit:"25kb", parameterLimit:100 }));
+app.use(express.json({limit:"25kb"}));
 app.use(methodOverride("_method"));
+app.use((req,res,next)=>{
+  if(["GET","HEAD","OPTIONS"].includes(req.method))return next();
+  const origin=req.get("origin");
+  if(origin){
+    try{if(new URL(origin).origin!==`${req.protocol}://${req.get("host")}`)return res.status(403).json({error:"Cross-site request blocked."});}
+    catch{return res.status(403).json({error:"Invalid request origin."});}
+  }
+  next();
+});
 
 const sessionOptions={
     name:"purelyproducts.sid",

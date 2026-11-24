@@ -5,7 +5,7 @@ export default function OrderDetailsPage({order}) {
  if(!order)return <main className="section"><Empty title="Order not found" copy="This order could not be found." link="/orders/ordered"/></main>;
  const products=order.products||[];
  const subtotal=products.reduce((sum,line)=>sum+(Number(line.unitPriceAtPurchase??line.product?.price)||0)*(Number(line.quantity)||0),0);
- const discountAmount=Number(order.discountAmount)||0,discountPercent=Number(order.discountPercent)||8;
+ const discountAmount=Number(order.discountAmount)||0,discountPercent=Number(order.discountPercent)||5;
  const deliveryCharge=Number(order.deliveryCharge??Math.max(0,(Number(order.totalAmount)||0)-subtotal+discountAmount));
  const placed=order.createdAt?new Intl.DateTimeFormat('en-IN',{dateStyle:'long',timeStyle:'short'}).format(new Date(order.createdAt)):'Date unavailable';
  const address=order.customer?.address?.[0];

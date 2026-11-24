@@ -10,10 +10,12 @@ const Cart=require("../../models/carts.js");
 const Review=require("../../models/review.js");
 const { populate } = require("../../models/user.js");
 const crypto=require("node:crypto");
+const validateRequest=require("../../utils/validateRequest.js");
+const {cartQuantitySchema,demoPaymentSchema}=require("../../schema.js");
 
 const FREE_DELIVERY_THRESHOLD=299;
 const LOW_VALUE_DELIVERY_CHARGE=35;
-const MULTI_ITEM_DISCOUNT_PERCENT=8;
+const MULTI_ITEM_DISCOUNT_PERCENT=5;
 const MULTI_ITEM_DISCOUNT_MINIMUM=2;
 function summarizeCart(cartItems){
   const validItems=(cartItems?.items||[]).filter(entry=>entry.product);
@@ -54,7 +56,7 @@ router.post("/cart/payment-session",isLoggedIn,isAddress,asyncWrap(async(req,res
   res.json({demoSessionId,amount:totals.orderTotal,currency:"INR",mode:"demo"});
 }));
 
-router.post("/cart/payment/complete",isLoggedIn,asyncWrap(async(req,res)=>{
+router.post("/cart/payment/complete",isLoggedIn,validateRequest(demoPaymentSchema),asyncWrap(async(req,res)=>{
   const {demoSessionId,cardholderName}=req.body||{};
   if(!demoSessionId) return res.status(400).json({error:"Demo payment session is missing."});
   if(typeof cardholderName!=="string"||!cardholderName.trim()||cardholderName.trim().length>80) return res.status(400).json({error:"Enter a valid cardholder name for the demo payment."});
@@ -128,7 +130,14 @@ router.get("/cart",isLoggedIn,asyncWrap(async(req,res)=>{
   let cartItems = await Cart.findOne({
       user: req.user._id
   }).populate("items.product");
-  if(!cartItems || cartItems.items.length==0){
+  if(cartItems){
+    const availableItems=cartItems.items.filter(entry=>entry.product);
+    if(availableItems.length!==cartItems.items.length){
+      cartItems.items=availableItems;
+      await cartItems.save();
+    }
+  }
+  if(!cartItems || cartItems.items.length===0){
     return renderPage(req,res,"routes/noItemCart.ejs");
   }
   const totals=summarizeCart(cartItems);
@@ -187,7 +196,7 @@ router.get("/:id", asyncWrap(async (req, res) => {
 
 
 //cart
-router.post("/:id/cart",isLoggedIn,asyncWrap(async(req,res)=>{
+router.post("/:id/cart",isLoggedIn,validateRequest(cartQuantitySchema),asyncWrap(async(req,res)=>{
    let {id}=req.params;
    let quantity=Number(req.body.quantity);
    const product=await Product.findById(id);

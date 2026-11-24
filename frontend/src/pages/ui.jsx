@@ -7,7 +7,7 @@ export const label = s => String(s||'').replace(/([a-z])([A-Z])/g,'$1 $2').repla
 
 export function Intro({title,copy}) { return <div className="intro"><small>PURELYPRODUCTS · YOUR EVERYDAY</small><h1>{title}</h1><p>{copy}</p></div>; }
 export function Empty({title,copy,link}) { return <div className="empty"><span>✳</span><h3>{title}</h3><p>{copy}</p>{link&&<a className="btn outline" href={link}>Explore the shop ↗</a>}</div>; }
-export function Field({label,name,type='text',required,defaultValue,placeholder,min,max}) { return <label className="field"><span>{label}</span><input name={name} type={type} required={required} defaultValue={defaultValue} placeholder={placeholder||label} min={min} max={max}/></label>; }
+export function Field({label,name,type='text',required,defaultValue,placeholder,min,max}) { return <label className="field"><span>{label}</span><input className="form-control" name={name} type={type} required={required} defaultValue={defaultValue} placeholder={placeholder||label} min={min} max={max}/>{required&&<span className="invalid-feedback">Please provide {label.toLowerCase()}.</span>}</label>; }
 export function Status({value}) { return <span className={`status s-${String(value||'new').toLowerCase().replaceAll('_','-')}`}>{label(value||'new')}</span>; }
 
 export function OrderTable({rows,path,submit}) {

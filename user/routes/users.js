@@ -12,12 +12,17 @@ const multer = require("multer");
 const cloudinary = require("../../cloudConfig.js");
 const { Readable } = require("stream");
 const crypto=require("node:crypto");
+const validateRequest=require("../../utils/validateRequest.js");
+const {signupSchema,loginSchema,addressSchema,deliveryApplicationSchema}=require("../../schema.js");
+const rateLimit=require("express-rate-limit");
+const authLimiter=rateLimit({windowMs:15*60*1000,limit:10,standardHeaders:"draft-8",legacyHeaders:false,message:{error:"Too many sign-in attempts. Please wait 15 minutes and try again."}});
 
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
         fileSize: 5 * 1024 * 1024
-    }
+    },
+    fileFilter:(req,file,done)=>["application/pdf","image/jpeg","image/png","image/webp"].includes(file.mimetype)?done(null,true):done(new Error("Upload a PDF, JPG, PNG, or WEBP licence."))
 });
 
 //login,register route
@@ -26,7 +31,7 @@ router.get("/signup", (req, res) => {
   renderPage(req,res,"userLogin/signup.ejs");
 });
 
-router.post("/signup",asyncWrap(async(req,res,next)=>{
+router.post("/signup",authLimiter,validateRequest(signupSchema),asyncWrap(async(req,res,next)=>{
   try{
    let {username,email,password}=req.body;
    let newUser=new User({
@@ -54,6 +59,8 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login",
+  authLimiter,
+  validateRequest(loginSchema),
   passport.authenticate("local",{
     failureRedirect:"/users/login",
     failureFlash:true
@@ -88,7 +95,7 @@ router.get("/profile/location",(req,res)=>{
   renderPage(req,res,"routes/userAddress.ejs");
 });
 
-router.post("/profile",isLoggedIn,asyncWrap(async(req,res)=>{
+router.post("/profile",isLoggedIn,validateRequest(addressSchema),asyncWrap(async(req,res)=>{
     let {state,city,location}=req.body;
     if(!String(state||"").trim()||!String(city||"").trim()||!String(location||"").trim()){
       req.flash("error","Enter your state, city, and street address.");
@@ -119,7 +126,7 @@ router.get("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
   renderPage(req,res,"routes/updateAddress.ejs",{user,id});
 }));
 
-router.put("/profile/:id/update",isLoggedIn,asyncWrap(async(req,res)=>{
+router.put("/profile/:id/update",isLoggedIn,validateRequest(addressSchema),asyncWrap(async(req,res)=>{
   let {id}=req.params;
   let {state,city,location}=req.body;
   let us=await User.findById(req.user._id);
@@ -181,6 +188,7 @@ router.post(
     isLoggedIn,
     isAddress,
     upload.single("licenseImage"),
+    validateRequest(deliveryApplicationSchema),
     asyncWrap(async (req, res) => {
         let uploadedFile;
 

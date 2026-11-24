@@ -5,9 +5,17 @@ const asyncWrap=require("../../utils/asyncWrap.js");
 const User=require("../../models/user.js");
 const { isLoggedIn } = require("../../user/userMiddleware.js");
 const { isAdmin } = require("../adminmiddlerware.js");
+const crypto=require("node:crypto");
 
 
 router.post("/", async (req, res) => {
+    const setupToken=process.env.ADMIN_SETUP_TOKEN;
+    const providedToken=req.get("x-admin-setup-token")||"";
+    const expectedBytes=Buffer.from(setupToken||"");
+    const providedBytes=Buffer.from(providedToken);
+    if(!setupToken||providedBytes.length!==expectedBytes.length||!crypto.timingSafeEqual(providedBytes,expectedBytes)){
+        return res.status(404).send("Not found");
+    }
     try {
         const adminName = process.env.ADMIN_NAME;
         const password = process.env.ADMIN_PASSWORD;

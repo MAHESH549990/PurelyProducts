@@ -13,7 +13,7 @@ const {Readable}=require("node:stream");
 const productUpload=multer({
   storage:multer.memoryStorage(),
   limits:{fileSize:8*1024*1024},
-  fileFilter:(req,file,done)=>file.mimetype.startsWith("image/")
+  fileFilter:(req,file,done)=>["image/jpeg","image/png","image/webp","image/avif"].includes(file.mimetype)
     ?done(null,true)
     :done(new ExpressError(400,"Choose an image file for the product."))
 });

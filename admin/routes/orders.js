@@ -10,6 +10,8 @@ const User=require("../../models/user.js");
 const { route } = require("./users.js");
 const { isAdmin } = require("../adminmiddlerware.js");
 const Delivery=require("../../models/delivery.js");
+const validateRequest=require("../../utils/validateRequest.js");
+const {assignDeliverySchema}=require("../../schema.js");
 
 
 
@@ -91,7 +93,7 @@ router.get("/:id/assign-delivery", isAdmin, async (req, res) => {
 });
 
 // Assign an approved delivery partner to an order
-router.post("/:id/assign-delivery", isAdmin, async (req, res) => {
+router.post("/:id/assign-delivery", isAdmin, validateRequest(assignDeliverySchema), async (req, res) => {
   try {
     const { id } = req.params;
     const { deliveryPartnerId } = req.body;

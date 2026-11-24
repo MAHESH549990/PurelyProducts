@@ -1,0 +1,115 @@
+/* Shared size, spacing and mobile navigation improvements */
+:root{font-size:16px}
+body{font-size:15px;line-height:1.55}
+.topbar{height:auto;min-height:76px}
+.nav{min-height:76px;padding:0 clamp(18px,3vw,42px);gap:22px}
+.nav nav{gap:clamp(14px,1.8vw,27px);min-width:0}
+.nav nav a,.nav-user>a{font-size:13px;white-space:nowrap}
+.nav-user{gap:16px;white-space:nowrap}
+.nav-user .join{padding:11px 16px}
+.brand{font-size:20px}
+.section{max-width:1400px;padding:clamp(50px,6vw,82px) clamp(20px,4vw,52px) clamp(62px,7vw,96px)}
+.dashboard{max-width:1400px;padding:clamp(45px,5.5vw,75px) clamp(20px,4vw,52px)}
+.intro h1,.page-head h1,.welcome h1{font-size:clamp(36px,4vw,52px);line-height:1.14}
+.intro p,.page-intro p,.welcome p,.section-head p{font-size:15px;line-height:1.7}
+.section-head h2{font-size:clamp(30px,3vw,40px)}
+.section-head small,.page-head small,.intro>small,.welcome small{font-size:11px;letter-spacing:1.4px}
+.products{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.2vw,30px)}
+.product-image{height:clamp(230px,23vw,330px)}
+.product-row>div>a{font-size:16px;line-height:1.4}
+.product-row>div>small,.product-price,.product-row>span{font-size:12px}
+.product-price button{height:36px;width:36px}
+.panel,.summary,.order-detail-card,.fake-card-panel{padding:clamp(22px,3vw,34px)}
+.field{font-size:13px;gap:8px}
+.field input,.field select,.field textarea,.pass{min-height:48px;padding:13px 14px;font-size:14px}
+.btn{font-size:14px;padding:14px 19px}
+.toast{font-size:14px;max-width:min(460px,calc(100vw - 28px));line-height:1.5}
+.table-shell{font-size:14px}
+.table-shell th,.table-shell td{padding:15px 14px}
+.footer{padding-top:52px}
+.footer-main>div,.footer-main p{font-size:13px;line-height:1.7}
+.legal{font-size:12px}
+/* Bootstrap 5 validation states for the React-managed forms */
+.was-validated input:invalid,.was-validated select:invalid,.was-validated textarea:invalid{border-color:#dc3545!important;box-shadow:0 0 0 .2rem rgba(220,53,69,.12)!important}
+.was-validated input:valid,.was-validated select:valid,.was-validated textarea:valid{border-color:#198754}
+.was-validated input:focus:invalid,.was-validated select:focus:invalid,.was-validated textarea:focus:invalid{outline:0}
+.was-validated .field:has(input:invalid),.was-validated .field:has(select:invalid),.was-validated .field:has(textarea:invalid){color:#b02a37}
+@media(max-width:1000px){
+ .nav{flex-wrap:wrap;justify-content:space-between;row-gap:0;padding-top:12px;padding-bottom:10px}
+ .nav nav{order:3;flex:1 0 100%;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;padding:9px 0 4px;gap:20px}
+ .nav nav a{padding:5px 0 8px;border-bottom:2px solid transparent}
+ .nav nav a.active{border-color:var(--green)}
+ .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:680px){
+ .nav{min-height:unset;padding:12px 17px 8px;gap:8px}
+ .nav nav{display:flex;flex-basis:100%;width:100%;gap:20px;padding-top:10px}
+ .nav nav a,.nav-user>a{font-size:13px}
+ .nav-user{gap:11px}
+ .nav-user .join{padding:9px 11px}
+ .brand{font-size:18px}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}
+ .product-image{height:clamp(185px,55vw,270px)}
+ .section{padding:42px 17px 58px}
+ .dashboard{padding:38px 17px}
+ .intro{margin-bottom:26px}
+ .intro h1,.page-head h1,.welcome h1{font-size:34px}
+ .section-head h2{font-size:28px}
+ .product-row>div>a{font-size:14px}
+ .product-price{font-size:13px}
+ .footer{padding:35px 20px 15px}
+ .footer-main{grid-template-columns:1fr 1fr;gap:24px}
+ .legal{gap:12px;flex-wrap:wrap}
+ .table-shell{overflow-x:auto}
+ .toast{top:12px;right:12px;left:12px;margin:auto}
+}
+@media(max-width:390px){.nav-user .join{font-size:11px;padding:8px}.nav-user{gap:8px}.brand{font-size:16px}.products{gap:15px 10px}}
+
+.was-validated .field:has(input:invalid) .invalid-feedback,.was-validated .field:has(select:invalid) .invalid-feedback,.was-validated .field:has(textarea:invalid) .invalid-feedback{display:block;color:#b02a37;font-size:12px;margin-top:2px}
+@media(min-width:681px){.category-bar{top:76px}}
+@media(max-width:680px){.category-bar{top:96px}}
+
+/* Admin and delivery consoles share a clear, two-level navbar. */
+.topbar-console{position:sticky;top:0;z-index:35;background:#fff;border-bottom:1px solid #e5ebef;box-shadow:0 5px 20px rgba(19,43,61,.055)}
+.nav-console{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:56px 48px;align-items:center;column-gap:18px;row-gap:0;max-width:1480px;padding-top:4px;padding-bottom:0}
+.nav-console>.brand{grid-column:1;grid-row:1}
+.admin-console-label{grid-column:2;grid-row:1;justify-self:start;padding:6px 10px;border:1px solid #dce8ed;border-radius:999px;background:#f3f9fb;color:#547080;font-size:10px;font-weight:800;letter-spacing:1.2px}
+.nav-console>.nav-user{grid-column:3;grid-row:1}
+.nav-console>.console-nav{grid-column:1/-1;grid-row:2;display:flex;align-items:center;gap:8px;width:100%;min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;scrollbar-color:#c9dce4 transparent;padding:5px 0 8px}
+.nav-console>.console-nav a{flex:0 0 auto;padding:9px 13px;border:1px solid transparent;border-radius:8px;background:transparent;color:#52616d;font-size:12px;font-weight:650;transition:background .16s ease,color .16s ease,border-color .16s ease}
+.nav-console>.console-nav a:hover{background:#f2f8fa;color:#087fac}
+.nav-console>.console-nav a.active{background:#e9f7fb;border-color:#ccebf4;color:#087fac}
+.nav-console .nav-user>a{font-size:13px}
+/* Text-only empty-cart state: no recommendation tiles or product imagery. */
+.empty-cart-page>.intro{margin-bottom:28px}
+.empty-cart-message{max-width:820px;margin:38px auto 70px;padding:clamp(30px,6vw,68px);border:1px solid #e3ebef;border-radius:18px;background:linear-gradient(135deg,#f5fafb,#fff 72%);text-align:center;box-shadow:0 16px 42px rgba(25,58,76,.06)}
+.empty-cart-message>small{color:#078bb8;font-size:11px;font-weight:800;letter-spacing:1.6px}
+.empty-cart-message h2{margin:14px 0;color:#26394a;font:700 clamp(30px,4vw,43px)/1.18 Manrope,Arial,sans-serif;letter-spacing:-1.5px}
+.empty-cart-message p{max-width:540px;margin:0 auto;color:#697983;font-size:15px;line-height:1.8}
+.empty-cart-message .btn{margin-top:24px;border-radius:8px}
+@media(max-width:900px){.nav-console{grid-template-columns:auto 1fr auto;grid-template-rows:54px 46px;padding-inline:20px}.admin-console-label{justify-self:center}.nav-console>.console-nav{gap:6px}.nav-console>.console-nav a{padding:8px 10px}}
+@media(max-width:680px){.nav-console{grid-template-columns:1fr auto;grid-template-rows:48px 38px;gap:0 8px;padding:8px 15px 0}.nav-console>.brand{grid-column:1;grid-row:1}.admin-console-label{display:none}.nav-console>.nav-user{grid-column:2;grid-row:1}.nav-console>.console-nav{grid-column:1/-1;grid-row:2;gap:6px;padding:4px 0 7px}.nav-console>.console-nav a{padding:7px 10px;border-radius:7px;font-size:11px}.topbar-console .user-dot{width:32px;height:32px}.empty-cart-message{margin:22px auto 45px;padding:34px 22px}.empty-cart-message h2{font-size:32px;letter-spacing:-1px}.empty-cart-message p{font-size:14px}}
+
+/* Customer account and order panels: more breathing room and clearer hierarchy. */
+.customer-shell .section{max-width:1340px}
+.customer-shell .intro{margin-bottom:38px}
+.customer-shell .intro h1{color:#24384a;letter-spacing:-1.5px}
+.customer-shell .intro p{max-width:720px;color:#687983;line-height:1.75}
+.customer-shell .panel,.customer-shell .summary,.customer-shell .customer-order-card,.customer-shell .order-detail-card{border:1px solid #e4ebef;border-radius:14px;background:#fff;box-shadow:0 12px 34px rgba(23,54,74,.055)}
+.customer-shell .panel{padding:clamp(22px,3vw,34px)}
+.customer-shell .panel h2,.customer-shell .panel h3{color:#26394a}
+.customer-shell .panel p{font-size:14px;line-height:1.75}
+.customer-shell .address-row{padding:16px 0;font-size:14px}
+.customer-shell .summary{padding:26px}
+.customer-shell .summary>div{font-size:14px}
+.customer-shell .cart-row{padding:20px 0;gap:18px}
+.customer-shell .customer-order-card{overflow:hidden}
+.customer-shell .order-detail-card{padding:clamp(20px,3vw,34px)}
+.customer-shell .profile-location-map{margin-top:28px}
+@media(max-width:680px){.customer-shell .intro{margin-bottom:28px}.customer-shell .panel,.customer-shell .summary{border-radius:12px}.customer-shell .cart-row{gap:12px;padding:15px 0}}
+
+/* Keep route selection distinct from transient pointer hover. */
+.nav nav a.active{position:relative}
+.nav-console>.console-nav a.active{background:#e9f7fb;border-color:#ccebf4;color:#087fac;box-shadow:inset 0 -2px 0 #078bb8}
+.nav-console>.console-nav a:hover:not(.active){background:#f5f8fa;border-color:#edf1f3;color:#52616d}
+.nav-console>.console-nav a:focus-visible{outline:3px solid #83d6e9;outline-offset:2px}
