@@ -150,5 +150,9 @@ body{font-size:15px;line-height:1.55}
 .customer-shell .detail-photo-modern{display:grid;place-items:center;height:clamp(320px,min(42vw,58vh),520px);min-height:0;max-height:none;aspect-ratio:auto}
 .customer-shell .detail-photo-modern img{display:block;width:auto!important;height:auto!important;max-width:100%;max-height:100%;padding:clamp(16px,2vw,28px);object-fit:contain!important;object-position:center;transform:none!important}
 .customer-shell .detail-photo-modern:hover img{transform:none!important}
+/* Keep the full product photo inside its frame, independent of its source aspect ratio. */
+.customer-shell .detail-visual .detail-photo-modern{position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.customer-shell .detail-visual .detail-photo-modern>img{position:absolute;inset:0;display:block;box-sizing:border-box;width:100%!important;height:100%!important;min-width:0;min-height:0;max-width:100%;max-height:100%;padding:clamp(18px,3vw,34px);object-fit:contain!important;object-position:center center;transform:none!important}
+.customer-shell .detail-visual .detail-photo-modern:hover>img{transform:none!important}
 @media(max-width:760px){.customer-shell .detail-modern{align-items:start}.customer-shell .detail-photo-modern{width:100%;height:min(78vw,44vh,420px);min-height:250px;max-height:420px;aspect-ratio:auto}.customer-shell .detail-photo-modern img{padding:14px}}
 @media(max-width:420px){.customer-shell .detail-photo-modern{height:min(82vw,42vh,340px);min-height:230px}.customer-shell .detail-photo-modern img{padding:12px}}
