@@ -283,7 +283,7 @@ Check `ATLAS_URL`, verify the Atlas database user's credentials, and URL-encode 
 
 <div align="center">
 
-Made with care by the PurelyProducts team · [Open the live store](https://purelyproducts.onrender.com) · [View the source](https://github.com/MAHESH549990/PurelyProducts)
+Made with care by the PurelyProducts team · [Open the live Website](https://purelyproducts.onrender.com) · [View the source code](https://github.com/MAHESH549990/PurelyProducts)
 
 </div>
 
